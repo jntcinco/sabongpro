@@ -16,27 +16,26 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tekusource.sabongpro.model.User;
 
 @Controller
-@RequestMapping( value = "/user" )
+@RequestMapping( value = "/" )
 public class LoginController extends AbstractController {
 
 	@Override
 	@RequestMapping(method = RequestMethod.GET )
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
-		System.out.println("Halervera-----------------------");
 		model.addAttribute("userSession", new User());
-		return new ModelAndView("login", model);
+		return new ModelAndView("signin", model);
 	}
 	
-	@RequestMapping(value="/signout", method=RequestMethod.GET)
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public ModelAndView signOut(HttpSession httpSession, ModelMap model) {
 		if(httpSession != null) {
 			httpSession.invalidate();
 			model.addAttribute("userSession", new User());
 		}
-		return new ModelAndView("login");
+		return new ModelAndView("signin");
 	}
 	
-	@RequestMapping(value="/signin", method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ModelAndView login(HttpSession httpSession, @ModelAttribute("userSession") User userSession, BindingResult result) {
 		Map<String, Object> model = new HashMap<String, Object>();
 //		LoginValidator loginValidator = new LoginValidator();

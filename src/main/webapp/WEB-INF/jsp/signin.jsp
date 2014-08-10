@@ -8,7 +8,7 @@
 		<title>Sabong Pro</title>
 	</head>
 	<body>
-		<c:url var="login" value="/sabongpro/user/login" />
+		<c:url var="login" value="/sabongpro/login" />
 		<form:form modelAttribute="userSession" action="${login}" method="post">
 			<c:out value="${loginMessage}"/>
 			<form:errors path="username" cssClass="error"/><br/>

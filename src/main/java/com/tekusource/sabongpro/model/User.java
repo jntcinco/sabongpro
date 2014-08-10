@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="user_details")
@@ -39,6 +40,9 @@ public class User implements Serializable {
 	
 	@Column(name="password")
 	private String password;
+	
+	@Transient
+	private String confirmPassword;
 	
 //	@OneToMany(mappedBy="userDetail")
 //	private List<Image> images;
@@ -96,6 +100,14 @@ public class User implements Serializable {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	
 	public String getMiddlename() {

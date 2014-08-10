@@ -12,13 +12,14 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value> 
+			/WEB-INF/sabongpro-servlet.xml
 			/WEB-INF/applicationContext.xml
 		</param-value>
 	</context-param>
 	
 	<!-- Spring Servlet -->
 	<servlet>
-		<servlet-name>dispatcher</servlet-name>
+		<servlet-name>sabongpro</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -41,7 +42,7 @@
 	</filter-mapping>
 
 	<servlet-mapping>
-		<servlet-name>dispatcher</servlet-name>
+		<servlet-name>sabongpro</servlet-name>
 		<url-pattern>/sabongpro/*</url-pattern>
 	</servlet-mapping>
 
