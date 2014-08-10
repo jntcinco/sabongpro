@@ -14,8 +14,8 @@
 			<form:errors path="username" cssClass="error"/><br/>
 			<form:errors path="password" cssClass="error"/><br/><br/>
 			
-			<label for="username">Username:</label><form:input path="username"/>
-			<label for="password">Password:</label><form:password path="password"/>
+			<label for="username">Username:</label><form:input path="username"/><br/>
+			<label for="password">Password:</label><form:password path="password"/><br/>
 			
 			<form:hidden path="lastname"/>
 			<form:hidden path="firstname"/>
@@ -24,5 +24,7 @@
 			
 			<input type="submit" value="login"/>
 		</form:form>
+		<br/>
+		<a href='<c:url value="/sabongpro/user"/>'>Register</a>
 	</body>
 </html>

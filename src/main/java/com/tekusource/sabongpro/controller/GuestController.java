@@ -17,7 +17,6 @@ public class GuestController extends AbstractController {
 	@Override
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
-		System.out.println("Guest -----------------------");
 		model.addAttribute("userSession", new User());
 		return new ModelAndView("welcome", model);
 	}
