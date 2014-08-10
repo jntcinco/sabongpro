@@ -7,12 +7,13 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>sabongpro Live Streaming Web</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<tiles.version>2.2.2</tiles.version>
-		<spring.version>3.2.4.RELEASE</spring.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
+		<org.slf4j-version>1.5.8</org.slf4j-version>
 	</properties>
-	
+
 	<dependencies>
 		<!-- test -->
 		<dependency>
@@ -35,7 +36,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
+			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
@@ -54,11 +55,16 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-xml</artifactId>
 			<version>2.2.0.RELEASE</version>
 		</dependency>
-		
+
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -121,7 +127,7 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>3.4.0.GA</version>
 		</dependency>
-		
+
 		<!-- databases -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -138,7 +144,7 @@
 			<artifactId>hsqldb</artifactId>
 			<version>1.8.0.10</version>
 		</dependency>
-		
+
 		<!-- Apache Commons file upload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -170,16 +176,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.6</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>${org.slf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.6</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>${org.slf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
