@@ -16,14 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tekusource.sabongpro.model.User;
 
 @Controller
-@RequestMapping( value = "/" )
+@RequestMapping( value = "/user" )
 public class LoginController extends AbstractController {
 
 	@Override
-	@RequestMapping( method = RequestMethod.GET )
+	@RequestMapping(method = RequestMethod.GET )
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
+		System.out.println("Halervera-----------------------");
 		model.addAttribute("userSession", new User());
-		return new ModelAndView("", model);
+		return new ModelAndView("login", model);
 	}
 	
 	@RequestMapping(value="/signout", method=RequestMethod.GET)
@@ -32,10 +33,10 @@ public class LoginController extends AbstractController {
 			httpSession.invalidate();
 			model.addAttribute("userSession", new User());
 		}
-		return new ModelAndView("");
+		return new ModelAndView("login");
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value="/signin", method=RequestMethod.POST)
 	public ModelAndView login(HttpSession httpSession, @ModelAttribute("userSession") User userSession, BindingResult result) {
 		Map<String, Object> model = new HashMap<String, Object>();
 //		LoginValidator loginValidator = new LoginValidator();
