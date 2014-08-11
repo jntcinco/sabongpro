@@ -44,16 +44,6 @@ public class User implements Serializable {
 	@Transient
 	private String confirmPassword;
 	
-//	@OneToMany(mappedBy="userDetail")
-//	private List<Image> images;
-	
-//	@OneToMany(mappedBy="userDetail")
-//	private List<Video> videos;
-	
-//	@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="userTypeId", nullable=false)
-//	private UserType userType;
-	
 	public Long getId() {
 		return id;
 	}
@@ -117,28 +107,4 @@ public class User implements Serializable {
 	public void setMiddlename(String middlename) {
 		this.middlename = middlename;
 	}
-	
-//	public List<Image> getImages() {
-//		return images;
-//	}
-//	
-//	public void setImages(List<Image> images) {
-//		this.images = images;
-//	}
-//	
-//	public List<Video> getViideos() {
-//		return videos;
-//	}
-//	
-//	public void setVideos(List<Video> videos) {
-//		this.videos = videos;
-//	}
-	
-//	public UserType getUserType() {
-//		return userType;
-//	}
-//	
-//	public void setUserType(UserType userType) {
-//		this.userType = userType;
-//	}
 }
