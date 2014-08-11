@@ -19,7 +19,7 @@
 	
 	<!-- Spring Servlet -->
 	<servlet>
-		<servlet-name>sabongpro</servlet-name>
+		<servlet-name>sabongproServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -42,7 +42,7 @@
 	</filter-mapping>
 
 	<servlet-mapping>
-		<servlet-name>sabongpro</servlet-name>
+		<servlet-name>sabongproServlet</servlet-name>
 		<url-pattern>/sabongpro/*</url-pattern>
 	</servlet-mapping>
 

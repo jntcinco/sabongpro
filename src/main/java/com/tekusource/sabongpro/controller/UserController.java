@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.jasypt.spring.security3.PBEPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,6 +26,9 @@ public class UserController extends AbstractController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+    private PBEPasswordEncoder passwordEncoder;
+	
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
@@ -43,6 +47,8 @@ public class UserController extends AbstractController {
 			if(userService.isUserExist(user.getUsername(), user.getPassword())) {
 				registerMessages.put("errorMessage", "User already exist.");
 			} else {
+				String encryptedPassword = passwordEncoder.encodePassword(user.getPassword(), null);
+				user.setPassword(encryptedPassword);
 				userService.save(user);
 				registerMessages.put("successMessage", "User successfully saved.");
 				registerMessages.put("notificationMessage", "NOTE: We will send a confirmation e-mail to complete the registration process. You have to click on the link provided in this e-mail to verify the authenticity of account ownership. If you are using your Yahoo, GMail or Hotmail account, please also look in the Bulk or Spam folders. Thank you.");

@@ -26,8 +26,8 @@
 			<label for="middlename">Middlename:</label><form:input path="middlename"/><br/>
 			<label for="email">Email:</label><form:input path="email"/><br/>
 			<label for="username">Username:</label><form:input path="username"/><br/>
-			<label for="password">Password:</label><form:input path="password"/><br/>
-			<label for="confirmPassword">Confirm Password:</label><form:input path="confirmPassword"/><br/>
+			<label for="password">Password:</label><form:password path="password"/><br/>
+			<label for="confirmPassword">Confirm Password:</label><form:password path="confirmPassword"/><br/>
 			<input type="submit" value="Register"/>
 		</form:form>
 	</body>

@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	
-	<context:property-placeholder location="classpath:database.properties" />
+	<context:property-placeholder location="classpath:database.properties, classpath:security.properties" />
 	
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
 	 For example @Controller and @Service. Make sure to set the correct base-package-->
@@ -58,4 +58,18 @@
     	<property name="entityManagerFactory" ref="entityManagerFactory" />
     	<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="stringEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor" >
+    	<property name="algorithm" value="PBEWithMD5AndDES" />
+    	<property name="password" value="${jasypt.encryptor.masterpassword.changeme}" />
+  	</bean>
+  
+	<!-- This Spring Security-friendly PasswordEncoder implementation will -->
+  	<!-- wrap the PBEStringEncryptor instance so that it can be used from  -->
+  	<!-- the security framework.                                           -->
+  	<bean id="passwordEncoder" class="org.jasypt.spring.security3.PBEPasswordEncoder">
+    	<property name="pbeStringEncryptor">
+      		<ref bean="stringEncryptor" />
+    	</property>
+ 	</bean>
 </beans>
