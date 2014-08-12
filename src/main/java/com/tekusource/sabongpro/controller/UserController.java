@@ -1,8 +1,11 @@
 package com.tekusource.sabongpro.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.jasypt.spring.security3.PBEPasswordEncoder;
@@ -15,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.UserService;
+import com.tekusource.sabongpro.util.SabongProConstants;
 import com.tekusource.sabongpro.validator.RegisterValidator;
 
 @Controller
@@ -29,6 +34,9 @@ public class UserController extends AbstractController {
 	@Autowired
     private PBEPasswordEncoder passwordEncoder;
 	
+	@Resource
+	private EmailNotificationService emailNotificationService;
+	
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
@@ -36,6 +44,13 @@ public class UserController extends AbstractController {
 		return new ModelAndView("register", model);
 	}
 	
+	/**
+	 * 
+	 * @param session
+	 * @param user
+	 * @param results
+	 * @return
+	 */
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView register(HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
 		Map<String, String> registerMessages = new HashMap<String, String>();
@@ -45,15 +60,42 @@ public class UserController extends AbstractController {
 		
 		if(!results.hasErrors()) {
 			if(userService.isUserExist(user.getUsername(), user.getPassword())) {
-				registerMessages.put("errorMessage", "User already exist.");
+				registerMessages.put("errorMessage", SabongProConstants.USER_EXIST);
 			} else {
 				String encryptedPassword = passwordEncoder.encodePassword(user.getPassword(), null);
 				user.setPassword(encryptedPassword);
 				userService.save(user);
-				registerMessages.put("successMessage", "User successfully saved.");
-				registerMessages.put("notificationMessage", "NOTE: We will send a confirmation e-mail to complete the registration process. You have to click on the link provided in this e-mail to verify the authenticity of account ownership. If you are using your Yahoo, GMail or Hotmail account, please also look in the Bulk or Spam folders. Thank you.");
+				sendEmailNotification(user.getEmail(), user.getFirstname());
+				registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
+				registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
 			}
 		}
 		return new ModelAndView(viewName, registerMessages);
+	}
+	
+	/**
+	 * 
+	 * @param httpSession
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/userManagement", method=RequestMethod.GET)
+	public ModelAndView userManagement(HttpSession httpSession, ModelMap model) {
+		List<User> users = (List<User>) userService.getAllUser();
+		model.addAttribute("users", users);
+		return new ModelAndView(viewName, model);
+	}
+	
+	private void sendEmailNotification(String email, String firstname) {
+		String message = "Dear " + firstname + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
+						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
+						 SabongProConstants.MAIL_BODY_PART3 + SabongProConstants.MAIL_BODY_PART4 +
+						 SabongProConstants.MAIL_BODY_PART5 + email + SabongProConstants.MAIL_BODY_PART6 +
+						 SabongProConstants.MAIL_BODY_PART7 + SabongProConstants.MAIL_BODY_PART8 +
+						 SabongProConstants.MAIL_BODY_PART9 + SabongProConstants.MAIL_BODY_PART10;
+        List<String> recipients = new ArrayList<String>();
+        recipients.add(email);
+        
+        emailNotificationService.sendEmailNotification(recipients, message, SabongProConstants.MAIL_SUBJECT, SabongProConstants.MAIL_USERNAME);
 	}
 }

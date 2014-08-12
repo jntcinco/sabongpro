@@ -12,6 +12,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value> 
+		    classpath*:/META-INF/spring/*.xml
 			/WEB-INF/sabongpro-servlet.xml
 			/WEB-INF/applicationContext.xml
 		</param-value>
