@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/maestrodev/maestro/!svn/ver/2097/trunk/email-notification/src/main/resources/META-INF/velocity
+END
+subject.vm
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/maestrodev/maestro/!svn/ver/2097/trunk/email-notification/src/main/resources/META-INF/velocity/subject.vm
+END
+body.vm
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/maestrodev/maestro/!svn/ver/2088/trunk/email-notification/src/main/resources/META-INF/velocity/body.vm
+END
