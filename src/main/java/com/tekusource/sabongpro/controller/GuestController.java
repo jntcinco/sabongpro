@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class GuestController extends AbstractController {
 
 	@Override
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value="/home", method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
 		// TODO:
-		return new ModelAndView("", model);
+		return new ModelAndView("home", model);
 	}
 }
