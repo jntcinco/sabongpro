@@ -18,4 +18,10 @@ public class GuestController extends AbstractController {
 		// TODO:
 		return new ModelAndView("home", model);
 	}
+	
+	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
+	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("livestreaming", model);
+	}
 }
