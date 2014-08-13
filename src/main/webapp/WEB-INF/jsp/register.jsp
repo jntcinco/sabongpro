@@ -48,7 +48,7 @@ $(document).ready(function() {
         <div class="loginblck"></div>
     </a>
 
-    <a href="<c:url value='/sabongpro/user'/>">
+    <a href="<c:url value='/sabongpro/guest/register'/>">
         <div class="signupblck"></div>
     </a>
 </div> <!--eof centrHeader -->

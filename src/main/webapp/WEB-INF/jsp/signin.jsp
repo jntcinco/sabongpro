@@ -40,14 +40,14 @@ $(document).ready(function() {
 <div id="headerwide">
 	<div id="header">
         <div id="logo">
-	<a href="index.html" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+	<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 </div> <!--eof logo -->
 <div id="centrHeader">
     <a href="<c:url value='/sabongpro/'/>">
         <div class="loginblck"></div>
     </a>
 
-    <a href="<c:url value='/sabongpro/user'/>">
+    <a href="<c:url value='/sabongpro/guest/register'/>">
         <div class="signupblck"></div>
     </a>
 </div> <!--eof centrHeader -->
@@ -55,10 +55,10 @@ $(document).ready(function() {
 <div id="mainMenu">
     <ul>
         <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuabout">ABOUT</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugames">SCHEDULE</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugallery">GALLERY</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menucontact">CONTACT</a></li>
+        <li><a href="#" id="menuabout">ABOUT</a></li>
+        <li><a href="#" id="menugames">SCHEDULE</a></li>
+        <li><a href="#" id="menugallery">GALLERY</a></li>
+        <li><a href="#" id="menucontact">CONTACT</a></li>
     </ul>
 </div> <!--eof mainMenu -->
 
@@ -102,10 +102,10 @@ $(document).ready(function() {
   		<div id="footleft">
         <ul>
             <li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">ABOUT</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">SCHEDULES</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">GALLERY</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">CONTACT</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">SCHEDULES</a></li>
+            <li><a href="#">GALLERY</a></li>
+            <li><a href="#">CONTACT</a></li>
         </ul>
     	</div>
         <div id="copyright">
