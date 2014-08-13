@@ -65,7 +65,7 @@ public class UserController extends AbstractController {
 				String encryptedPassword = passwordEncoder.encodePassword(user.getPassword(), null);
 				user.setPassword(encryptedPassword);
 				userService.save(user);
-				sendEmailNotification(user.getEmail(), user.getFirstname());
+				sendEmailNotification(user.getEmail(), user.getUsername());
 				registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
 				registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
 			}

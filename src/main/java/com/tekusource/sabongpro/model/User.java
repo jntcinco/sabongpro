@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="user_details")
+@Table(name="users")
 public class User implements Serializable {
 	
 	/**
@@ -22,15 +22,6 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	
-	@Column(name="firstname")
-	private String firstname;
-	
-	@Column(name="lastname")
-	private String lastname;
-	
-	@Column(name="middlename")
-	private String middlename;
 	
 	@Column(name="email")
 	private String email;
@@ -50,22 +41,6 @@ public class User implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public String getFirstname() {
-		return firstname;
-	}
-	
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-	
-	public String getLastname() {
-		return lastname;
-	}
-	
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
 	}
 	
 	public String getEmail() {
@@ -98,13 +73,5 @@ public class User implements Serializable {
 	
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
-	}
-	
-	public String getMiddlename() {
-		return middlename;
-	}
-	
-	public void setMiddlename(String middlename) {
-		this.middlename = middlename;
 	}
 }

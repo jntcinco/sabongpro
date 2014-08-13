@@ -68,25 +68,25 @@ $(document).ready(function() {
 <div id="headerwide">
 	<div id="header">
         <div id="logo">
-		<a href="index.html" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+		<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 		</div> <!--eof logo -->
 <div id="centrHeader">
-    <a href="login.html">
+    <a href="<c:url value='/sabongpro/'/>">
         <div class="loginblck"></div>
     </a>
 
-    <a href="signup.html">
+    <a href="<c:url value='/sabongpro/user'/>">
         <div class="signupblck"></div>
     </a>
 </div> <!--eof centrHeader -->
 
 <div id="mainMenu">
     <ul>
-        <li><a href="index.html" id="menuhome">HOME</a></li>
-        <li><a href="about.html" id="menuabout">ABOUT</a></li>
-        <li><a href="games.html" id="menugames">SCHEDULE</a></li>
-        <li><a href="gallery.html" id="menugallery">GALLERY</a></li>
-        <li><a href="contact.html" id="menucontact">CONTACT</a></li>
+        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
+        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuabout">ABOUT</a></li>
+        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugames">SCHEDULE</a></li>
+        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugallery">GALLERY</a></li>
+        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menucontact">CONTACT</a></li>
     </ul>
 </div> <!--eof mainMenu -->
 
@@ -123,15 +123,15 @@ $(document).ready(function() {
 	<div id="innerfoot">
   		<div id="footleft">
         <ul>
-            <li><a href="index.html">HOME</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li><a href="games.html">SCHEDULES</a></li>
-            <li><a href="gallery.html">GALLERY</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
+            <li><a href="<c:url value='/sabongpro/guest/home'/>">ABOUT</a></li>
+            <li><a href="<c:url value='/sabongpro/guest/home'/>">SCHEDULES</a></li>
+            <li><a href="<c:url value='/sabongpro/guest/home'/>">GALLERY</a></li>
+            <li><a href="<c:url value='/sabongpro/guest/home'/>">CONTACT</a></li>
         </ul>
     	</div>
         <div id="copyright">
-            &copy; 2014 <a href="index.html">www.SabongPro.com</a>. All Rights Reserved &reg;
+            &copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         </div>
 	</div><!--eof innerfoot -->
 </div> <!--eof footer -->
