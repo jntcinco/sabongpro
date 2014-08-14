@@ -16,14 +16,14 @@ public class RegisterValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		User user = (User) target;
 		String email = user.getEmail();
-		String username = user.getUsername();
+		String username = user.getUserName();
 		String password = user.getPassword();
 		String confirmPassword = user.getConfirmPassword();
 		if(email.isEmpty() || email == null) {
 			errors.rejectValue("email", "email.required");
 		} 
 		if(username.isEmpty() || username == null) {
-			errors.rejectValue("username", "username.required");
+			errors.rejectValue("userName", "username.required");
 		} 
 		if(password.isEmpty() || password == null) {
 			errors.rejectValue("password", "password.required");

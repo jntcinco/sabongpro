@@ -15,8 +15,8 @@ public class SabongProConstants {
 	public static final String MAIL_BODY_PART = "Welcome to sabongpro.com.<br/><br/>";
 	public static final String MAIL_BODY_PART1 = "Thank you for your interest in registering with sabongpro.com.<br/><br/>";
 	public static final String MAIL_BODY_PART2 = "You are receiving this email because you have signed-up to be a member using this e-mail address.<br/><br/>";
-	public static final String MAIL_BODY_PART3 = "If it is not your intention to sign-up with SABONGKING.COM, kindly disregard or delete this email, othewise, kindly click the link below to <br/>";
-	public static final String MAIL_BODY_PART4 = "finalize the process of your registration and activate your membership.<br/><br/>";
+	public static final String MAIL_BODY_PART3 = "If it is not your intention to sign-up with SABONGKING.COM, kindly disregard or delete this email, othewise, kindly click the link below to finalize the process of your registration and activate your membership.<br/><br/>";
+//	public static final String MAIL_BODY_PART4 = "finalize the process of your registration and activate your membership.<br/><br/>";
 	public static final String MAIL_BODY_PART5 = "https://sabongpro.com/rev02/confirm.php?ts=1407657688&regcode=54E0028F&email=";
 	public static final String MAIL_BODY_PART6 = "Best Regards,<br/>";
 	public static final String MAIL_BODY_PART7 = "Support Team - sabongpro.com<br/>";

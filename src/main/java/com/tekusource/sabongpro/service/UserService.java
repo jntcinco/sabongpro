@@ -21,7 +21,7 @@ public interface UserService {
 	
 	public User getUserBy(Long id);
 	
-	public User getUserByUsername(String value);
+	public User getUserByUserName(String value);
 	
 	public User getUserBy(Map<String, Object> values);
 	
@@ -29,7 +29,7 @@ public interface UserService {
 	
 	public boolean isUserExist(String username, String password);
 	
-	public boolean isUsernameExist(String username);
+	public boolean isUserNameExist(String username);
 	
 	public boolean isUserTokenValid(String username, String userToken);
 	

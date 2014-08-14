@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		return userDao.get(id);
 	}
 	
-	public User getUserByUsername(String value) {
+	public User getUserByUserName(String value) {
 		return (User) userDao.getBy(USER_NAME, value);
 	}
 	
@@ -66,11 +66,11 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean isUserExist(String username, String password) {
 		Map<String, Object> values = new HashMap<String, Object>();
-		values.put( "username", username );
+		values.put( "userName", username );
 		values.put( "password", password );
 
         Map<String, Boolean> orders = new HashMap<String, Boolean>();
-        orders.put( "username", true );
+        orders.put( "userName", true );
 		User user = (User) userDao.getBy(values, orders);
 		
 		if(user != null) {
@@ -80,11 +80,11 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	public boolean isUsernameExist(String username) {
+	public boolean isUserNameExist(String username) {
 		Map<String, Object> values = new HashMap<String, Object>();
-		values.put( "username", username );
+		values.put( "userName", username );
 		Map<String, Boolean> orders = new HashMap<String, Boolean>();
-        orders.put( "username", true );
+        orders.put( "userName", true );
         
 		User userCheck = (User) userDao.getBy(values, orders);
 		if(userCheck == null) {
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean isUserTokenValid(String username, String userToken) {
 		boolean isValid = false;
-		User user = getUserByUsername(username);
+		User user = getUserByUserName(username);
 		if(user != null) {
 			if(decryptString(userToken).equals(decryptString(user.getUserToken()))) {
 				user.setStatus(StatusType.ACTIVE.getDescription());
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public String createUserToken(User user) {
-		return encryptString(user.getEmail() + ":" + user.getPassword() + ":" + user.getUsername());
+		return encryptString(user.getEmail() + ":" + user.getPassword() + ":" + user.getUserName());
 	}
 	
 	public String decryptString(String value) {

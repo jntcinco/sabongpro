@@ -93,7 +93,7 @@ public class EmailNotificationService
             mimeHelper.setCc( message.getCc() );
         }
         mimeHelper.setSubject( message.getSubject() );
-        mimeHelper.setText( message.getBody() );
+        mimeHelper.setText( message.getBody(), true );
         if ( message.getAttachments() != null )
         {
             for ( File attachment : message.getAttachments() )

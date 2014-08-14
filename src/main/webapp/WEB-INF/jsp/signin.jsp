@@ -78,8 +78,8 @@ $(document).ready(function() {
             	<c:url var="login" value="/sabongpro/login" />
 				<form:form modelAttribute="userSession" action="${login}" method="post" class="centered">
 					<div class="formsingle">
-						<form:input path="username" class="biginput" title="Username"/>
-                        <div class="errorBlock margbtm20"><form:errors path="username" cssClass="error"/></div>
+						<form:input path="userName" class="biginput" title="Username"/>
+                        <div class="errorBlock margbtm20"><form:errors path="userName" cssClass="error"/></div>
                     </div>
                     <div class="formsingle">
                     	<form:password path="password" class="biginput" title="Password"/>

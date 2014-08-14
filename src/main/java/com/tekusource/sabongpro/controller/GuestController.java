@@ -70,9 +70,9 @@ public class GuestController extends AbstractController {
 		viewName = "register";
 		
 		if(!results.hasErrors()) {
-			if(userService.isUsernameExist(user.getUsername())) {
+			if(userService.isUserNameExist(user.getUserName())) {
 				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
-			} else {
+			} else {	
 				String encryptedPassword = userService.encryptString(user.getPassword());
 				user.setPassword(encryptedPassword);
 				user.setStatus(StatusType.INACTIVE.getDescription());
@@ -81,7 +81,7 @@ public class GuestController extends AbstractController {
 				user.setUserToken(userToken);
 				user.setUserRole(role);
 				userService.save(user);
-				sendEmailNotification(user.getEmail(), user.getUsername(), userToken);
+				sendEmailNotification(user.getEmail(), user.getUserName(), userToken);
 				registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
 				registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
 			}
@@ -102,10 +102,13 @@ public class GuestController extends AbstractController {
 	}
 	
 	private void sendEmailNotification(String email, String username, String userToken) {
+		StringBuilder url = new StringBuilder();
+		url.append(USER_VERIFICATION_URL).append("?userToken=").append(username);
+		
 		String message = "Dear " + username + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
 						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
-						 SabongProConstants.MAIL_BODY_PART3 + SabongProConstants.MAIL_BODY_PART4 +
-						 USER_VERIFICATION_URL + "?userToken=" + userToken + "&username=" + username + " " +
+						 SabongProConstants.MAIL_BODY_PART3 + 
+						 "<a href=\"" + url.toString() + "\">" + url.toString() + "</a><br/><br/>" +
 						 SabongProConstants.MAIL_BODY_PART6 + SabongProConstants.MAIL_BODY_PART7 + 
 						 SabongProConstants.MAIL_BODY_PART8 + SabongProConstants.MAIL_BODY_PART9 + SabongProConstants.MAIL_BODY_PART10;
         List<String> recipients = new ArrayList<String>();

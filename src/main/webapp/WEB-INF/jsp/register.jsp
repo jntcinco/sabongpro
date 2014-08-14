@@ -79,8 +79,8 @@ $(document).ready(function() {
 				<form:form modelAttribute="user" action="${register}" method="post" class="centered">
 					<div class="errorBlock margbtm10">${notificationMessage}</div>
 					<div class="formsingle">
-                   	  	<form:input path="username" class="mediuminput" title="Desired Username"/>
-                        <div class="errorBlock margbtm10"><form:errors path="username" cssClass="error"/></div>
+                   	  	<form:input path="userName" class="mediuminput" title="Desired Username"/>
+                        <div class="errorBlock margbtm10"><form:errors path="userName" cssClass="error"/></div>
                     </div>
                   	<div class="formsingle">
                    		<form:input path="email" class="mediuminput" title="Your Email Address"/>

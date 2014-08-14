@@ -74,39 +74,27 @@ $(document).ready(function() {
           <div id="content" class="margtop5 margbtm20">
           	<div id="userBlock">
               <div class="userFull">
+              <form action="">
               <input name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search Users"/>
+              </form>
               <h2 class="dark">User Manager</h2>
               <p>&nbsp;</p>
               <table width="95%" cellspacing='0' class="tabler"> <!-- cellspacing='0' is important, must stay -->
                     <tr>
-                    <th width="31%">Username</th>
-                    <th width="24%">Email</th>
-                    <th width="19%">Logged In</th>
-                    <th width="14%">Last Visit</th>
-                    <th width="12%">Status</th>
+                    <th width="40%">Username</th>
+                    <th width="30%">Email</th>
+                    <th width="15%">Last Visit</th>
+                    <th width="15%">Status</th>
                     </tr><!-- Table Header -->
                     
-                	<tr>
-                	  <td>ambot</td>
-                	  <td>ambot@wmail.com</td><td>Yes</td>
-                	  <td>7/14/2014</td>
-                	  <td>Regular</td>
-                	</tr><!-- Table Row -->
-                    <tr class='even'>
-                      <td>walker</td>
-                      <td>walker@ymail.com</td>
-                      <td>No</td>
-                      <td>7/14/2014</td>
-                      <td>Regular</td>
-                    </tr><!-- Darker Table Row -->
-                
-                    <tr>
-                      <td>Walapa</td>
-                      <td>walayna@wmail.com</td>
-                      <td>Yes</td>
-                      <td>7/14/2014</td>
-                      <td>Unpaid</td>
-                    </tr>
+                    <c:forEach var="user" varStatus="loop" items="${users}">
+                    	<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
+                    		<td>${user.userName}</td>
+                    		<td>${user.email}</td>
+                    		<td>${user.userRole.role}</td>
+                    		<td>${user.status }</td>
+                    	</tr>
+                    </c:forEach>
               </table>
               </div> <!--eof userFull -->
               
