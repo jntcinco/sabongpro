@@ -66,76 +66,75 @@ $(document).ready(function() {
 
 </head>
 <body class="bodyhome" id="home">
-<div id="headerwide">
-	<div id="header">
-        <div id="logo">
-		<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
-		</div> <!--eof logo -->
-<div id="centrHeader">
-    <a href="<c:url value='/sabongpro/'/>">
-        <div class="loginblck"></div>
-    </a>
+	<div id="headerwide">
+		<div id="header">
+        	<div id="logo">
+				<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro">
+					<img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" />
+				</a>
+			</div>
+			<div id="centrHeader">
+    			<a href="<c:url value='/sabongpro/'/>">
+        			<div class="loginblck"></div>
+    			</a>
 
-    <a href="<c:url value='/sabongpro/guest/register'/>">
-        <div class="signupblck"></div>
-    </a>
-</div> <!--eof centrHeader -->
+    			<a href="<c:url value='/sabongpro/guest/register'/>">
+        			<div class="signupblck"></div>
+    			</a>
+			</div>
 
-<div id="mainMenu">
-    <ul>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuabout">ABOUT</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugames">SCHEDULE</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugallery">GALLERY</a></li>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menucontact">CONTACT</a></li>
-    </ul>
-</div> <!--eof mainMenu -->
-
-    </div> <!--eof header -->
-</div>
-<div id="wrapper">
+			<div id="mainMenu">
+    			<ul>
+        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuabout">ABOUT</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugames">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menugallery">GALLERY</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menucontact">CONTACT</a></li>
+    			</ul>
+			</div>
+		</div>
+	</div>
+	<div id="wrapper">
     	<div id="innerWrap">
             <div id="banner">
             	<div class="centercocks"></div>
            		<img src="<c:url value='/images/banner.jpg'/>" width="960" height="301" />
             </div> <!--eof banner -->
 
-          <div id="content">
-           	  <div class="home3Cols">
-                <img src="<c:url value='/images/bubble01.png'/>" width="271" height="124" id="bub1" />
-                <p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                <p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
-           	  </div>
-            <div class="home3Cols margleft73">
-              <img src="<c:url value='/images/bubble02.png'/>" width="271" height="124" id="bub2" />
-              <p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                <p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
-            </div>
-              <div class="home3Cols margleft73">
-                <img src="<c:url value='/images/bubble03.png'/>" width="271" height="124" id="bub3" />
-                <p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                <p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
-            </div>
-          </div> <!--eof content -->
-      </div> <!--eof innerWrap -->
-      <!--eof footer -->
-</div> <!--eof wrapper -->
-<div id="footer">
-	<div id="innerfoot">
-  		<div id="footleft">
-        <ul>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">ABOUT</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">SCHEDULES</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">GALLERY</a></li>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">CONTACT</a></li>
-        </ul>
-    	</div>
-        <div id="copyright">
-            &copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
-        </div>
-	</div><!--eof innerfoot -->
-</div> <!--eof footer -->
-    
+          	<div id="content">
+           	  	<div class="home3Cols">
+                	<img src="<c:url value='/images/bubble01.png'/>" width="271" height="124" id="bub1" />
+                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
+                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
+           	  	</div>
+            	<div class="home3Cols margleft73">
+              		<img src="<c:url value='/images/bubble02.png'/>" width="271" height="124" id="bub2" />
+              		<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
+                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
+            	</div>
+              	<div class="home3Cols margleft73">
+                	<img src="<c:url value='/images/bubble03.png'/>" width="271" height="124" id="bub3" />
+                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
+                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
+            	</div>
+          	</div> <!--eof content -->
+      	</div>
+	</div>
+	<div id="footer">
+		<div id="innerfoot">
+  			<div id="footleft">
+        		<ul>
+            		<li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
+            		<li><a href="<c:url value='/sabongpro/guest/home'/>">ABOUT</a></li>
+            		<li><a href="<c:url value='/sabongpro/guest/home'/>">SCHEDULES</a></li>
+            		<li><a href="<c:url value='/sabongpro/guest/home'/>">GALLERY</a></li>
+            		<li><a href="<c:url value='/sabongpro/guest/home'/>">CONTACT</a></li>
+        		</ul>
+    		</div>
+        	<div id="copyright">
+            	&copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+        	</div>
+		</div>
+	</div>
 </body>
 </html>
