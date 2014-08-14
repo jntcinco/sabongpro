@@ -62,6 +62,42 @@ public class GuestController extends AbstractController {
 		return new ModelAndView("register", model);
 	}
 	
+	@RequestMapping(value="/about", method = RequestMethod.GET)
+	public ModelAndView about(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("about", model);
+	}
+	
+	@RequestMapping(value="/contact", method = RequestMethod.GET)
+	public ModelAndView contact(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("contact", model);
+	}
+	
+	@RequestMapping(value="/schedule", method = RequestMethod.GET)
+	public ModelAndView schedule(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("schedule", model);
+	}
+	
+	@RequestMapping(value="/gallery", method = RequestMethod.GET)
+	public ModelAndView gallery(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("gallery", model);
+	}
+	
+	@RequestMapping(value="/verification", method=RequestMethod.GET)
+	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
+		viewName = "signin";
+		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_1);
+		} else {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_2);
+		}
+		model.addAttribute("userSession", new User());
+		return new ModelAndView(viewName, model);
+	}
+	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView register(HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
 		Map<String, String> registerMessages = new HashMap<String, String>();
@@ -89,24 +125,12 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, registerMessages);
 	}
 	
-	@RequestMapping(value="/verification", method=RequestMethod.GET)
-	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
-		viewName = "signin";
-		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_1);
-		} else {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_2);
-		}
-		model.addAttribute("userSession", new User());
-		return new ModelAndView(viewName, model);
-	}
-	
 	private void sendEmailNotification(String email, String username, String userToken) {
+		String urlVerification = USER_VERIFICATION_URL + "?userToken=" + userToken + "&username=" + username;
 		String message = "Dear " + username + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
 						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
 						 SabongProConstants.MAIL_BODY_PART3 + SabongProConstants.MAIL_BODY_PART4 +
-						 USER_VERIFICATION_URL + "?userToken=" + userToken + "&username=" + username + " " +
-						 SabongProConstants.MAIL_BODY_PART6 + SabongProConstants.MAIL_BODY_PART7 + 
+						 urlVerification + " " + SabongProConstants.MAIL_BODY_PART6 + SabongProConstants.MAIL_BODY_PART7 + 
 						 SabongProConstants.MAIL_BODY_PART8 + SabongProConstants.MAIL_BODY_PART9 + SabongProConstants.MAIL_BODY_PART10;
         List<String> recipients = new ArrayList<String>();
         recipients.add(email);
