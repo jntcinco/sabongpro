@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
-import com.tekusource.sabongpro.model.Role;
+import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserRole;
 import com.tekusource.sabongpro.service.UserRoleService;
@@ -75,7 +75,7 @@ public class GuestController extends AbstractController {
 			} else {
 				String encryptedPassword = passwordEncoder.encodePassword(user.getPassword(), null);
 				user.setPassword(encryptedPassword);
-				UserRole role = (UserRole) userRoleService.getUserRoleBy(Role.GUEST.getDescription());
+				UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
 				user.setUserRole(role);
 				userService.save(user);
 				sendEmailNotification(user.getEmail(), user.getUsername());
