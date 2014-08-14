@@ -70,4 +70,18 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+	
+	public boolean isUsernameExist(String username) {
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put( "username", username );
+		Map<String, Boolean> orders = new HashMap<String, Boolean>();
+        orders.put( "username", true );
+        
+		User userCheck = (User) userDao.getBy(values, orders);
+		if(userCheck == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

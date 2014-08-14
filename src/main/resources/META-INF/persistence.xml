@@ -7,5 +7,6 @@
 		<!-- <provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source> -->
 		<class>com.tekusource.sabongpro.model.User</class>
+		<class>com.tekusource.sabongpro.model.UserRole</class>
 	</persistence-unit>
 </persistence>

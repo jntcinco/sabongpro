@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 import com.tekusource.sabongpro.model.User;
 
 public class RegisterValidator implements Validator {
-
+	
 	@Override
 	public boolean supports(Class clazz) {
 		return User.class.equals(clazz);

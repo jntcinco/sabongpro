@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -34,6 +37,10 @@ public class User implements Serializable {
 	
 	@Transient
 	private String confirmPassword;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="userRoleId", nullable=false)
+	private UserRole userRole;
 	
 	public Long getId() {
 		return id;
@@ -73,5 +80,13 @@ public class User implements Serializable {
 	
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+	
+	public UserRole getUserRole() {
+		return userRole;
+	}
+	
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 }

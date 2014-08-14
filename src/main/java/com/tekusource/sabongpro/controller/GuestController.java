@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
+import com.tekusource.sabongpro.model.Role;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.model.UserRole;
+import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.SabongProConstants;
 import com.tekusource.sabongpro.validator.RegisterValidator;
@@ -30,6 +33,9 @@ public class GuestController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	@Autowired
     private PBEPasswordEncoder passwordEncoder;
@@ -64,11 +70,13 @@ public class GuestController extends AbstractController {
 		viewName = "register";
 		
 		if(!results.hasErrors()) {
-			if(userService.isUserExist(user.getUsername(), user.getPassword())) {
-				registerMessages.put("errorMessage", SabongProConstants.USER_EXIST);
+			if(userService.isUsernameExist(user.getUsername())) {
+				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
 			} else {
 				String encryptedPassword = passwordEncoder.encodePassword(user.getPassword(), null);
 				user.setPassword(encryptedPassword);
+				UserRole role = (UserRole) userRoleService.getUserRoleBy(Role.GUEST.getDescription());
+				user.setUserRole(role);
 				userService.save(user);
 				sendEmailNotification(user.getEmail(), user.getUsername());
 				registerMessages.put("successMessage", SabongProConstants.USER_SAVED);

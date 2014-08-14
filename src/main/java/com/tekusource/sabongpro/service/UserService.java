@@ -28,4 +28,6 @@ public interface UserService {
 	public List<User> getAllUser();
 	
 	public boolean isUserExist(String username, String password);
+	
+	public boolean isUsernameExist(String username);
 }

@@ -75,8 +75,9 @@ $(document).ready(function() {
               </div>
             </div>
             <div class="crankupcol2 margtop20">
-            	<c:url var="register" value="/sabongpro/user/register"/>
+            	<c:url var="register" value="/sabongpro/guest/register"/>
 				<form:form modelAttribute="user" action="${register}" method="post" class="centered">
+					<div class="errorBlock margbtm10">${notificationMessage}</div>
 					<div class="formsingle">
                    	  	<form:input path="username" class="mediuminput" title="Desired Username"/>
                         <div class="errorBlock margbtm10"><form:errors path="username" cssClass="error"/></div>
