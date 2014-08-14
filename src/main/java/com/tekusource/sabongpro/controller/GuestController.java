@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.jasypt.spring.security3.PBEPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,15 +31,14 @@ import com.tekusource.sabongpro.validator.RegisterValidator;
 @Controller
 @RequestMapping(value="/guest")
 public class GuestController extends AbstractController {
+	
+	private static final String USER_VERIFICATION_URL = "http://localhost:8080/sabongpro/sabongpro/guest/verification";
 
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private UserRoleService userRoleService;
-	
-	@Autowired
-    private PBEPasswordEncoder passwordEncoder;
 	
 	@Resource
 	private EmailNotificationService emailNotificationService;
@@ -74,13 +73,15 @@ public class GuestController extends AbstractController {
 			if(userService.isUsernameExist(user.getUsername())) {
 				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
 			} else {
-				String encryptedPassword = passwordEncoder.encodePassword(user.getPassword(), null);
+				String encryptedPassword = userService.encryptString(user.getPassword());
 				user.setPassword(encryptedPassword);
 				user.setStatus(StatusType.INACTIVE.getDescription());
 				UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
+				String userToken = userService.createUserToken(user);
+				user.setUserToken(userToken);
 				user.setUserRole(role);
 				userService.save(user);
-				sendEmailNotification(user.getEmail(), user.getUsername());
+				sendEmailNotification(user.getEmail(), user.getUsername(), userToken);
 				registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
 				registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
 			}
@@ -88,13 +89,25 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, registerMessages);
 	}
 	
-	private void sendEmailNotification(String email, String firstname) {
-		String message = "Dear " + firstname + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
+	@RequestMapping(value="/verification", method=RequestMethod.GET)
+	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
+		viewName = "signin";
+		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_1);
+		} else {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_2);
+		}
+		model.addAttribute("userSession", new User());
+		return new ModelAndView(viewName, model);
+	}
+	
+	private void sendEmailNotification(String email, String username, String userToken) {
+		String message = "Dear " + username + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
 						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
 						 SabongProConstants.MAIL_BODY_PART3 + SabongProConstants.MAIL_BODY_PART4 +
-						 SabongProConstants.MAIL_BODY_PART5 + email + SabongProConstants.MAIL_BODY_PART6 +
-						 SabongProConstants.MAIL_BODY_PART7 + SabongProConstants.MAIL_BODY_PART8 +
-						 SabongProConstants.MAIL_BODY_PART9 + SabongProConstants.MAIL_BODY_PART10;
+						 USER_VERIFICATION_URL + "?userToken=" + userToken + "&username=" + username + " " +
+						 SabongProConstants.MAIL_BODY_PART6 + SabongProConstants.MAIL_BODY_PART7 + 
+						 SabongProConstants.MAIL_BODY_PART8 + SabongProConstants.MAIL_BODY_PART9 + SabongProConstants.MAIL_BODY_PART10;
         List<String> recipients = new ArrayList<String>();
         recipients.add(email);
         

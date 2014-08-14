@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jasypt.encryption.pbe.PBEStringEncryptor;
+import org.jasypt.spring.security3.PBEPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tekusource.sabongpro.dao.UserDao;
+import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.UserService;
 
@@ -18,6 +21,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+    private PBEPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PBEStringEncryptor stringEncryptor;
 	
 	public void save(User user) {
 		if(user != null) {
@@ -47,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	
 	public User getUserBy( Map<String, Object> values) {
 		Map<String, Boolean> orders = new HashMap<String, Boolean>();
-		orders.put(LAST_NAME, true);
+		orders.put(USER_NAME, true);
 		return (User) userDao.getBy(values, orders);
 	}
 	
@@ -83,5 +92,30 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return true;
 		}
+	}
+	
+	public boolean isUserTokenValid(String username, String userToken) {
+		boolean isValid = false;
+		User user = getUserByUsername(username);
+		if(user != null) {
+			if(decryptString(userToken).equals(decryptString(user.getUserToken()))) {
+				user.setStatus(StatusType.ACTIVE.getDescription());
+				update(user);
+				isValid = true;
+			}
+		}
+		return isValid;
+	}
+	
+	public String createUserToken(User user) {
+		return encryptString(user.getEmail() + ":" + user.getPassword() + ":" + user.getUsername());
+	}
+	
+	public String decryptString(String value) {
+		return stringEncryptor.decrypt(value);
+	}
+	
+	public String encryptString(String value) {
+		return passwordEncoder.encodePassword(value, null);
 	}
 }

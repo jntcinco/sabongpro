@@ -7,7 +7,8 @@ public class SabongProConstants {
 	public static final String USER_SAVED = "User successfully saved.";
 	
 	public static final String USER_NOTIFICATION = "NOTE: We will send a confirmation e-mail to complete the registration process. You have to click on the link provided in this e-mail to verify the authenticity of account ownership. If you are using your Yahoo, GMail or Hotmail account, please also look in the Bulk or Spam folders. Thank you.";
-	
+	public static final String USER_NOTIFICATION_1 = "You can now login using your username and password.";
+	public static final String USER_NOTIFICATION_2 = "You're not verified.";
 	// email notification
 	public static final String MAIL_USERNAME = "sabongproservice@gmail.com";
 	public static final String MAIL_SUBJECT = "SabongPro Registration Confirmation";

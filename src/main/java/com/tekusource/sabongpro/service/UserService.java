@@ -30,4 +30,12 @@ public interface UserService {
 	public boolean isUserExist(String username, String password);
 	
 	public boolean isUsernameExist(String username);
+	
+	public boolean isUserTokenValid(String username, String userToken);
+	
+	public String createUserToken(User user);
+	
+	public String decryptString(String value);
+	
+	public String encryptString(String value);
 }

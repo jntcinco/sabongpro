@@ -38,6 +38,9 @@ public class User implements Serializable {
 	@Column(name="status")
 	private String status;
 	
+	@Column(name="userToken")
+	private String userToken;
+	
 	@Transient
 	private String confirmPassword;
 	
@@ -83,6 +86,14 @@ public class User implements Serializable {
 	
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getUserToken() {
+		return userToken;
+	}
+	
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
 	}
 	
 	public String getConfirmPassword() {

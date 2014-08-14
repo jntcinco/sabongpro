@@ -74,6 +74,7 @@ $(document).ready(function() {
             </div>
             <div class="crankupcol2 margtop50">
             	<h1>LOG-IN</h1>
+            	<div class="errorBlock margbtm20">${notificationMessage}</div>
             	<c:url var="login" value="/sabongpro/login" />
 				<form:form modelAttribute="userSession" action="${login}" method="post" class="centered">
 					<div class="formsingle">
