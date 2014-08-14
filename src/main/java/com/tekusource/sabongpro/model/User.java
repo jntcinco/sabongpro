@@ -35,6 +35,9 @@ public class User implements Serializable {
 	@Column(name="password")
 	private String password;
 	
+	@Column(name="status")
+	private String status;
+	
 	@Transient
 	private String confirmPassword;
 	
@@ -72,6 +75,14 @@ public class User implements Serializable {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getStatus() {
+		return password;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	public String getConfirmPassword() {
