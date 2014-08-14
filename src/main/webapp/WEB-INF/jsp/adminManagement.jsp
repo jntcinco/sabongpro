@@ -45,11 +45,11 @@ $(document).ready(function() {
 
 <div id="mainMenu">
     <ul>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
-        <li><a href="#" id="menuabout">ABOUT</a></li>
-        <li><a href="#" id="menugames">SCHEDULE</a></li>
-        <li><a href="#" id="menugallery">GALLERY</a></li>
-        <li><a href="#" id="menucontact">CONTACT</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/about'/>" id="menuabout">ABOUT</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/schedule'/>" id="menugames">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/gallery'/>" id="menugallery">GALLERY</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/contact'/>" id="menucontact">CONTACT</a></li>
     </ul>
 </div> <!--eof mainMenu -->
 
@@ -125,11 +125,11 @@ $(document).ready(function() {
 	<div id="innerfoot">
   		<div id="footleft">
         <ul>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-            <li><a href="#">ABOUT</a></li>
-            <li><a href="#">SCHEDULES</a></li>
-            <li><a href="#">GALLERY</a></li>
-            <li><a href="#">CONTACT</a></li>
+            		<li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/about'/>">ABOUT</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/schedule'/>">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/gallery'/>">GALLERY</a></li>
+        			<li><a href="<c:url value='/sabongpro/guest/contact'/>">CONTACT</a></li>
         </ul>
     	</div>
         <div id="copyright">

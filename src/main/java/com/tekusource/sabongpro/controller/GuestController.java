@@ -62,6 +62,42 @@ public class GuestController extends AbstractController {
 		return new ModelAndView("register", model);
 	}
 	
+	@RequestMapping(value="/about", method = RequestMethod.GET)
+	public ModelAndView about(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("about", model);
+	}
+	
+	@RequestMapping(value="/contact", method = RequestMethod.GET)
+	public ModelAndView contact(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("contact", model);
+	}
+	
+	@RequestMapping(value="/schedule", method = RequestMethod.GET)
+	public ModelAndView schedule(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("schedule", model);
+	}
+	
+	@RequestMapping(value="/gallery", method = RequestMethod.GET)
+	public ModelAndView gallery(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("gallery", model);
+	}
+	
+	@RequestMapping(value="/verification", method=RequestMethod.GET)
+	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
+		viewName = "signin";
+		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_1);
+		} else {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_2);
+		}
+		model.addAttribute("userSession", new User());
+		return new ModelAndView(viewName, model);
+	}
+	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView register(HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
 		Map<String, String> registerMessages = new HashMap<String, String>();
@@ -72,7 +108,7 @@ public class GuestController extends AbstractController {
 		if(!results.hasErrors()) {
 			if(userService.isUserNameExist(user.getUserName())) {
 				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
-			} else {	
+			} else {
 				String encryptedPassword = userService.encryptString(user.getPassword());
 				user.setPassword(encryptedPassword);
 				user.setStatus(StatusType.INACTIVE.getDescription());
@@ -87,18 +123,6 @@ public class GuestController extends AbstractController {
 			}
 		}
 		return new ModelAndView(viewName, registerMessages);
-	}
-	
-	@RequestMapping(value="/verification", method=RequestMethod.GET)
-	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
-		viewName = "signin";
-		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_1);
-		} else {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_2);
-		}
-		model.addAttribute("userSession", new User());
-		return new ModelAndView(viewName, model);
 	}
 	
 	private void sendEmailNotification(String email, String username, String userToken) {

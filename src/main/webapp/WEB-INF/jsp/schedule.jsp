@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>LIVE STREAM - Sabong Pro</title>
+<title>Game Schedule - Sabong Pro</title>
 <meta name="designer" content="Rene San Lorenzo"/> 
 <meta name="developer" content="Jose Noel Cinco, Harold Siasat"/>
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
@@ -78,7 +78,7 @@ $(document).ready(function() {
 <div id="headerwide">
 	<div id="header">
         <div id="logo">
-	<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+				<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 </div> <!--eof logo -->
 
 
@@ -95,79 +95,67 @@ $(document).ready(function() {
     </div> <!--eof header -->
 </div>
 	<div id="wrapper">
-    	<div id="liveWrap">
-          <div class="statBlock textshadowWhite">
-            	<div class="statRight">
-                <ul>
-                	<li><a href="#">Account</a></li>
-                    <li><a href="#">Add Virtual Points</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Messages</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
+    	<div id="innerWrap">
+            
+          <div id="content" class="margtop20 margbtm20">
+          	<div id="userBlock">
+              <div class="userLeft">
+                <h3 class="dark textshadowWhite">Currently Searching: All Types</h3>
+                <div class="vidThumbs">
+                	<div class="vidBox">
+                   	  <a href="<c:url value='/sabongpro/guest/livestreaming'/>">
+                      	<img src="<c:url value='/images/sample_derby_192_tn.jpg'/>" width="192" height="147" />
+                      </a>
+                    </div>
+                    <p class="center margtop10">Sample Video Only<br />
+                    Aug 23, 2014</p>
                 </div>
-                <ul>
-                	<li><a href="#">welcome Teban</a></li>
-                    <li><a href="#">profile</a></li>
-                </ul>
-            </div>
-          <div id="content2" class="margtop20 margbtm20">
-          	<div class="liveBlock">
-              <div id="liveLeft">
-              	<div id="meron">
-                	<p>ENTRY</p>
-                	<h1>MERON</h1>
-                	<p>OWNER</p>
-                	<h5>OWNER OF MERON</h5>
-                	<p>BET STATUS</p>
-                	<h2>OPEN</h2>
-                	<p>&nbsp;</p>
-                	<a href="http://vroom.club/room/156/charter" class="button button-green blacktext margleft20">BET ON MERON</a>
+                <div class="vidThumbs">
+                	<div class="vidBox">
+                   	  <a href="<c:url value='/sabongpro/guest/livestreaming'/>">
+                      	<img src="<c:url value='/images/sample_derby_192_tn.jpg'/>" width="192" height="147" />
+                      </a>
+                    </div>
+                    <p class="center margtop10">Sample Video Only<br />
+                    Aug 23, 2014</p>
+                </div>
+                <div class="vidThumbs">
+                	<div class="vidBox">
+                   	  <a href="<c:url value='/sabongpro/guest/livestreaming'/>">
+                      	<img src="<c:url value='/images/sample_derby_192_tn.jpg'/>" width="192" height="147" />
+                      </a>
+                    </div>
+                    <p class="center margtop10">Sample Video Only<br />
+                    Aug 23, 2014</p>
+                </div>
+                
+              </div> <!--eof userLeft -->
+              <div class="userRight">
+              	<div class="blockhead">
+               	  <h5 class="dark textshadowWhite proj">Games</h5>
               	</div>
-              </div>
-              <div id="liveCenter">
-              	<div id="topCentral">
-                   <table width="520" border="0">
-                      <tr>
-                        <td width="77" rowspan="2">FIGHT NO.</td>
-                        <td width="69" rowspan="2"><h2>5</h2></td>
-                        <td width="132">BET COUNT:</td>
-                        <td width="224" rowspan="2">93 [Gross Points: 48800]</td>
-                     </tr>
-                      <tr>
-                        <td>WINNER: MERON</td>
-                      </tr>
-                   </table>
-
+                <div class="sidecnt">
+                  <p>You have no bets</p>
+                  <ul>
+                  	<li><a href="#">Choose a Game</a></li>
+                    <li><a href="#">Manage Games</a></li>
+                    <li><a href="#">Find Games</a></li>
+                  </ul>
                 </div>
-                <div id="liveStream">
-                	<iframe width="520" height="315" src="//www.youtube.com/embed/-OBNr6h-7t0" frameborder="0" allowfullscreen class="margtop3"></iframe>
+                <div class="blockhead">
+               	  <h5 class="dark textshadowWhite frnds">Friends</h5>
+              	</div>
+                <div class="sidecnt">
+                  <p>You don't have any friends</p>
+                  <ul>
+                  	<li><a href="#">Find Friends</a></li>
+                    <li><a href="#">View Friends</a></li>
+                  </ul>
                 </div>
-              </div>
-              <div id="wala">
-                   <p>ENTRY</p>
-                	<h1>WALA</h1>
-                	<p>OWNER</p>
-                	<h5>OWNER OF WALA</h5>
-                	<p>BET STATUS</p>
-                	<h2>OPEN</h2>
-                	<p>&nbsp;</p>
-               	<a href="http://vroom.club/room/156/charter" class="button button-red blacktext margleft20">BET ON WALA</a>
-              </div>
-              <!--<div class="userLeft">
-                <h3 class="dark textshadowWhite">LIVE STREAM</h3>
-                <p class="dark textshadowWhite center">You must be logged in to view this content.</p>
-                <p class="center">
-                  <iframe width="560" height="315" src="//www.youtube.com/embed/-OBNr6h-7t0" frameborder="0" allowfullscreen></iframe>
-                </p>
-                <h3 class="center dark">SAMPLE DERBY ONLY</h3>
-                <p class="center">AUG 23, 2012</p>
-                <p>Lorem ipsum dolor sit amet, vim ignota commune te, an quem aliquip definiebas pri. Soleat perfecto inimicus eu cum, an eos molestie recusabo, ne error maiestatis vis. Meis disputando vim ea, cu paulo impetus vix, legimus albucius te usu. Ne qui nostrud vivendo, cu cum alterum suavitate qualisque. Vel eu magna mazim oblique, sed sint eius delectus ei, nam justo nonumy ea. Sed cetero inimicus tractatos ea, qui eu habemus expetenda.</p>
-              </div> -->
-              <!--eof userLeft -->
-              <!--eof userRight -->
-          	</div>
-          	<!--eof userBlock -->
+                
+              </div> <!--eof userRight -->
+              
+          	</div> <!--eof userBlock -->
           </div> <!--eof content -->
       </div> <!--eof innerWrap -->
     </div> <!--eof wrapper -->
@@ -183,7 +171,7 @@ $(document).ready(function() {
         </ul>
     	</div>
         <div id="copyright">
-            &copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+            	&copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         </div>
 	</div><!--eof innerfoot --><!--eof innerfoot -->
 </div>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Sabong Pro</title>
+<title>Gallery - Sabong Pro</title>
 <meta name="designer" content="Rene San Lorenzo"/> 
 <meta name="developer" content="Jose Noel Cinco, Harold Siasat"/>
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
@@ -16,7 +16,7 @@
 <link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#logo').addClass('animated wobble');
+	$('#logo').addClass('animated lightSpeedIn');
 	$('#colLeft').addClass('animated fadeIn');
 	$('#colRight').addClass('animated fadeIn');
 	//$('#colMid').addClass('animated bounceInUp');
@@ -24,6 +24,15 @@ $(document).ready(function() {
 	$('#bub2').addClass('animated flipInY');
 	$('#bub3').addClass('animated flipInX');
 });
+</script>
+
+<!-- Input hints on textboxes -->
+<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
+<script type="text/javascript">
+  $(function() {
+    $('[title]').inputHint();
+    $('#test-form-2 input[type=text]').inputHint({using: '+ kbd'});
+  });
 </script>
 
 <!-- Used for Fancybox popup -->
@@ -65,76 +74,100 @@ $(document).ready(function() {
 </script>
 
 </head>
-<body class="bodyhome" id="home">
-	<div id="headerwide">
-		<div id="header">
-        	<div id="logo">
-				<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro">
-					<img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" />
-				</a>
-			</div>
-			<div id="centrHeader">
-    			<a href="<c:url value='/sabongpro/'/>">
-        			<div class="loginblck"></div>
-    			</a>
+<body id="gallery" class="bguser">
+<div id="headerwide">
+	<div id="header">
+        <div id="logo">
+				<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+</div>
 
-    			<a href="<c:url value='/sabongpro/guest/register'/>">
-        			<div class="signupblck"></div>
-    			</a>
-			</div>
 
-			<div id="mainMenu">
-    			<ul>
+<div id="mainMenu">
+    <ul>
         			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/about'/>" id="menuabout">ABOUT</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/schedule'/>" id="menugames">SCHEDULE</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/gallery'/>" id="menugallery">GALLERY</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/contact'/>" id="menucontact">CONTACT</a></li>
-    			</ul>
-			</div>
-		</div>
-	</div>
+    </ul>
+</div> <!--eof mainMenu -->
+
+    </div> <!--eof header -->
+</div>
 	<div id="wrapper">
     	<div id="innerWrap">
-            <div id="banner">
-            	<div class="centercocks"></div>
-           		<img src="<c:url value='/images/banner.jpg'/>" width="960" height="301" />
-            </div> <!--eof banner -->
-
-          	<div id="content">
-           	  	<div class="home3Cols">
-                	<img src="<c:url value='/images/bubble01.png'/>" width="271" height="124" id="bub1" />
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
-           	  	</div>
-            	<div class="home3Cols margleft73">
-              		<img src="<c:url value='/images/bubble02.png'/>" width="271" height="124" id="bub2" />
-              		<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
-            	</div>
-              	<div class="home3Cols margleft73">
-                	<img src="<c:url value='/images/bubble03.png'/>" width="271" height="124" id="bub3" />
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
-            	</div>
-          	</div> <!--eof content -->
-      	</div>
-	</div>
-	<div id="footer">
-		<div id="innerfoot">
-  			<div id="footleft">
-        		<ul>
+            
+          <div id="content" class="margtop20 margbtm20">
+          	<div id="userBlock">
+              <div class="userLeft">
+                <h3 class="dark textshadowWhite">Currently Searching: All Types</h3>
+                <div class="vidThumbs">
+                	<div class="vidBox">
+                   	  <a href="<c:url value='/images/sample_derby_390_tn.jpg'/>" class="fancythis" rel="Sabong">
+                      	<img src="<c:url value='/images/sample_derby_192_tn.jpg'/>" width="192" height="147" />
+                      </a>
+                    </div>
+                </div>
+                <div class="vidThumbs">
+                	<div class="vidBox">
+                   	  <a href="<c:url value='/images/sample_derby_390_tn.jpg'/>" class="fancythis" rel="Sabong">
+                      	<img src="<c:url value='/images/sample_derby_192_tn.jpg'/>" width="192" height="147" />
+                      </a>
+                    </div>
+                </div>
+                <div class="vidThumbs">
+                	<div class="vidBox">
+                   	  <a href="<c:url value='/images/sample_derby_390_tn.jpg'/>" class="fancythis" rel="Sabong">
+                      	<img src="<c:url value='/images/sample_derby_192_tn.jpg'/>" width="192" height="147" />
+                      </a>
+                    </div>
+                </div>
+                
+              </div> <!--eof userLeft -->
+              <div class="userRight">
+              	<div class="blockhead">
+               	  <h5 class="dark textshadowWhite proj">Games</h5>
+              	</div>
+                <div class="sidecnt">
+                  <p>You have no bets</p>
+                  <ul>
+                  	<li><a href="#">Choose a Game</a></li>
+                    <li><a href="#">Manage Games</a></li>
+                    <li><a href="#">Find Games</a></li>
+                  </ul>
+                </div>
+                <div class="blockhead">
+               	  <h5 class="dark textshadowWhite frnds">Friends</h5>
+              	</div>
+                <div class="sidecnt">
+                  <p>You don't have any friends</p>
+                  <ul>
+                  	<li><a href="#">Find Friends</a></li>
+                    <li><a href="#">View Friends</a></li>
+                  </ul>
+                </div>
+                
+              </div> <!--eof userRight -->
+              
+          	</div> <!--eof userBlock -->
+          </div> <!--eof content -->
+      </div> <!--eof innerWrap -->
+    </div> <!--eof wrapper -->
+<div id="footer">
+	<div id="innerfoot">
+  		<div id="footleft">
+        <ul>
             		<li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/about'/>">ABOUT</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/schedule'/>">SCHEDULE</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/gallery'/>">GALLERY</a></li>
         			<li><a href="<c:url value='/sabongpro/guest/contact'/>">CONTACT</a></li>
-        		</ul>
-    		</div>
-        	<div id="copyright">
+        </ul>
+    	</div>
+        <div id="copyright">
             	&copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
-        	</div>
-		</div>
-	</div>
+        </div>
+	</div><!--eof innerfoot --><!--eof innerfoot -->
+</div>
 </body>
 </html>
