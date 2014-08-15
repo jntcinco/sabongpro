@@ -103,7 +103,7 @@ $(document).ready(function() {
                     <li><a href="#">Add Virtual Points</a></li>
                     <li><a href="#">FAQs</a></li>
                     <li><a href="#">Messages</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href='<c:url value="/sabongpro/logout"/>'>Logout</a></li>
                 </ul>
                 </div>
                 <ul>

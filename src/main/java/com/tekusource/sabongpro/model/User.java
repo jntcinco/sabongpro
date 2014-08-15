@@ -17,9 +17,6 @@ import javax.persistence.Transient;
 @Table(name="users")
 public class User implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4126430180459770331L;
 	
 	@Id
@@ -47,6 +44,9 @@ public class User implements Serializable {
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="userRoleId", nullable=false)
 	private UserRole userRole;
+	
+	@OneToOne(mappedBy="user")
+	private UserProfile userProfile;
 	
 	public Long getId() {
 		return id;

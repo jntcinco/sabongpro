@@ -63,7 +63,7 @@ $(document).ready(function() {
                 	<li><a href="#">Admin Panel</a></li>
                     <li><a href="#">Messages</a></li>
                     <li><a href="#">Notifications</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href='<c:url value="/sabongpro/logout"/>'>Logout</a></li>
                 </ul>
                 </div>
                 <ul>
