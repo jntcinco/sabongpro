@@ -1,5 +1,7 @@
 package com.tekusource.sabongpro.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="user_roles")
-public class UserRole {
+public class UserRole implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3461417517744325243L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

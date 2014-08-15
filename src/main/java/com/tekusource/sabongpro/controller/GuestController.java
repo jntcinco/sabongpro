@@ -109,11 +109,11 @@ public class GuestController extends AbstractController {
 			if(userService.isUserNameExist(user.getUserName())) {
 				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
 			} else {
+				String userToken = userService.createUserToken(user);
 				String encryptedPassword = userService.encryptString(user.getPassword());
 				user.setPassword(encryptedPassword);
 				user.setStatus(StatusType.INACTIVE.getDescription());
 				UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
-				String userToken = userService.createUserToken(user);
 				user.setUserToken(userToken);
 				user.setUserRole(role);
 				userService.save(user);
@@ -127,7 +127,7 @@ public class GuestController extends AbstractController {
 	
 	private void sendEmailNotification(String email, String username, String userToken) {
 		StringBuilder url = new StringBuilder();
-		url.append(USER_VERIFICATION_URL).append("?userToken=").append(userToken).append("&username").append(username);
+		url.append(USER_VERIFICATION_URL).append("?userToken=").append(userToken).append("&username=").append(username);
 		
 		String message = "Dear " + username + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
 						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
