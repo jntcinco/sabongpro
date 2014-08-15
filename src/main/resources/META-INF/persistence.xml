@@ -8,5 +8,6 @@
 		<jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source> -->
 		<class>com.tekusource.sabongpro.model.User</class>
 		<class>com.tekusource.sabongpro.model.UserRole</class>
+		<class>com.tekusource.sabongpro.model.StreamingConfig</class>
 	</persistence-unit>
 </persistence>

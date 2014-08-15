@@ -81,16 +81,16 @@ $(document).ready(function() {
                         User Management
                     </div>
                     <div class="adminThumbs">
+                    	<a href="#"><img src="<c:url value='/images/vstream.png'/>" width="192" height="200" /></a>
+                        Streaming Management
+                    </div>
+                    <div class="adminThumbs">
                     	<a href="#"><img src="<c:url value='/images/content.png'/>" width="192" height="200" /></a>
-                        Content Manager
+                        Content Management
                     </div>
                     <div class="adminThumbs">
                     	<a href="#"><img src="<c:url value='/images/database.png'/>" width="192" height="200" /></a>
-                        Database Panel
-                    </div>
-                    <div class="adminThumbs">
-                    	<a href="#"><img src="<c:url value='/images/vstream.png'/>" width="192" height="200" /></a>
-                        Streaming Panel
+                        Live Streaming Panel
                     </div>
                     <div class="adminThumbs">
                     	<a href="#"><img src="<c:url value='/images/vpoints.png'/>" width="192" height="200" /></a>
@@ -108,9 +108,9 @@ $(document).ready(function() {
                 <div class="sidecnt">
                   <ul>
                   	<li><a href="<c:url value='/sabongpro/admin/user/management'/>">User Management</a></li>
-                    <li><a href="#">Content Manager</a></li>
-                    <li><a href="#">Database Panel</a></li>
-                    <li><a href="#">Streaming Panel</a></li>
+                    <li><a href="#">Streaming Management</a></li>
+                    <li><a href="#">Content Management</a></li>
+                    <li><a href="#">Live Streaming Panel</a></li>
                     <li><a href="#">Virtual Point Manager</a></li>
                     <li><a href="#">Global Configuration</a></li>
                   </ul>

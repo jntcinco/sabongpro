@@ -109,11 +109,11 @@ public class GuestController extends AbstractController {
 			if(userService.isUserNameExist(user.getUserName())) {
 				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
 			} else {
+				String userToken = userService.createUserToken(user);
 				String encryptedPassword = userService.encryptString(user.getPassword());
 				user.setPassword(encryptedPassword);
 				user.setStatus(StatusType.INACTIVE.getDescription());
 				UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
-				String userToken = userService.createUserToken(user);
 				user.setUserToken(userToken);
 				user.setUserRole(role);
 				userService.save(user);

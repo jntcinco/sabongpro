@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -41,8 +42,8 @@ public class User implements Serializable {
 	@Transient
 	private String confirmPassword;
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="userRoleId", nullable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="userRoleId", insertable=true, updatable=true, nullable=false)
 	private UserRole userRole;
 	
 	@OneToOne(mappedBy="user")
