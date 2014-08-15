@@ -55,6 +55,8 @@ public class AdminController extends AbstractController {
 		if(isValidUser(user)){
 			viewName = "adminManagement";
 			model.put("user", user);
+		} else {
+			model.addAttribute("userSession", new User());
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -83,6 +85,8 @@ public class AdminController extends AbstractController {
 				List<User> users = userService.getAllUser();
 				model.put("users", users);
 				viewName = "userManagement";
+			} else {
+				model.addAttribute("userSession", new User());
 			}
 		} catch(Exception e){
 			System.err.println(e);
@@ -93,8 +97,15 @@ public class AdminController extends AbstractController {
 	
 	@RequestMapping(value="/streamingConfig", method = RequestMethod.GET)
 	public ModelAndView streamingConfig(HttpSession httpSession, ModelMap model) {
-		model.addAttribute("config", new StreamingConfig());
-		return new ModelAndView("streamingConfig", model);
+		User user = (User) httpSession.getAttribute("userSession");
+		if(isValidUser(user)){
+			model.addAttribute("config", new StreamingConfig());
+			viewName = "streamingConfig";
+		} else {
+			model.addAttribute("userSession", new User());
+			viewName = "signin";
+		}
+		return new ModelAndView(viewName, model);
 	}
 	
 	@RequestMapping(value="/streaming/config/add", method = RequestMethod.POST)
@@ -135,22 +146,31 @@ public class AdminController extends AbstractController {
 	
 	@RequestMapping(value="/streaming/config/update/prep", method = RequestMethod.GET)
 	public ModelAndView prepUpdateStreamingConfig(HttpSession httpSession, @RequestParam("id") String id, ModelMap model) {
-		StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(Long.parseLong(id));
-		if(config == null) {
-			config = new StreamingConfig();
+		User user = (User) httpSession.getAttribute("userSession");
+		if(isValidUser(user)){
+			StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(Long.parseLong(id));
+			if(config == null) {
+				config = new StreamingConfig();
+			}
+			model.addAttribute("config", config);
+			viewName = "updateStreamingConfig";
+		} else {
+			model.addAttribute("userSession", new User());
+			viewName = "signin";
 		}
-		model.addAttribute("config", config);
-		return new ModelAndView("updateStreamingConfig", model);
+		return new ModelAndView(viewName, model);
 	}
 	
 	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
 	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
-		try {
+		User user = (User) httpSession.getAttribute("userSession");
+		if(isValidUser(user)){
 			model.put("configs", streamingConfigService.getAllStreamingConfigs());
-		} catch(Exception e){
-			System.err.println(e);
+			viewName = "streamingConfigManagement";
+		} else {
+			model.addAttribute("userSession", new User());
+			viewName = "signin";
 		}
-		
-		return new ModelAndView("streamingConfigManagement", model);
+		return new ModelAndView(viewName, model);
 	}
 }

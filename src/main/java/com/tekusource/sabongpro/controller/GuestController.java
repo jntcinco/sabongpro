@@ -63,11 +63,17 @@ public class GuestController extends AbstractController {
 	
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
-		List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
-        if (!configs.isEmpty()) {
-           	model.addAttribute("config", configs.get(0));
-        }
-		return new ModelAndView("livestreaming", model);
+		if(this.isUserSessionValid(httpSession)) {
+			List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
+	        if (!configs.isEmpty()) {
+	           	model.addAttribute("config", configs.get(0));
+	        }
+	        viewName = "livestreaming";
+		} else {
+			model.addAttribute("userSession", new User());
+			viewName = "signin";
+		}
+		return new ModelAndView(viewName, model);
 	}
 
 	@RequestMapping(value="/register", method = RequestMethod.GET)
