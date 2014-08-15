@@ -1,5 +1,6 @@
 package com.tekusource.sabongpro.service.impl;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,14 @@ public class StreamingConfigServiceImpl implements StreamingConfigService {
 
 	public void update(StreamingConfig config) {
 		if(config != null) {
-			streamingConfigDao.update(config);
+			StreamingConfig updateConfig = (StreamingConfig) getStreamingConfigBy(config.getId());
+			if(updateConfig != null) {
+				updateConfig.setDescription(config.getDescription());
+				updateConfig.setUrl(config.getUrl());
+				updateConfig.setStatus(config.getStatus());
+				updateConfig.setDateLastUpdated(Calendar.getInstance());
+				streamingConfigDao.update(updateConfig);
+			}
 		}
 	}
 

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -73,26 +74,45 @@
           		<div id="content" class="margtop5 margbtm20">
           			<div id="userBlock">
               			<div class="userFull">
-              				<form action="">
-              					<input name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search Users"/>
-              				</form>
-              				<h2 class="dark">Streaming Configurations</h2>
+              				<h2 class="dark">Streaming Management</h2>
               				<p>&nbsp;</p>
-              				<table width="95%" cellspacing='0' class="tabler"><!-- cellspacing='0' is important, must stay -->
-                    			<tr>
-                    				<th width="40%">Description</th>
-                    				<th width="30%">Url</th>
-                    				<th width="15%">Status</th>
-                    			</tr>
-                    
-                    			<c:forEach var="config" varStatus="loop" items="${configs}">
-                    			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td><a href="<c:url value='/sabongpro/admin/streaming/config/update/prep?id=${config.id}'/>">${config.description}</a></td>
-                    				<td>${config.url}</td>
-                    				<td>${config.status}</td>
-                    			</tr>
-                    			</c:forEach>
-              				</table>
+            				<c:url var="configure" value="/sabongpro/admin/streaming/config/update" />
+              				<form:form modelAttribute="config" action="${configure}">
+              					<form:hidden path="id"/>
+              					<table width="95%" cellspacing='0' class="tabler"><!-- cellspacing='0' is important, must stay -->
+                    				<c:if test="${not empty notificationMessage}">
+                    					<tr><td colspan="2">${notificationMessage}</td></tr>
+                    				</c:if>
+                    				<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
+                    					<td width="50%" style="text-align:right;">Description:</td>
+                    					<td width="50%" style="text-align:left;">
+                    						<form:input path="description" value=""/>
+                    						<form:errors path="description" cssClass="error"/>
+                    					</td>
+                    				</tr>
+                    				<tr>
+                    					<td width="50%" style="text-align:right;">Live streaming url:</td>
+                    					<td width="50%" style="text-align:left;">
+                    						<form:input path="url"  value=""/>	
+                    						<form:errors path="url" cssClass="error"/>
+                    					</td>
+                    				</tr>
+                    				<tr>
+                    					<td width="50%" style="text-align:right;">Status:</td>
+                    					<td width="50%" style="text-align:left;">
+                    						<form:select path="status">
+                    							<form:option value="" label="--- Select value ---"/>
+                    							<form:option value="Showing" label="Showing"/>
+                    							<form:option value="Coming" label="Coming"/>
+                    						</form:select>
+                    						<form:errors path="url" cssClass="error"/>
+                    					</td>
+                    				</tr>
+                    				<tr>
+                    					<td colspan="2"><input type="submit" value="Configure"/></td>
+                    				</tr>
+              					</table>
+              				</form:form>
               			</div>
           			</div>
           		</div>

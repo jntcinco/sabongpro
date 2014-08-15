@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.StreamingConfig;
@@ -68,8 +69,11 @@ public class AdminController extends AbstractController {
 			config.setStatus(StreamingStatusType.COMING.getDescription());
 			streamingConfigService.save(config);
 			model.addAttribute("notificationMessage", "Streaming config successfully saved.");
+			viewName = "streamingConfigManagement";
+		} else {
+			viewName = "streamingConfig";
 		}
-		return new ModelAndView("streamingConfig", model);
+		return new ModelAndView(viewName, model);
 	}
 	
 	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST)
@@ -79,18 +83,30 @@ public class AdminController extends AbstractController {
 		validator.validate(config, results);
 		
 		if(!results.hasErrors()) {
-			config.setDateLastUpdated(Calendar.getInstance());
 			streamingConfigService.update(config);
+			model.put("configs", streamingConfigService.getAllStreamingConfigs());
 			model.addAttribute("notificationMessage", "Streaming config successfully updated.");
+			viewName = "streamingConfigManagement";
+		} else {
+			viewName = "updateStreamingConfig";
 		}
-		return new ModelAndView("streamingConfig", model);
+		return new ModelAndView(viewName, model);
+	}
+	
+	@RequestMapping(value="/streaming/config/update/prep", method = RequestMethod.GET)
+	public ModelAndView prepUpdateStreamingConfig(HttpSession httpSession, @RequestParam("id") String id, ModelMap model) {
+		StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(Long.parseLong(id));
+		if(config == null) {
+			config = new StreamingConfig();
+		}
+		model.addAttribute("config", config);
+		return new ModelAndView("updateStreamingConfig", model);
 	}
 	
 	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
 	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
 		try {
-			List<StreamingConfig> configs = streamingConfigService.getAllStreamingConfigs();
-			model.put("configs", configs);
+			model.put("configs", streamingConfigService.getAllStreamingConfigs());
 		} catch(Exception e){
 			System.err.println(e);
 		}
