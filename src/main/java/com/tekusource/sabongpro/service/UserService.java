@@ -25,6 +25,8 @@ public interface UserService {
 	
 	public User getUserBy(Map<String, Object> values);
 	
+	public User getUserBy(String email);
+	
 	public List<User> getAllUser();
 	
 	public boolean isUserExist(String username, String password);

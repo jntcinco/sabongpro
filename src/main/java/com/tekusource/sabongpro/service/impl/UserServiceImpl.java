@@ -60,6 +60,10 @@ public class UserServiceImpl implements UserService {
 		return (User) userDao.getBy(values, orders);
 	}
 	
+	public User getUserBy(String email){
+		return (User) userDao.getBy(EMAIL, email);
+	}
+	
 	public List<User> getAllUser() {
 		return userDao.getAll();
 	}
