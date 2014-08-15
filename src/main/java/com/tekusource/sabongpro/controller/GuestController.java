@@ -127,7 +127,7 @@ public class GuestController extends AbstractController {
 	
 	private void sendEmailNotification(String email, String username, String userToken) {
 		StringBuilder url = new StringBuilder();
-		url.append(USER_VERIFICATION_URL).append("?userToken=").append(username);
+		url.append(USER_VERIFICATION_URL).append("?userToken=").append(userToken).append("&username").append(username);
 		
 		String message = "Dear " + username + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
 						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
