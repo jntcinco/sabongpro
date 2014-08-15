@@ -1,6 +1,7 @@
 package com.tekusource.sabongpro.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,8 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
+import com.tekusource.sabongpro.model.StreamingConfig;
+import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
+import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
 
@@ -30,6 +34,9 @@ public class LoginController extends AbstractController {
 	
 	@Autowired
 	private UserProfileService userProfileService;
+	
+	@Autowired
+	private StreamingConfigService streamingConfigService;
 	
 	@Override
 	@RequestMapping(method = RequestMethod.GET )
@@ -67,6 +74,11 @@ public class LoginController extends AbstractController {
 						UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
 						model.put("isStreamAllowed", profile.isStreamAllowed());
 						viewName = "livestreaming";
+						
+						List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
+				        if (!configs.isEmpty()) {
+				           	model.put("config", configs.get(0));
+				        }
 					}
 				}else{
 					model.put("notificationMessage", "Invalid username/password. Please try again.");

@@ -1,6 +1,7 @@
 package com.tekusource.sabongpro.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
+import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.CommonUtil;
 import com.tekusource.sabongpro.validator.StreamingConfigValidator;
@@ -28,6 +31,9 @@ public class AdminController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StreamingConfigService streamingConfigService;
 
 	private boolean isValidUser(User user){
 		if(user != null){
@@ -90,15 +96,45 @@ public class AdminController extends AbstractController {
 		return new ModelAndView("streamingConfig", model);
 	}
 	
-	@RequestMapping(value="/addStreamingConfig", method = RequestMethod.POST)
-	public ModelAndView addStreamingConfig(HttpSession httpSession, @ModelAttribute("streamingConfig") StreamingConfig config, 
+	@RequestMapping(value="/streaming/config/add", method = RequestMethod.POST)
+	public ModelAndView addStreamingConfig(HttpSession httpSession, @ModelAttribute("config") StreamingConfig config, 
 										   BindingResult results, ModelMap model) {
 		StreamingConfigValidator validator = new StreamingConfigValidator();
 		validator.validate(config, results);
 		
 		if(!results.hasErrors()) {
-			
+			config.setDateCreated(Calendar.getInstance());
+			config.setDateLastUpdated(Calendar.getInstance());
+			config.setStatus(StreamingStatusType.COMING.getDescription());
+			streamingConfigService.save(config);
+			model.addAttribute("notificationMessage", "Streaming config successfully saved.");
 		}
 		return new ModelAndView("streamingConfig", model);
+	}
+	
+	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST)
+	public ModelAndView updateStreamingConfig(HttpSession httpSession, @ModelAttribute("config") StreamingConfig config, 
+										      BindingResult results, ModelMap model) {
+		StreamingConfigValidator validator = new StreamingConfigValidator();
+		validator.validate(config, results);
+		
+		if(!results.hasErrors()) {
+			config.setDateLastUpdated(Calendar.getInstance());
+			streamingConfigService.update(config);
+			model.addAttribute("notificationMessage", "Streaming config successfully updated.");
+		}
+		return new ModelAndView("streamingConfig", model);
+	}
+	
+	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
+	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
+		try {
+			List<StreamingConfig> configs = streamingConfigService.getAllStreamingConfigs();
+			model.put("configs", configs);
+		} catch(Exception e){
+			System.err.println(e);
+		}
+		
+		return new ModelAndView("streamingConfigManagement", model);
 	}
 }

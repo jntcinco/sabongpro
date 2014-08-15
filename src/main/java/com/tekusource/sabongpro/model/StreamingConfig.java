@@ -35,11 +35,14 @@ public class StreamingConfig implements Serializable {
 	@Column(name="dateLastUpdated")
 	private Calendar dateLastUpdated;
 	
+	@Column(name="status")
+	private String status;
+	
 	public Long getId() {
 		return id;
 	}
 	
-	public void getId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -74,4 +77,12 @@ public class StreamingConfig implements Serializable {
 	public void setDateLastUpdated(Calendar dateLastUpdated) {
 		this.dateLastUpdated = dateLastUpdated;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	} 
 }

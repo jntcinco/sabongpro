@@ -106,14 +106,12 @@ public class UserServiceImpl implements UserService {
 		boolean isValid = false;
 		User user = getUserByUserName(username);
 		if(user != null) {
-			try{
-				if(decryptString(userToken).equals(decryptString(user.getUserToken()))) {
-					user.setStatus(StatusType.ACTIVE.getDescription());
-					update(user);
-					isValid = true;
-				}
-			}catch(Exception e){
-				System.err.println(e);
+			String urlToken = decryptString(userToken);
+			String dbToken = decryptString(user.getUserToken());
+			if(urlToken.equals(dbToken)) {
+				user.setStatus(StatusType.ACTIVE.getDescription());
+				update(user);
+				isValid = true;
 			}
 		}
 		return isValid;

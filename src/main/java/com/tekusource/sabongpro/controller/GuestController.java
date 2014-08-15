@@ -22,9 +22,12 @@ import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
+import com.tekusource.sabongpro.model.StreamingConfig;
+import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.model.UserRole;
+import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
@@ -47,6 +50,9 @@ public class GuestController extends AbstractController {
 	
 	@Resource
 	private EmailNotificationService emailNotificationService;
+	
+	@Autowired
+	private StreamingConfigService streamingConfigService;
 
 	@Override
 	@RequestMapping(value="/home", method = RequestMethod.GET)
@@ -57,7 +63,10 @@ public class GuestController extends AbstractController {
 	
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
-		// TODO:
+		List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
+        if (!configs.isEmpty()) {
+           	model.addAttribute("config", configs.get(0));
+        }
 		return new ModelAndView("livestreaming", model);
 	}
 
