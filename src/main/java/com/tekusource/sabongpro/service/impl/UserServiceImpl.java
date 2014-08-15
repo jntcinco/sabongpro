@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void remove(Long id) {
-		if(userDao.exist(id)) {
+		if(id != null) {
 			userDao.remove(id);
 		}
 	}
@@ -60,8 +60,16 @@ public class UserServiceImpl implements UserService {
 		return (User) userDao.getBy(values, orders);
 	}
 	
+	public User getUserBy(String email){
+		return (User) userDao.getBy(EMAIL, email);
+	}
+	
 	public List<User> getAllUser() {
 		return userDao.getAll();
+	}
+	
+	public List<User> getUsersBy(String email, String fieldName){
+		return userDao.getUsersBy(email, fieldName);
 	}
 	
 	public boolean isUserExist(String username, String password) {
@@ -117,7 +125,11 @@ public class UserServiceImpl implements UserService {
 		return stringEncryptor.decrypt(value);
 	}
 	
-	public String encryptString(String value) {
+	public String encryptString(String value){
+		return stringEncryptor.encrypt(value);
+	}
+	
+	public String encryptPassword(String value) {
 		return passwordEncoder.encodePassword(value, null);
 	}
 }

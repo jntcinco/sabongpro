@@ -18,17 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.model.UserRole;
 import com.tekusource.sabongpro.service.StreamingConfigService;
+import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
-import com.tekusource.sabongpro.util.SabongProConstants;
 import com.tekusource.sabongpro.validator.RegisterValidator;
 
 @Controller
@@ -42,6 +44,9 @@ public class GuestController extends AbstractController {
 	
 	@Autowired
 	private UserRoleService userRoleService;
+	
+	@Autowired
+	private UserProfileService userProfileService;
 	
 	@Resource
 	private EmailNotificationService emailNotificationService;
@@ -118,17 +123,28 @@ public class GuestController extends AbstractController {
 			if(userService.isUserNameExist(user.getUserName())) {
 				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
 			} else {
-				String userToken = userService.createUserToken(user);
-				String encryptedPassword = userService.encryptString(user.getPassword());
-				user.setPassword(encryptedPassword);
-				user.setStatus(StatusType.INACTIVE.getDescription());
-				UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
-				user.setUserToken(userToken);
-				user.setUserRole(role);
-				userService.save(user);
-				sendEmailNotification(user.getEmail(), user.getUserName(), userToken);
-				registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
-				registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
+				try{
+					String userToken = userService.createUserToken(user);
+					String encryptedPassword = userService.encryptPassword(user.getPassword());
+					user.setPassword(encryptedPassword);
+					user.setStatus(StatusType.INACTIVE.getDescription());
+					
+					UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
+					user.setUserToken(userToken);
+					user.setUserRole(role);
+					userService.save(user);
+					
+					UserProfile profile = new UserProfile();
+					profile.setUser(user);
+					profile.setStreamAllowed(false);;
+					userProfileService.save(profile);
+					
+					sendEmailNotification(user.getEmail(), user.getUserName(), userToken);
+					registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
+					registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
+				}catch(Exception e){
+					System.err.println(e);
+				}
 			}
 		}
 		return new ModelAndView(viewName, registerMessages);
