@@ -49,4 +49,8 @@ public class StreamingConfigServiceImpl implements StreamingConfigService {
 	public List<StreamingConfig> getAllStreamingConfigs() {
 		return streamingConfigDao.getAll();
 	}
+	
+	public List<StreamingConfig> getStreamingConfigBy(String status) {
+		return streamingConfigDao.getStreamingConfigBy(status);
+	}
 }

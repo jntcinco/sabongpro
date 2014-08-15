@@ -18,4 +18,6 @@ public interface StreamingConfigService {
 	public StreamingConfig getStreamingConfigBy(Map<String, Object> values);
 	
 	public List<StreamingConfig> getAllStreamingConfigs();
+	
+	public List<StreamingConfig> getStreamingConfigBy(String status);
 }

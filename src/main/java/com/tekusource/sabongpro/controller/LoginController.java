@@ -1,6 +1,7 @@
 package com.tekusource.sabongpro.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.RoleType;
+import com.tekusource.sabongpro.model.StreamingConfig;
+import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserService;
 
 @Controller
@@ -24,6 +28,9 @@ public class LoginController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StreamingConfigService streamingConfigService;
 	
 	@Override
 	@RequestMapping(method = RequestMethod.GET )
@@ -54,6 +61,10 @@ public class LoginController extends AbstractController {
 					viewName = "adminManagement";
 				}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())){
 					viewName = "livestreaming";
+					List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
+			        if (!configs.isEmpty()) {
+			           	model.put("config", configs.get(0));
+			        }
 				}
 			}else{
 				viewName = "signin";

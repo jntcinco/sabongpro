@@ -18,7 +18,7 @@ public class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T,
 	protected Class<T> persistentClass;
 	
 	@PersistenceContext(unitName="persitenceUnit")
-	private EntityManager entityManager; 
+	protected EntityManager entityManager; 
 	
 	public GenericDaoImpl(Class<T> persistentClass) {
 		this.persistentClass = persistentClass;
