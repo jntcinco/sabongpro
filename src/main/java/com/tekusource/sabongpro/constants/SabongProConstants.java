@@ -1,4 +1,4 @@
-package com.tekusource.sabongpro.util;
+package com.tekusource.sabongpro.constants;
 
 public class SabongProConstants {
 

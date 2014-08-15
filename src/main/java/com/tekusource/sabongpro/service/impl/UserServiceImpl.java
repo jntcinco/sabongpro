@@ -68,6 +68,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.getAll();
 	}
 	
+	public List<User> getUsersBy(String email, String fieldName){
+		return userDao.getUsersBy(email, fieldName);
+	}
+	
 	public boolean isUserExist(String username, String password) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put( "userName", username );
@@ -102,10 +106,14 @@ public class UserServiceImpl implements UserService {
 		boolean isValid = false;
 		User user = getUserByUserName(username);
 		if(user != null) {
-			if(decryptString(userToken).equals(decryptString(user.getUserToken()))) {
-				user.setStatus(StatusType.ACTIVE.getDescription());
-				update(user);
-				isValid = true;
+			try{
+				if(decryptString(userToken).equals(decryptString(user.getUserToken()))) {
+					user.setStatus(StatusType.ACTIVE.getDescription());
+					update(user);
+					isValid = true;
+				}
+			}catch(Exception e){
+				System.err.println(e);
 			}
 		}
 		return isValid;
@@ -119,7 +127,11 @@ public class UserServiceImpl implements UserService {
 		return stringEncryptor.decrypt(value);
 	}
 	
-	public String encryptString(String value) {
+	public String encryptString(String value){
+		return stringEncryptor.encrypt(value);
+	}
+	
+	public String encryptPassword(String value) {
 		return passwordEncoder.encodePassword(value, null);
 	}
 }

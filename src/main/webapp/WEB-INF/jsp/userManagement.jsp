@@ -14,16 +14,96 @@
 
 <!--Used with animate.css -->
 <link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
+
+<style type="text/css">
+
+.web_dialog_overlay
+{
+   position: fixed;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   height: 100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   background: #000000;
+   opacity: .15;
+   filter: alpha(opacity=15);
+   -moz-opacity: .15;
+   z-index: 101;
+   display: none;
+}
+.web_dialog
+{
+   display: none;
+   position: fixed;
+   width: 380px;
+   height: 200px;
+   top: 50%;
+   left: 50%;
+   margin-left: -190px;
+   margin-top: -100px;
+   background-color: #ffffff;
+   border: 2px solid #336699;
+   padding: 0px;
+   z-index: 102;
+   font-family: Verdana;
+   font-size: 10pt;
+}
+.web_dialog_title
+{
+   border-bottom: solid 2px #336699;
+   background-color: #336699;
+   padding: 4px;
+   color: White;
+   font-weight:bold;
+}
+.web_dialog_title a
+{
+   color: White;
+   text-decoration: none;
+}
+.align_right
+{
+   text-align: right;
+}
+
+</style>
+
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#logo').addClass('animated wobble');
-	$('#colLeft').addClass('animated fadeIn');
-	$('#colRight').addClass('animated fadeIn');
-	//$('#colMid').addClass('animated bounceInUp');
-	$('#bub1').addClass('animated flipInX');
-	$('#bub2').addClass('animated flipInY');
-	$('#bub3').addClass('animated flipInX');
-});
+	$(document).ready(function() {
+		$('#logo').addClass('animated wobble');
+		$('#colLeft').addClass('animated fadeIn');
+		$('#colRight').addClass('animated fadeIn');
+		//$('#colMid').addClass('animated bounceInUp');
+		$('#bub1').addClass('animated flipInX');
+		$('#bub2').addClass('animated flipInY');
+		$('#bub3').addClass('animated flipInX');
+
+		$('#search').bind('keypress', function(e) {
+			if (e.keyCode == 13) {
+				$("#searchForm").submit();
+			}
+		});
+
+		$("#btnClose").click(function(e) {
+			HideDialog();
+			e.preventDefault();
+		});
+	});
+
+	function ShowDialog(modal) {
+		$("#overlay").show();
+		$("#dialog").fadeIn(300);
+		$("#overlay").unbind("click");
+	}
+
+	function HideDialog() {
+		$("#overlay").hide();
+		$("#dialog").fadeOut(300);
+	}
 </script>
 
 <!-- Input hints on textboxes -->
@@ -74,8 +154,8 @@ $(document).ready(function() {
           <div id="content" class="margtop5 margbtm20">
           	<div id="userBlock">
               <div class="userFull">
-              <form action="">
-              <input name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search Users"/>
+              <form id="searchForm" name="searchForm" action='<c:url value="/sabongpro/admin/search"/>' method="post">
+              <input id="search" name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search User by email"/>
               </form>
               <h2 class="dark">User Manager</h2>
               <p>&nbsp;</p>
@@ -83,13 +163,13 @@ $(document).ready(function() {
                     <tr>
                     <th width="40%">Username</th>
                     <th width="30%">Email</th>
-                    <th width="15%">Last Visit</th>
+                    <th width="15%">Role</th>
                     <th width="15%">Status</th>
                     </tr><!-- Table Header -->
                     
                     <c:forEach var="user" varStatus="loop" items="${users}">
                     	<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    		<td>${user.userName}</td>
+                    		<td><a href="javascript:ShowDialog(true);">${user.userName}</a></td>
                     		<td>${user.email}</td>
                     		<td>${user.userRole.role}</td>
                     		<td>${user.status }</td>
@@ -117,6 +197,52 @@ $(document).ready(function() {
             &copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         </div>
 	</div><!--eof innerfoot --><!--eof innerfoot -->
+</div>
+
+<!-- pop up dialog -->
+<div id="output"></div>
+<div id="overlay" class="web_dialog_overlay"></div>
+<div id="dialog" class="web_dialog">
+   <table style="width: 100%; border: 0px;" cellpadding="3" cellspacing="0">
+      <tr>
+         <td class="web_dialog_title">Online Survey</td>
+         <td class="web_dialog_title align_right">
+            <a href="#" id="btnClose">Close</a>
+         </td>
+      </tr>
+      <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+      </tr>
+      <tr>
+         <td colspan="2" style="padding-left: 15px;">
+            <b>Choose your favorite mobile brand? </b>
+         </td>
+      </tr>
+      <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+      </tr>
+      <tr>
+         <td colspan="2" style="padding-left: 15px;">
+            <div id="brands">
+               <input id="brand1" name="brand" type="radio" checked="checked" value="Nokia" /> Nokia
+               <input id="brand2" name="brand" type="radio" value="Sony" /> Sony 
+               <input id="brand3" name="brand" type="radio" value="Motorola" /> Motorola
+            </div>
+         </td>
+      </tr>
+      <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+      </tr>
+      <tr>
+      <td colspan="2" style="text-align: center;">
+           <input type="submit" class="medium orange kool" value="Update" title="Update"/>
+         </td>
+      	 
+      </tr>
+   </table>
 </div>
 </body>
 </html>

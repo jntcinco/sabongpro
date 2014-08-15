@@ -43,7 +43,7 @@ public class UserProfile implements Serializable {
 	@Column(name="contact_number")
 	private String contactNumber;
 	
-	@Column(name="is_stream_allowed")
+	@Column(name="is_stream_allowed", columnDefinition = "TINYINT(1)")
 	private boolean isStreamAllowed;
 
 	@OneToOne(fetch=FetchType.LAZY)

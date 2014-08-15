@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.model.UserProfile;
+import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
 
 @Controller
@@ -25,6 +27,9 @@ public class LoginController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserProfileService userProfileService;
 	
 	@Override
 	@RequestMapping(method = RequestMethod.GET )
@@ -47,26 +52,24 @@ public class LoginController extends AbstractController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		try{
-			Map<String,Object> values = new HashMap<String,Object>();
-			values.put("userName", userSession.getUserName());
-			values.put("status", StatusType.ACTIVE.getDescription());
-			
-			User user = userService.getUserBy(values);
+			viewName = "signin";
+			User user = userService.getUserByUserName(userSession.getUserName());
 			if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
-				viewName = "signin";
-				model.put("loginMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
+				model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
 			}else{
 				String password = userService.decryptString(user.getPassword());
 				if(password.equals(userSession.getPassword())){
-					model.put("userSession", user);
+					model.put("user", user);
+					httpSession.setAttribute("userSession", user);
 					if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())){
 						viewName = "adminManagement";
 					}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())){
+						UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
+						model.put("isStreamAllowed", profile.isStreamAllowed());
 						viewName = "livestreaming";
 					}
 				}else{
-					viewName = "signin";
-					model.put("loginMessage", "Invalid username/password. Please try again.");
+					model.put("notificationMessage", "Invalid username/password. Please try again.");
 				}
 			}
 		}catch(Exception e){

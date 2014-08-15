@@ -29,6 +29,8 @@ public interface UserService {
 	
 	public List<User> getAllUser();
 	
+	public List<User> getUsersBy(String email, String fieldName);
+	
 	public boolean isUserExist(String username, String password);
 	
 	public boolean isUserNameExist(String username);
@@ -40,4 +42,6 @@ public interface UserService {
 	public String decryptString(String value);
 	
 	public String encryptString(String value);
+	
+	public String encryptPassword(String value);
 }

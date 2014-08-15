@@ -111,6 +111,11 @@ $(document).ready(function() {
                     <li><a href="#">profile</a></li>
                 </ul>
             </div>
+       
+       <c:choose>
+       	<c:when test="${isStreamAllowed}">
+       	     
+            
           <div id="content2" class="margtop20 margbtm20">
           	<div class="liveBlock">
               <div id="liveLeft">
@@ -169,6 +174,13 @@ $(document).ready(function() {
           	</div>
           	<!--eof userBlock -->
           </div> <!--eof content -->
+      
+      </c:when>
+      <c:otherwise>
+      	<h3>You are not subribed to view the streaming!</h3>
+      	</c:otherwise>
+      </c:choose>
+      
       </div> <!--eof innerWrap -->
     </div> <!--eof wrapper -->
 <div id="footer">
