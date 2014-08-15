@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -164,7 +165,7 @@
                     <th width="40%">Username</th>
                     <th width="30%">Email</th>
                     <th width="15%">Role</th>
-                    <th width="15%">Status</th>
+                    <th width="15%">Action</th>
                     </tr><!-- Table Header -->
                     
                     <c:forEach var="user" varStatus="loop" items="${users}">
@@ -172,7 +173,13 @@
                     		<td><a href="javascript:ShowDialog(true);">${user.userName}</a></td>
                     		<td>${user.email}</td>
                     		<td>${user.userRole.role}</td>
-                    		<td>${user.status }</td>
+                    		<td>
+            					<c:url var="grantAccess" value="/sabongpro/admin/user/allow/access" />
+                    			<form:form action="${grantAccess}" method="POST">
+                    				<input type="hidden" name="userId" value="${user.id}"/>
+                    				<input type="submit" value="Allow streaming access?"/>
+                    			</form:form>
+                    		</td>
                     	</tr>
                     </c:forEach>
               </table>

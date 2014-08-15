@@ -21,7 +21,9 @@ import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.service.StreamingConfigService;
+import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.CommonUtil;
 import com.tekusource.sabongpro.validator.StreamingConfigValidator;
@@ -32,6 +34,9 @@ public class AdminController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserProfileService userProfileService;
 	
 	@Autowired
 	private StreamingConfigService streamingConfigService;
@@ -73,6 +78,24 @@ public class AdminController extends AbstractController {
 			System.err.println(e);
 		}
 		
+		return new ModelAndView("userManagement", model);
+	}
+	
+	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
+	public ModelAndView userAllowAccess(@RequestParam("userId") String id, ModelMap model){
+		try{
+			User user = (User) userService.getUserBy(Long.parseLong(id));
+			if(user != null) {
+				
+				UserProfile profile = (UserProfile) userProfileService.getUserProfileByUserId(Long.parseLong(id));
+				profile.setStreamAllowed(true);;
+				userProfileService.update(profile);
+			}
+		}catch(Exception e){
+			System.err.println(e);
+		}
+		List<User> users = userService.getAllUser();
+		model.put("users", users);
 		return new ModelAndView("userManagement", model);
 	}
 
