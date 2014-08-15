@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void remove(Long id) {
-		if(id != null) {
+		if(userDao.exist(id)) {
 			userDao.remove(id);
 		}
 	}
@@ -98,7 +98,9 @@ public class UserServiceImpl implements UserService {
 		boolean isValid = false;
 		User user = getUserByUserName(username);
 		if(user != null) {
-			if(decryptString(userToken).equals(decryptString(user.getUserToken()))) {
+			String urlToken = decryptString(userToken);
+			String dbToken = decryptString(user.getUserToken());
+			if(urlToken.equals(dbToken)) {
 				user.setStatus(StatusType.ACTIVE.getDescription());
 				update(user);
 				isValid = true;

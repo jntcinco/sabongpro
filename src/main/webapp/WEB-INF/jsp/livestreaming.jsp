@@ -141,7 +141,7 @@ $(document).ready(function() {
 
                 </div>
                 <div id="liveStream">
-                	<iframe width="520" height="315" src="//www.youtube.com/embed/-OBNr6h-7t0" frameborder="0" allowfullscreen class="margtop3"></iframe>
+                	<iframe width="520" height="315" src="//${config.url}" frameborder="0" allowfullscreen class="margtop3"></iframe>
                 </div>
               </div>
               <div id="wala">

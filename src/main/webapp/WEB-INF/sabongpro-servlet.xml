@@ -44,4 +44,5 @@
 	</bean>
 	
 	<bean id="registerValidator" class="com.tekusource.sabongpro.validator.RegisterValidator"/>
+	<bean id="streamingConfigValidator" class="com.tekusource.sabongpro.validator.StreamingConfigValidator"/>
 </beans>

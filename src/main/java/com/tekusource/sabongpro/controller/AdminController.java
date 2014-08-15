@@ -1,5 +1,6 @@
 package com.tekusource.sabongpro.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.StreamingConfig;
+import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.validator.StreamingConfigValidator;
 
@@ -24,6 +27,9 @@ public class AdminController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StreamingConfigService streamingConfigService;
 	
 	@Override
 	@RequestMapping(value="/management", method = RequestMethod.GET)
@@ -44,21 +50,37 @@ public class AdminController extends AbstractController {
 		return new ModelAndView("userManagement", model);
 	}
 	
-	@RequestMapping(value="/streamingConfig", method = RequestMethod.GET)
+	@RequestMapping(value="/streaming/config", method = RequestMethod.GET)
 	public ModelAndView streamingConfig(HttpSession httpSession, ModelMap model) {
 		model.addAttribute("config", new StreamingConfig());
 		return new ModelAndView("streamingConfig", model);
 	}
 	
-	@RequestMapping(value="/addStreamingConfig", method = RequestMethod.POST)
-	public ModelAndView addStreamingConfig(HttpSession httpSession, @ModelAttribute("streamingConfig") StreamingConfig config, 
-										   BindingResult results, ModelMap model) {
+	@RequestMapping(value="/streaming/config/add", method = RequestMethod.POST)
+	public ModelAndView addStreamingConfig(HttpSession httpSession, @ModelAttribute("config") StreamingConfig config, 
+										   BindingResult results, ModelMap model) throws Exception{
 		StreamingConfigValidator validator = new StreamingConfigValidator();
 		validator.validate(config, results);
 		
 		if(!results.hasErrors()) {
-			
+			config.setDateCreated(Calendar.getInstance());
+			config.setDateLastUpdated(Calendar.getInstance());
+			config.setStatus(StreamingStatusType.COMING.getDescription());
+			streamingConfigService.save(config);
+			model.addAttribute("notificationMessage", "Streaming config successfully saved.");
 		}
 		return new ModelAndView("streamingConfig", model);
+	}
+	
+	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
+	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
+		try {
+			List<StreamingConfig> configs = streamingConfigService.getAllStreamingConfigs();
+			model.put("configs", configs);
+		} catch(Exception e){
+			System.err.println(e);
+		}
+		
+		return new ModelAndView("streamingConfigManagement", model);
 	}
 }
