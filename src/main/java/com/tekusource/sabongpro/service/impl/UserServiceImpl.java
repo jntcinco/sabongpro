@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.jasypt.encryption.pbe.PBEStringEncryptor;
 import org.jasypt.spring.security3.PBEPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private PBEPasswordEncoder passwordEncoder;
 
     @Autowired
-    private PBEStringEncryptor stringEncryptor;
+    private PBEStringEncryptor passwordEncryptor;
 	
 	public void save(User user) {
 		if(user != null) {
@@ -121,15 +122,21 @@ public class UserServiceImpl implements UserService {
 		return encryptString(user.getEmail() + ":" + user.getPassword() + ":" + user.getUserName());
 	}
 	
-	public String decryptString(String value) {
-		return stringEncryptor.decrypt(value);
-	}
-	
-	public String encryptString(String value){
-		return stringEncryptor.encrypt(value);
+	public String encryptString(String value) {
+		String encryptedString = new String(Base64.encodeBase64(value.getBytes()));
+		return encryptedString;
 	}
 	
 	public String encryptPassword(String value) {
 		return passwordEncoder.encodePassword(value, null);
+	}
+	
+	public String decryptPassword(String value) {
+		return passwordEncryptor.decrypt(value);
+	}
+	
+	public String decryptString(String value) {
+		String decryptedString = new String(Base64.decodeBase64(value));
+		return decryptedString;
 	}
 }

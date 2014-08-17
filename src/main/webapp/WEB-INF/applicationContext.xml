@@ -59,7 +59,7 @@
     	<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="stringEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor" >
+	<bean id="passwordEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor" >
     	<property name="algorithm" value="PBEWithMD5AndDES" />
     	<property name="password" value="${jasypt.encryptor.masterpassword.changeme}" />
   	</bean>
@@ -69,7 +69,7 @@
   	<!-- the security framework.                                           -->
   	<bean id="passwordEncoder" class="org.jasypt.spring.security3.PBEPasswordEncoder">
     	<property name="pbeStringEncryptor">
-      		<ref bean="stringEncryptor" />
+      		<ref bean="passwordEncryptor" />
     	</property>
  	</bean>
 </beans>

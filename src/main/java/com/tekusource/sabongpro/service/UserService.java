@@ -41,6 +41,8 @@ public interface UserService {
 	
 	public String decryptString(String value);
 	
+	public String decryptPassword(String value);
+	
 	public String encryptString(String value);
 	
 	public String encryptPassword(String value);

@@ -64,7 +64,7 @@ public class LoginController extends AbstractController {
 			if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
 				model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
 			}else{
-				String password = userService.decryptString(user.getPassword());
+				String password = userService.decryptPassword(user.getPassword());
 				if(password.equals(userSession.getPassword())){
 					model.put("user", user);
 					httpSession.setAttribute("userSession", user);
