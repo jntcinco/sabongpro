@@ -146,7 +146,7 @@ $(document).ready(function() {
 
                 </div>
                 <div id="liveStream">
-                	<iframe width="520" height="315" src="//${config.url}" frameborder="0" allowfullscreen class="margtop3"></iframe>
+                	<iframe id="embededFrame" width="520" height="315" src="" frameborder="0" allowfullscreen class="margtop3"></iframe>
                 </div>
               </div>
               <div id="wala">
@@ -199,5 +199,21 @@ $(document).ready(function() {
         </div>
 	</div><!--eof innerfoot --><!--eof innerfoot -->
 </div>
+<script type="text/javascript">
+	$(document).ready(function(e){
+		$.ajax({
+			url : "/sabongpro/sabongpro/services/streamUrl",
+			/*url : /sabongpro/services/streamUrl",*/
+			type : "GET",
+			success : function(response) {
+				var streamUrl = "//" + response.streamUrl;
+				$('iframe#embededFrame').attr('src',streamUrl);
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
+	});
+</script>
 </body>
 </html>

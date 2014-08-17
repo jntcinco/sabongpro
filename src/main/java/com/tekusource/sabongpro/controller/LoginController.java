@@ -68,11 +68,9 @@ public class LoginController extends AbstractController {
 				if(password.equals(userSession.getPassword())){
 					model.put("user", user);
 					httpSession.setAttribute("userSession", user);
-					if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())){
+					if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())) {
 						viewName = "adminManagement";
-					}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())){
-						UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-						model.put("isStreamAllowed", profile.isStreamAllowed());
+					}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
 						viewName = "livestreaming";
 						
 						List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
@@ -80,6 +78,8 @@ public class LoginController extends AbstractController {
 				           	model.put("config", configs.get(0));
 				        }
 					}
+					UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
+					model.put("isStreamAllowed", profile.isStreamAllowed());
 				}else{
 					model.put("notificationMessage", "Invalid username/password. Please try again.");
 				}
