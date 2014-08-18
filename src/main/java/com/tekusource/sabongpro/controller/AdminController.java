@@ -118,7 +118,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
-	@RequestMapping(value="/streamingConfig", method = RequestMethod.GET)
+	@RequestMapping(value="/streaming/config", method = RequestMethod.GET)
 	public ModelAndView streamingConfig(HttpSession httpSession, ModelMap model) {
 		User user = (User) httpSession.getAttribute("userSession");
 		if(isValidUser(user)){

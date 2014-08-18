@@ -110,6 +110,7 @@ $(document).ready(function() {
                   	<li><a href="<c:url value='/sabongpro/admin/user/management'/>">User Management</a></li>
                     <li><a href="<c:url value='/sabongpro/admin/streaming/config/management'/>">Streaming Management</a></li>
                     <li><a href="#">Content Management</a></li>
+                    <li><a href="<c:url value='/sabongpro/admin/streaming/config'/>">Add Streaming Details</a></li>
                     <li><a href="<c:url value='/sabongpro/guest/livestreaming'/>">Live Streaming Panel</a></li>
                     <li><a href="#">Virtual Point Manager</a></li>
                     <li><a href="#">Global Configuration</a></li>
