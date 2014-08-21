@@ -35,8 +35,8 @@ public class StreamingConfig implements Serializable {
 	@Column(name="dateLastUpdated")
 	private Calendar dateLastUpdated;
 	
-	@Column(name="status")
-	private String status;
+	@Column(name="isStreamOnline", columnDefinition = "TINYINT(1)")
+	private boolean isStreamOnline;
 	
 	public Long getId() {
 		return id;
@@ -77,12 +77,12 @@ public class StreamingConfig implements Serializable {
 	public void setDateLastUpdated(Calendar dateLastUpdated) {
 		this.dateLastUpdated = dateLastUpdated;
 	}
-	
-	public String getStatus() {
-		return status;
+
+	public boolean isStreamOnline() {
+		return isStreamOnline;
 	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	} 
+
+	public void setStreamOnline(boolean isStreamOnline) {
+		this.isStreamOnline = isStreamOnline;
+	}
 }

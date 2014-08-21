@@ -2,7 +2,6 @@ package com.tekusource.sabongpro.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
-import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
-import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
@@ -149,7 +146,7 @@ public class AdminController extends AbstractController {
 		if(!results.hasErrors()) {
 			config.setDateCreated(Calendar.getInstance());
 			config.setDateLastUpdated(Calendar.getInstance());
-			config.setStatus(StreamingStatusType.COMING.getDescription());
+			config.setStreamOnline(false);
 			streamingConfigService.save(config);
 			model.addAttribute("notificationMessage", "Streaming config successfully saved.");
 			viewName = "streamingConfigManagement";
@@ -160,20 +157,29 @@ public class AdminController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST)
-	public ModelAndView updateStreamingConfig(HttpSession httpSession, @ModelAttribute("config") StreamingConfig config, 
-										      BindingResult results, ModelMap model) {
-		StreamingConfigValidator validator = new StreamingConfigValidator();
-		validator.validate(config, results);
-		
-		if(!results.hasErrors()) {
-			streamingConfigService.update(config);
-			model.put("configs", streamingConfigService.getAllStreamingConfigs());
-			model.addAttribute("notificationMessage", "Streaming config successfully updated.");
-			viewName = "streamingConfigManagement";
-		} else {
-			viewName = "updateStreamingConfig";
+	@ResponseBody
+	public Map<String, ? extends Object> updateStreamingConfig(@RequestParam("configId") Long configId, @RequestParam("description") String description, 
+															   @RequestParam("streamUrl") String streamUrl, @RequestParam("streamStatus") Integer streamStatus) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(configId);
+			if(config != null) {
+				boolean isStreamOnline = false;
+				config.setDescription(description);
+				config.setUrl(streamUrl);
+				if(streamStatus == 1) {
+					isStreamOnline = true;
+				}
+				config.setStreamOnline(isStreamOnline);
+				config.setDateLastUpdated(Calendar.getInstance());
+				streamingConfigService.update(config);
+				map.put("streamStatus", config.isStreamOnline());
+				map.put("message", "Streaming config successfully updated.");
+			}
+		} catch(Exception e) {
+			map.put("message", "Error while updating streaming details.");
 		}
-		return new ModelAndView(viewName, model);
+		return map;
 	}
 	
 	@RequestMapping(value="/streaming/config/update/prep", method = RequestMethod.GET)

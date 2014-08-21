@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tekusource.sabongpro.model.StreamingConfig;
-import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.service.StreamingConfigService;
 
 @Controller
@@ -25,7 +24,7 @@ public class DataController {
 	@ResponseBody
 	public Map<String, ? extends Object> streamUrl() {
 		String streamUrl = "";
-		List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
+		List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
         StreamingConfig config = null;
 		if (!configs.isEmpty()) {
 			if(config == null) {

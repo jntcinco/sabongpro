@@ -19,5 +19,5 @@ public interface StreamingConfigService {
 	
 	public List<StreamingConfig> getAllStreamingConfigs();
 	
-	public List<StreamingConfig> getStreamingConfigBy(String status);
+	public List<StreamingConfig> getStreamingConfigBy(boolean isOnline);
 }

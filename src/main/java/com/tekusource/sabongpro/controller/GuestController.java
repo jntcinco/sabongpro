@@ -64,7 +64,8 @@ public class GuestController extends AbstractController {
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
 		if(this.isUserSessionValid(httpSession)) {
-			model.put("isStreamAllowed", userSession.isStreamAllowed());
+			User user = (User) userService.getUserBy(userSession.getId());
+			model.put("isStreamAllowed", user.isStreamAllowed());
 	        viewName = "livestreaming";
 		} else {
 			model.addAttribute("userSession", new User());

@@ -6,133 +6,17 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Sabong Pro</title>
-		<meta name="designer" content="Rene San Lorenzo"/> 
-		<meta name="developer" content="Jose Noel Cinco, Harold Siasat"/>
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="<c:url value='/js/jquery-1.7.1.min.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/plugins/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css'/>" />
-		<style type="text/css">
-			.ui-widget,.ui-widget button {
-				font-size: 62.5%;
-			}
-			.ui-dialog,.ui-dialog-content {
-				background-color: #D2D2D2 !important;
-				background-position: left top;
-				background-repeat: repeat;
-				border: 4px solid #4A4A4A;
-				color: #E4DA34 !important;
-			}
-			.ui-dialog .ui-dialog-titlebar {
-				background-color: #4A4A4A;
-				background-image: none;
-				border: medium none;
-				height: 20px;
-				color: #3E87BC;
-				font-size: 11px;
-				padding-top: 12px;
-			}
-			.ui-dialog .ui-dialog-buttonpane {
-				background-color: #4A4A4A;
-				border: none;
-				border-radius: 6px;
-				font: 12px Arial, Helvetica;
-				font-size: 100%;
-			}
-		</style>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('#logo').addClass('animated wobble');
-				$('#colLeft').addClass('animated fadeIn');
-				$('#colRight').addClass('animated fadeIn');
-				//$('#colMid').addClass('animated bounceInUp');
-				$('#bub1').addClass('animated flipInX');
-				$('#bub2').addClass('animated flipInY');
-				$('#bub3').addClass('animated flipInX');
-
-				$('#search').bind('keypress', function(e) {
-					if (e.keyCode == 13) {
-						$("#searchForm").submit();
-					}
-				});
-
-				$("#btnClose").click(function(e) {
-					HideDialog();
-					e.preventDefault();
-				});
-			});
-
-			function ShowDialog(modal) {
-				$("#overlay").show();
-				$("#dialog").fadeIn(300);
-				$("#overlay").unbind("click");
-			}
-
-			function HideDialog() {
-				$("#overlay").hide();
-				$("#dialog").fadeOut(300);
-			}
-		</script>
-		<script type="text/javascript">
-			<!-- used for jquery popup dialog -->
-			var userId;
-			var sabongpro = {
-				streamingActivationDialog : function() {
-					$("#streamingActivationDialog").dialog({
-						resizable: true,
-						autoOpen:false,
-						modal: true,
-						width:400,
-						height:200,
-						buttons: {
-							'Activate': function() {
-								var streamingAccess;
-								var isStreaming = $('#streamingAccess').prop('checked');
-								if(isStreaming) {
-									streamingAccess = 1;
-								} else {
-									streamingAccess = 2;
-								}
-								$.ajax({
-									url : "/sabongpro/sabongpro/admin/user/allow/access",
-									/*url : /sabongpro/admin/user/allow/access",*/
-									type : "POST",
-									data : {userId : userId, streamingAccess : streamingAccess},
-									success : function(response) {
-										var columnId = "#streamingAccessColumn"+userId;
-										if(response.streamingAccess == 1) {
-											$(columnId).html("Activated");
-										} else {
-											$(columnId).html("Deactivated");
-										}
-										alert(columnId);
-										alert(response.message);
-									},
-									error : function(xhr) {
-										alert("Error Code: "+xhr.status);
-									}
-								});
-								$(this).dialog('close');
-							},
-							'Cancel': function() {
-								$(this).dialog('close');
-							}
-						}
-					});
-				},
-				showstreamingActivationDialogForm : function(id) {
-					userId = id;
-					$('#streamingActivationDialog').dialog('open');
-				}
-			}
-			<!-- used for jquery popup dialog -->
-		</script>
+		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 		<!-- Input hints on textboxes -->
 		<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
 		<script type="text/javascript">
@@ -193,7 +77,7 @@
                     
                     			<c:forEach var="user" varStatus="loop" items="${users}">
                     			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td><a href="#" onclick="sabongpro.showstreamingActivationDialogForm(${user.id});">${user.userName}</a></td>
+                    				<td><a href="#" onclick="sabongproWidgets.showstreamingActivationDialogForm(${user.id});" style="color:#3E87BC;">${user.userName}</a></td>
                     				<td>${user.email}</td>
                     				<td>${user.userRole.role}</td>
                     				<td id="streamingAccessColumn${user.id}">
@@ -211,12 +95,13 @@
 										<span class="dark">Enter Virtual Points: </span>
                 						<input type="text" name="virtualPoints" id="virtualPoints" value="" class="depth"/><br/>
 										<span class="dark">Activate live streaming access ?</span>
-  										<input type="checkbox" id="streamingAccess" value="1"/>
+  										<input type="checkbox" id="streamingAccess" value=""/>
 									</form>
 			  					</div>
 			  					<script type="text/javascript">
 									$(document).ready(function(){
-										sabongpro.streamingActivationDialog();
+										sabongproWidgets.streamingActivationDialog();
+										sabongproCommons.bolasScript();
 									});
 	  							</script>
 	  						<!-- end popup dialog -->

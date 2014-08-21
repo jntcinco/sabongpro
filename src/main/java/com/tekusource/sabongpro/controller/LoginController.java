@@ -73,7 +73,7 @@ public class LoginController extends AbstractController {
 					}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
 						viewName = "livestreaming";
 						
-						List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
+						List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
 				        if (!configs.isEmpty()) {
 				           	model.put("config", configs.get(0));
 				        }

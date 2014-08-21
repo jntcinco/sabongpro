@@ -17,9 +17,9 @@ public class StreamingConfigDaoImpl extends GenericDaoImpl<StreamingConfig, Long
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<StreamingConfig> getStreamingConfigBy(String status) {
-		Query query = entityManager.createQuery("select obj from " + persistentClass.getName() + " obj where status = :status");
-	    query.setParameter( "status", status );
+	public List<StreamingConfig> getStreamingConfigBy(boolean isOnline) {
+		Query query = entityManager.createQuery("select obj from " + persistentClass.getName() + " obj where isStreamOnline = :isStreamOnline");
+	    query.setParameter( "isStreamOnline", isOnline );
 		return query.getResultList();
 	}
 }
