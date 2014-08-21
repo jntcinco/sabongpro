@@ -78,8 +78,7 @@ public class LoginController extends AbstractController {
 				           	model.put("config", configs.get(0));
 				        }
 					}
-					UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-					model.put("isStreamAllowed", profile.isStreamAllowed());
+					model.put("isStreamAllowed", user.isStreamAllowed());
 				}else{
 					model.put("notificationMessage", "Invalid username/password. Please try again.");
 				}

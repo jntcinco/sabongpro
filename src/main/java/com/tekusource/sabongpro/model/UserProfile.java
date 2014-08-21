@@ -42,9 +42,6 @@ public class UserProfile implements Serializable {
 	
 	@Column(name="contact_number")
 	private String contactNumber;
-	
-	@Column(name="is_stream_allowed", columnDefinition = "TINYINT(1)")
-	private boolean isStreamAllowed;
 
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id", nullable=false)
@@ -112,14 +109,6 @@ public class UserProfile implements Serializable {
 
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
-	}
-
-	public boolean isStreamAllowed() {
-		return isStreamAllowed;
-	}
-
-	public void setStreamAllowed(boolean isStreamAllowed) {
-		this.isStreamAllowed = isStreamAllowed;
 	}
 
 	public User getUser() {

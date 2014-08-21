@@ -2,7 +2,10 @@ package com.tekusource.sabongpro.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.RoleType;
@@ -70,7 +74,7 @@ public class AdminController extends AbstractController {
 	public ModelAndView searchUser(HttpServletRequest request, ModelMap model){
 		try{
 			String searchKey = request.getParameter("search");
-			List<User> users = userService.getUsersBy(searchKey, userService.EMAIL);
+			List<User> users = userService.getUsersBy(searchKey, UserService.EMAIL);
 			if(users == null)
 				users = new ArrayList<User>();
 			model.put("users", users);
@@ -82,21 +86,26 @@ public class AdminController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
-	public ModelAndView userAllowAccess(@RequestParam("userId") String id, ModelMap model){
-		try{
-			User user = (User) userService.getUserBy(Long.parseLong(id));
+	@ResponseBody
+	public Map<String, ? extends Object> userAllowAccess(@RequestParam("userId") Long userId, 
+														 @RequestParam("streamingAccess") Integer streamingAccess){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			User user = (User) userService.getUserBy(userId);
 			if(user != null) {
-				
-				UserProfile profile = (UserProfile) userProfileService.getUserProfileByUserId(Long.parseLong(id));
-				profile.setStreamAllowed(true);;
-				userProfileService.update(profile);
+				boolean activateStreaming = false;
+				if(streamingAccess == 1) {
+					activateStreaming = true;
+				}
+				user.setStreamAllowed(activateStreaming);
+				userService.update(user);
+				map.put("streamingAccess", user.isStreamAllowed());
+				map.put("message", "User profile sucessfully updated.");
 			}
-		}catch(Exception e){
-			System.err.println(e);
+		} catch(Exception e) {
+			map.put("message", "Error while updating user profile.");
 		}
-		List<User> users = userService.getAllUser();
-		model.put("users", users);
-		return new ModelAndView("userManagement", model);
+		return map;
 	}
 
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)

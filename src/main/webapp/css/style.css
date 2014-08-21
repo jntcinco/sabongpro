@@ -1288,3 +1288,7 @@ p {
   background-image: -o-linear-gradient(top, #921511, #e4201b);
   background-image: linear-gradient(to bottom, #921511, #e4201b);
 }						{ background-color: #dce3e5; }
+
+.ui-widget,.ui-widget button {
+	font-size: 62.5%;
+}
