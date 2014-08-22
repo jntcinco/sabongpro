@@ -120,17 +120,16 @@
 <div id="headerwide">
 	<div id="header">
         <div id="logo">
-	<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+	<a href="<c:url value='/'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 </div> <!--eof logo -->
 
 
 <div id="mainMenu">
     <ul>
-        <li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
-        <li><a href="#" id="menuabout">ABOUT</a></li>
-        <li><a href="#" id="menugames">SCHEDULE</a></li>
-        <li><a href="#" id="menugallery">GALLERY</a></li>
-        <li><a href="#" id="menucontact">CONTACT</a></li>
+        <li><a href="<c:url value='/'/>" id="menuhome">HOME</a></li>
+		<li><a href="<c:url value='/about'/>" id="menuabout">ABOUT</a></li>
+        <li><a href="<c:url value='/schedule'/>" id="menugames">SCHEDULE</a></li>
+        <li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li>
     </ul>
 </div> <!--eof mainMenu -->
 
@@ -141,10 +140,10 @@
             <div class="statBlock textshadowWhite">
             	<div class="statRight">
                 <ul>
-                	<li><a href="<c:url value='/sabongpro/admin/management'/>">Admin Panel</a></li>
+                	<li><a href="<c:url value='/admin/management'/>">Admin Panel</a></li>
                     <li><a href="#">Messages</a></li>
                     <li><a href="#">Notifications</a></li>
-                    <li><a href='<c:url value="/sabongpro/logout"/>'>Logout</a></li>
+                    <li><a href='<c:url value="/logout"/>'>Logout</a></li>
                 </ul>
                 </div>
                 <ul>
@@ -155,7 +154,7 @@
           <div id="content" class="margtop5 margbtm20">
           	<div id="userBlock">
               <div class="userFull">
-              <form id="searchForm" name="searchForm" action='<c:url value="/sabongpro/admin/search"/>' method="post">
+              <form id="searchForm" name="searchForm" action='<c:url value="/admin/search"/>' method="post">
               <input id="search" name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search User by email"/>
               </form>
               <h2 class="dark">User Manager</h2>
@@ -174,7 +173,7 @@
                     		<td>${user.email}</td>
                     		<td>${user.userRole.role}</td>
                     		<td>
-            					<c:url var="grantAccess" value="/sabongpro/admin/user/allow/access" />
+            					<c:url var="grantAccess" value="/admin/user/allow/access" />
                     			<form:form action="${grantAccess}" method="POST">
                     				<input type="hidden" name="userId" value="${user.id}"/>
                     				<input type="submit" value="Allow streaming access?"/>
@@ -193,15 +192,14 @@
 	<div id="innerfoot">
   		<div id="footleft">
         <ul>
-            <li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-            <li><a href="#">ABOUT</a></li>
-            <li><a href="#">SCHEDULES</a></li>
-            <li><a href="#">GALLERY</a></li>
-            <li><a href="#">CONTACT</a></li>
+            <li><a href="<c:url value='/'/>">HOME</a></li>
+			<li><a href="<c:url value='/about'/>">ABOUT</a></li>
+        	<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        	<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
         </ul>
     	</div>
         <div id="copyright">
-            &copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+            &copy; 2014 <a href="<c:url value='/'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         </div>
 	</div><!--eof innerfoot --><!--eof innerfoot -->
 </div>

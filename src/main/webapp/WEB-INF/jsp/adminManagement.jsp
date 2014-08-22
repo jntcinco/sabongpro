@@ -39,17 +39,16 @@ $(document).ready(function() {
 <div id="headerwide">
 	<div id="header">
         <div id="logo">
-	<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+	<a href="<c:url value='/'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 </div> <!--eof logo -->
 
 
 <div id="mainMenu">
     <ul>
-        			<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/about'/>" id="menuabout">ABOUT</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/schedule'/>" id="menugames">SCHEDULE</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/gallery'/>" id="menugallery">GALLERY</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/contact'/>" id="menucontact">CONTACT</a></li>
+        			<li><a href="<c:url value='/'/>" id="menuhome">HOME</a></li>
+        			<li><a href="<c:url value='/about'/>" id="menuabout">ABOUT</a></li>
+        			<li><a href="<c:url value='/schedule'/>" id="menugames">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li>
     </ul>
 </div> <!--eof mainMenu -->
 
@@ -63,7 +62,7 @@ $(document).ready(function() {
                 	<li><a href="#">Admin Panel</a></li>
                     <li><a href="#">Messages</a></li>
                     <li><a href="#">Notifications</a></li>
-                    <li><a href='<c:url value="/sabongpro/logout"/>'>Logout</a></li>
+                    <li><a href='<c:url value="/logout"/>'>Logout</a></li>
                 </ul>
                 </div>
                 <ul>
@@ -77,11 +76,11 @@ $(document).ready(function() {
               <h2 class="dark">Administration Panel</h2>
               <!--<div class="profilepic"><img src="images/admin.jpg" width="60" height="86" /></div> -->
 					<div class="adminThumbs">
-                    	<a href="<c:url value='/sabongpro/admin/user/management'/>"><img src="<c:url value='/images/user.png'/>" width="192" height="200" /></a>
+                    	<a href="<c:url value='/admin/user/management'/>"><img src="<c:url value='/images/user.png'/>" width="192" height="200" /></a>
                         User Management
                     </div>
                     <div class="adminThumbs">
-                    	<a href="<c:url value='/sabongpro/admin/streaming/config'/>"><img src="<c:url value='/images/vstream.png'/>" width="192" height="200" /></a>
+                    	<a href="<c:url value='/admin/streaming/config'/>"><img src="<c:url value='/images/vstream.png'/>" width="192" height="200" /></a>
                         Streaming Management
                     </div>
                     <div class="adminThumbs">
@@ -107,11 +106,11 @@ $(document).ready(function() {
               	</div>
                 <div class="sidecnt">
                   <ul>
-                  	<li><a href="<c:url value='/sabongpro/admin/user/management'/>">User Management</a></li>
-                    <li><a href="<c:url value='/sabongpro/admin/streaming/config/management'/>">Streaming Management</a></li>
+                  	<li><a href="<c:url value='/admin/user/management'/>">User Management</a></li>
+                    <li><a href="<c:url value='/admin/streaming/config/management'/>">Streaming Management</a></li>
                     <li><a href="#">Content Management</a></li>
-                    <li><a href="<c:url value='/sabongpro/admin/streaming/config'/>">Add Streaming Details</a></li>
-                    <li><a href="<c:url value='/sabongpro/guest/livestreaming'/>">Live Streaming Panel</a></li>
+                    <li><a href="<c:url value='/admin/streaming/config'/>">Add Streaming Details</a></li>
+                    <li><a href="<c:url value='/guest/livestreaming'/>">Live Streaming Panel</a></li>
                     <li><a href="#">Virtual Point Manager</a></li>
                     <li><a href="#">Global Configuration</a></li>
                   </ul>
@@ -126,15 +125,14 @@ $(document).ready(function() {
 	<div id="innerfoot">
   		<div id="footleft">
         <ul>
-            		<li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/about'/>">ABOUT</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/schedule'/>">SCHEDULE</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/gallery'/>">GALLERY</a></li>
-        			<li><a href="<c:url value='/sabongpro/guest/contact'/>">CONTACT</a></li>
+            		<li><a href="<c:url value='/'/>">HOME</a></li>
+        			<li><a href="<c:url value='/about'/>">ABOUT</a></li>
+        			<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
         </ul>
     	</div>
         <div id="copyright">
-            &copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+            &copy; 2014 <a href="<c:url value='/'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         </div>
 	</div><!--eof innerfoot --><!--eof innerfoot -->
 </div>

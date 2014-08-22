@@ -2,7 +2,7 @@ package com.tekusource.sabongpro.model;
 
 public enum RoleType {
 
-	ADMIN("Admin"), GUEST("Guest");
+	ADMIN("ADMIN"), GUEST("GUEST");
 	private final String description;
 
 	private RoleType(String description) {

@@ -108,66 +108,38 @@
                 			<li>Welcome ${user.userName}</li>
                 		</c:otherwise>
                 	</c:choose>
-                    <li><a href="<c:url value='/guest'/>">profile</a></li>
                 </ul>
             </div>
-          			<div id="content2" class="margtop20 margbtm20">
-          				<div class="liveBlock">
-              				<div id="liveLeft">
-              					<div id="meron">
-                					<p>ENTRY</p>
-                					<h1>MERON</h1>
-                					<p>OWNER</p>
-                					<h5>OWNER OF MERON</h5>
-                					<p>BET STATUS</p>
-                					<h2>OPEN</h2>
-                					<p>&nbsp;</p>
-                					<a href="http://vroom.club/room/156/charter" class="button button-green blacktext margleft20">BET ON MERON</a>
-              					</div>
-              				</div>
-              				<div id="liveCenter">
-              					<div id="topCentral">
-                   					<table width="520" border="0">
-                      					<tr>
-                        					<td width="77" rowspan="2">FIGHT NO.</td>
-                        					<td width="69" rowspan="2"><h2>5</h2></td>
-                        					<td width="132">BET COUNT:</td>
-                        					<td width="224" rowspan="2">93 [Gross Points: 48800]</td>
-                     					</tr>
-                      					<tr>
-                        					<td>WINNER: MERON</td>
-                      					</tr>
-                   					</table>
-                				</div>
-                				<div id="liveStream">
-                					<iframe id="embededFrame" width="520" height="315" src="" frameborder="0" allowfullscreen class="margtop3"></iframe>
-                				</div>
-              				</div>
-              				<div id="wala">
-                   				<p>ENTRY</p>
-                				<h1>WALA</h1>
-                				<p>OWNER</p>
-                				<h5>OWNER OF WALA</h5>
-                				<p>BET STATUS</p>
-                				<h2>OPEN</h2>
-                				<p>&nbsp;</p>
-               					<a href="http://vroom.club/room/156/charter" class="button button-red blacktext margleft20">BET ON WALA</a>
-              				</div>
-              <!--<div class="userLeft">
-                <h3 class="dark textshadowWhite">LIVE STREAM</h3>
-                <p class="dark textshadowWhite center">You must be logged in to view this content.</p>
-                <p class="center">
-                  <iframe width="560" height="315" src="//www.youtube.com/embed/-OBNr6h-7t0" frameborder="0" allowfullscreen></iframe>
-                </p>
-                <h3 class="center dark">SAMPLE DERBY ONLY</h3>
-                <p class="center">AUG 23, 2012</p>
-                <p>Lorem ipsum dolor sit amet, vim ignota commune te, an quem aliquip definiebas pri. Soleat perfecto inimicus eu cum, an eos molestie recusabo, ne error maiestatis vis. Meis disputando vim ea, cu paulo impetus vix, legimus albucius te usu. Ne qui nostrud vivendo, cu cum alterum suavitate qualisque. Vel eu magna mazim oblique, sed sint eius delectus ei, nam justo nonumy ea. Sed cetero inimicus tractatos ea, qui eu habemus expetenda.</p>
-              </div> -->
-              <!--eof userLeft -->
-              <!--eof userRight -->
-          	</div>
-          	<!--eof userBlock -->
-          			</div>
+            <div id="content" class="margtop5 margbtm20">
+            	<div>
+            		<a href="<c:url value='/guest/livestreaming'/>">Watch Streaming</a>
+            	</div>
+            	<div>
+            		<a href="<c:url value='/guest/profileform'/>">Edit Profile</a>
+            	</div>
+            	<br/><br/>
+            	<div>
+            		First Name: ${user.profile.firstName}
+            	</div>
+            	<div>
+            		Middle Name: ${user.profile.middleName}
+            	</div>
+            	<div>
+            		Last Name: ${user.profile.lastName}
+            	</div>
+            	<div>
+            		Street Address: ${user.profile.street}
+            	</div>
+            	<div>
+            		City: ${user.profile.city}
+            	</div>
+            	<div>
+            		Zip Code: ${user.profile.zip}
+            	</div>
+            	<div>
+            		Contact Number: ${user.profile.contactNumber}
+            	</div>
+            </div> <!-- eof content -->
 		</div> <!--eof innerWrap -->
 	</div>
 	<div id="footer">
@@ -185,21 +157,5 @@
         </div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		$(document).ready(function(e){
-			$.ajax({
-				url : "/sabongpro/services/streamUrl",
-				/*url : /sabongpro/services/streamUrl",*/
-				type : "GET",
-				success : function(response) {
-					var streamUrl = "//" + response.streamUrl;
-					$('iframe#embededFrame').attr('src',streamUrl);
-				},
-				error : function(xhr) {
-					alert("Error Code: "+xhr.status);
-				}
-			});
-		});
-	</script>
 	</body>
 </html>

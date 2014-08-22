@@ -47,7 +47,7 @@ public class User implements Serializable {
 	private UserRole userRole;
 	
 	@OneToOne(mappedBy="user")
-	private UserProfile userProfile;
+	private UserProfile profile;
 	
 	public Long getId() {
 		return id;
@@ -111,5 +111,13 @@ public class User implements Serializable {
 	
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
+	}
+
+	public UserProfile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(UserProfile profile) {
+		this.profile = profile;
 	}
 }

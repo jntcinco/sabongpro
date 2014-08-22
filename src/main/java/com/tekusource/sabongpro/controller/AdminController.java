@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.constants.ServiceConstants;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.StreamingStatusType;
@@ -55,7 +56,7 @@ public class AdminController extends AbstractController {
 	@Override
 	@RequestMapping(value="/management", method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
-		viewName = "signin";
+		viewName = "login";
 		User user = (User) httpSession.getAttribute("userSession");
 		if(isValidUser(user)){
 			viewName = "adminManagement";
@@ -70,7 +71,7 @@ public class AdminController extends AbstractController {
 	public ModelAndView searchUser(HttpServletRequest request, ModelMap model){
 		try{
 			String searchKey = request.getParameter("search");
-			List<User> users = userService.getUsersBy(searchKey, userService.EMAIL);
+			List<User> users = userService.getUsersBy(searchKey, ServiceConstants.EMAIL);
 			if(users == null)
 				users = new ArrayList<User>();
 			model.put("users", users);
@@ -101,7 +102,7 @@ public class AdminController extends AbstractController {
 
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
 	public ModelAndView userManagement(HttpSession httpSession, ModelMap model) {
-		viewName = "signin";
+		viewName = "login";
 		try {
 			User user = (User) httpSession.getAttribute("userSession");
 			if(isValidUser(user)){
@@ -126,7 +127,7 @@ public class AdminController extends AbstractController {
 			viewName = "streamingConfig";
 		} else {
 			model.addAttribute("userSession", new User());
-			viewName = "signin";
+			viewName = "login";
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -179,7 +180,7 @@ public class AdminController extends AbstractController {
 			viewName = "updateStreamingConfig";
 		} else {
 			model.addAttribute("userSession", new User());
-			viewName = "signin";
+			viewName = "login";
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -192,7 +193,7 @@ public class AdminController extends AbstractController {
 			viewName = "streamingConfigManagement";
 		} else {
 			model.addAttribute("userSession", new User());
-			viewName = "signin";
+			viewName = "login";
 		}
 		return new ModelAndView(viewName, model);
 	}

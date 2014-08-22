@@ -7,8 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.model.User;
 
-public abstract class AbstractController {
 
+public abstract class AbstractController {
 	protected String viewName;
 	
 	public User userSession;

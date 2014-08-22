@@ -39,17 +39,16 @@
 		<div id="headerwide">
 			<div id="header">
         		<div id="logo">
-					<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro">
+					<a href="<c:url value='/'/>" title="Sabong Pro">
 						<img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" />
 					</a>
 				</div>
 				<div id="mainMenu">
     				<ul>
-        				<li><a href="<c:url value='/sabongpro/guest/home'/>" id="menuhome">HOME</a></li>
-        				<li><a href="#" id="menuabout">ABOUT</a></li>
-        				<li><a href="#" id="menugames">SCHEDULE</a></li>
-        				<li><a href="#" id="menugallery">GALLERY</a></li>
-        				<li><a href="#" id="menucontact">CONTACT</a></li>
+        				<li><a href="<c:url value='/'/>" id="menuhome">HOME</a></li>
+        				<li><a href="<c:url value='/about'/>" id="menuabout">ABOUT</a></li>
+        				<li><a href="<c:url value='/schedule'/>" id="menugames">SCHEDULE</a></li>
+        				<li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li>
     				</ul>
 				</div>
     		</div>
@@ -59,7 +58,7 @@
             	<div class="statBlock textshadowWhite">
             		<div class="statRight">
                 		<ul>
-                			<li><a href="<c:url value='/sabongpro/admin/management'/>">Admin Panel</a></li>
+                			<li><a href="<c:url value='/admin/management'/>">Admin Panel</a></li>
                     		<li><a href="#">Messages</a></li>
                     		<li><a href="#">Notifications</a></li>
                     		<li><a href="#">Logout</a></li>
@@ -87,7 +86,7 @@
                     
                     			<c:forEach var="config" varStatus="loop" items="${configs}">
                     			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td><a href="<c:url value='/sabongpro/admin/streaming/config/update/prep?id=${config.id}'/>">${config.description}</a></td>
+                    				<td><a href="<c:url value='/admin/streaming/config/update/prep?id=${config.id}'/>">${config.description}</a></td>
                     				<td>${config.url}</td>
                     				<td>${config.status}</td>
                     			</tr>
@@ -102,15 +101,14 @@
 			<div id="innerfoot">
   				<div id="footleft">
         			<ul>
-            			<li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-            			<li><a href="#">ABOUT</a></li>
-            			<li><a href="#">SCHEDULES</a></li>
-            			<li><a href="#">GALLERY</a></li>
-            			<li><a href="#">CONTACT</a></li>
+            			<li><a href="<c:url value='/'/>">HOME</a></li>
+        				<li><a href="<c:url value='/about'/>">ABOUT</a></li>
+        				<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        				<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
         			</ul>
     			</div>
         		<div id="copyright">
-            		&copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+            		&copy; 2014 <a href="<c:url value='/'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         		</div>
 			</div>
 		</div>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +27,7 @@ import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
 
 @Controller
-@RequestMapping( value = "/" )
+@RequestMapping( value = "/authenticate" )
 public class LoginController extends AbstractController {
 
 	@Autowired
@@ -38,11 +39,13 @@ public class LoginController extends AbstractController {
 	@Autowired
 	private StreamingConfigService streamingConfigService;
 	
+	private static final Logger logger = Logger.getLogger(LoginController.class);
+	
 	@Override
 	@RequestMapping(method = RequestMethod.GET )
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
 		model.addAttribute("userSession", new User());
-		return new ModelAndView("signin", model);
+		return new ModelAndView("login", model);
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
@@ -51,15 +54,15 @@ public class LoginController extends AbstractController {
 			httpSession.invalidate();
 			model.addAttribute("userSession", new User());
 		}
-		return new ModelAndView("signin");
+		return new ModelAndView("login").addObject("notificationMessage", "You have been log out.");
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ModelAndView login(HttpSession httpSession, @ModelAttribute("userSession") User userSession, BindingResult result) {
+	public ModelAndView authenticate(HttpSession httpSession, @ModelAttribute("userSession") User userSession, BindingResult result) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		try{
-			viewName = "signin";
+			viewName = "login";
 			User user = userService.getUserByUserName(userSession.getUserName());
 			if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
 				model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
@@ -71,7 +74,7 @@ public class LoginController extends AbstractController {
 					if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())) {
 						viewName = "adminManagement";
 					}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
-						viewName = "livestreaming";
+						viewName = "profile";
 						
 						List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(StreamingStatusType.SHOWING.getDescription());
 				        if (!configs.isEmpty()) {
@@ -79,13 +82,14 @@ public class LoginController extends AbstractController {
 				        }
 					}
 					UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-					model.put("isStreamAllowed", profile.isStreamAllowed());
+					model.put("profile", profile);
+					httpSession.setAttribute("profileSession", profile);
 				}else{
 					model.put("notificationMessage", "Invalid username/password. Please try again.");
 				}
 			}
 		}catch(Exception e){
-			System.err.println(e);
+			logger.error("Error getting user credentials for user: " + userSession.getUserName(), e);
 		}
 		return new ModelAndView(viewName, model);
 	}

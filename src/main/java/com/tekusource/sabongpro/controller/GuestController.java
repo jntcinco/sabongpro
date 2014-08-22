@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,8 +23,6 @@ import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
-import com.tekusource.sabongpro.model.StreamingConfig;
-import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.model.UserRole;
@@ -31,14 +30,14 @@ import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
+import com.tekusource.sabongpro.util.CommonUtil;
+import com.tekusource.sabongpro.validator.EditProfileValidator;
 import com.tekusource.sabongpro.validator.RegisterValidator;
 
 @Controller
 @RequestMapping(value="/guest")
 public class GuestController extends AbstractController {
 	
-	private static final String USER_VERIFICATION_URL = "http://localhost:8080/sabongpro/sabongpro/guest/verification";
-
 	@Autowired
 	private UserService userService;
 	
@@ -53,12 +52,24 @@ public class GuestController extends AbstractController {
 	
 	@Autowired
 	private StreamingConfigService streamingConfigService;
+	
+	private static final Logger logger = Logger.getLogger(GuestController.class);
 
-	@Override
-	@RequestMapping(value="/home", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
-		// TODO:
-		return new ModelAndView("home", model);
+		if(isUserSessionValid(httpSession)){
+			User user = new User();
+			if(httpSession.getAttribute("userSession")!= null)
+				user = (User)httpSession.getAttribute("userSession");
+			
+			model.addAttribute("user", user);
+			viewName = "profile";
+		}else{
+			model.addAttribute("userSession", new User());
+			viewName = "login";
+		}
+		
+		return new ModelAndView(viewName, model);
 	}
 	
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
@@ -69,55 +80,155 @@ public class GuestController extends AbstractController {
 	        viewName = "livestreaming";
 		} else {
 			model.addAttribute("userSession", new User());
-			viewName = "signin";
+			viewName = "login";
 		}
 		return new ModelAndView(viewName, model);
-	}
-
-	@RequestMapping(value="/register", method = RequestMethod.GET)
-	public ModelAndView register(HttpSession httpSession, ModelMap model) {
-		model.addAttribute("user", new User());
-		return new ModelAndView("register", model);
-	}
-	
-	@RequestMapping(value="/about", method = RequestMethod.GET)
-	public ModelAndView about(HttpSession httpSession, ModelMap model) {
-		// TODO:
-		return new ModelAndView("about", model);
-	}
-	
-	@RequestMapping(value="/contact", method = RequestMethod.GET)
-	public ModelAndView contact(HttpSession httpSession, ModelMap model) {
-		// TODO:
-		return new ModelAndView("contact", model);
-	}
-	
-	@RequestMapping(value="/schedule", method = RequestMethod.GET)
-	public ModelAndView schedule(HttpSession httpSession, ModelMap model) {
-		// TODO:
-		return new ModelAndView("schedule", model);
-	}
-	
-	@RequestMapping(value="/gallery", method = RequestMethod.GET)
-	public ModelAndView gallery(HttpSession httpSession, ModelMap model) {
-		// TODO:
-		return new ModelAndView("gallery", model);
 	}
 	
 	@RequestMapping(value="/verification", method=RequestMethod.GET)
 	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
-		viewName = "signin";
+		viewName = "login";
 		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_1);
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_CAN_LOGIN);
 		} else {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_2);
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_NOT_VERIFIED);
 		}
 		model.addAttribute("userSession", new User());
 		return new ModelAndView(viewName, model);
 	}
 	
+	@RequestMapping(value="/profileform", method=RequestMethod.GET)
+	public ModelAndView profileForm(HttpSession httpSession, ModelMap model){
+		if(isUserSessionValid(httpSession)){
+			User user = new User();
+			UserProfile profile = new UserProfile();
+			if(httpSession.getAttribute("userSession")!= null){
+				user = (User)httpSession.getAttribute("userSession");
+				profile = user.getProfile();
+			}
+			model.addAttribute("user", user);
+			model.addAttribute("profile", profile);
+			viewName = "editprofile";
+		}else{
+			model.addAttribute("userSession", new User());
+			viewName = "login";
+		}
+		return new ModelAndView(viewName, model);
+	}
+	
+	@RequestMapping(value="/editprofile", method=RequestMethod.POST)
+	public ModelAndView editProfile(HttpSession session, @ModelAttribute("profile") UserProfile profile, BindingResult results){
+		Map<String,Object> model = new HashMap<String,Object>();
+		
+		if(isUserSessionValid(session)){
+			EditProfileValidator validator = new EditProfileValidator();
+			validator.validate(profile, results);
+			viewName = "editprofile";
+
+			if(!results.hasErrors()){
+				try{
+					User user = (User) session.getAttribute("userSession");
+					UserProfile up = user.getProfile();
+
+					up.setFirstName(profile.getFirstName());
+					up.setMiddleName(profile.getMiddleName());
+					up.setLastName(profile.getLastName());
+					up.setStreet(profile.getStreet());
+					up.setCity(profile.getCity());
+					up.setZip(profile.getZip());
+					up.setContactNumber(profile.getContactNumber());
+
+					userProfileService.update(up);
+					model.put("notificationMessage", "Your profile is successfully updated.");
+
+					//update user session copy
+					user.setProfile(up);
+					session.setAttribute("userSession", user);
+				}catch(Exception e){
+					logger.error("Error updating profile.", e);
+				}
+			}
+		}else{
+			model.put("userSession", new User());
+			viewName = "login";
+		}
+		return new ModelAndView(viewName, model);
+	}
+	
+	@RequestMapping(value="/account", method=RequestMethod.GET)
+	public ModelAndView viewAccount(HttpSession session, ModelMap model){
+		viewName = "account";
+		if(isUserSessionValid(session)){
+			User user = (User) session.getAttribute("userSession");
+			model.addAttribute("user", user);
+		}else{
+			model.addAttribute("userSession", new User());
+		}
+		return new ModelAndView(viewName, model);
+	}
+	
+	@RequestMapping(value="/changepassword", method=RequestMethod.POST)
+	public ModelAndView changePassword(HttpServletRequest request, HttpSession session){
+		Map<String,Object> messages = new HashMap<String,Object>();
+		viewName = "account";
+		
+		if(isUserSessionValid(session)){
+			User user = (User) session.getAttribute("userSession");
+
+			messages = getPasswordErrors(request, user);
+			if(messages.isEmpty()){
+				try{
+					String newPassword = request.getParameter("newPassword");
+
+					user.setPassword(userService.encryptPassword(newPassword));
+					userService.update(user);
+
+					//update session copy
+					session.setAttribute("userSession", user);
+
+					messages.put("notificationMessage", "Your password is successfully updated.");
+				}catch(Exception e){
+					messages.put("notificationMessage", "Error updating your password.");
+				}
+			}
+		}else{
+			messages.put("userSession", new User());
+			viewName = "login";
+		}
+		return new ModelAndView(viewName, messages);
+		
+	}
+	
+	private Map<String,Object> getPasswordErrors(HttpServletRequest request, User user){
+		Map<String,Object> errors = new HashMap<String,Object>();
+		
+		String currentPassword = request.getParameter("currentPassword");
+		String newPassword = request.getParameter("newPassword");
+		String confirmNewPassword = request.getParameter("confirmNewPassword");
+		
+		if(CommonUtil.isBlankOrNull(currentPassword)){
+			errors.put("currentPasswordError","Current password must not empty.\n");
+		}
+		if(CommonUtil.isBlankOrNull(newPassword)){
+			errors.put("newPasswordError","New password must not empty.\n");
+		}
+		if(CommonUtil.isBlankOrNull(confirmNewPassword)){
+			errors.put("confirmNewPasswordError","Confirm new password must not empty.\n");
+		}
+		if(!CommonUtil.isBlankOrNull(newPassword)){
+			if(!currentPassword.equals(userService.decryptPassword(user.getPassword()))){
+				errors.put("notificationMessage","Invalid current password. Please try again.\n");
+			}else{
+				if(!newPassword.equals(confirmNewPassword)){
+					errors.put("notificationMessage","Confirm and new passwords do not match.\n");
+				}
+			}
+		}
+		return errors;
+	}
+	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public ModelAndView register(HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
+	public ModelAndView register(HttpServletRequest request, HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
 		Map<String, String> registerMessages = new HashMap<String, String>();
 		RegisterValidator registerValidator = new RegisterValidator();
 		registerValidator.validate(user, results);
@@ -143,30 +254,50 @@ public class GuestController extends AbstractController {
 					profile.setStreamAllowed(false);;
 					userProfileService.save(profile);
 					
-					sendEmailNotification(user.getEmail(), user.getUserName(), userToken);
+					sendEmailNotification(getVerificationUrl(request), user.getEmail(), user.getUserName(), userToken);
 					registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
-					registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION);
+					registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION_REGISTERED);
 				}catch(Exception e){
-					System.err.println(e);
+					logger.error("Error registering user.", e);
 				}
 			}
 		}
 		return new ModelAndView(viewName, registerMessages);
 	}
 	
-	private void sendEmailNotification(String email, String username, String userToken) {
-		StringBuilder url = new StringBuilder();
-		url.append(USER_VERIFICATION_URL).append("?userToken=").append(userToken).append("&username=").append(username);
+	private String getVerificationUrl(HttpServletRequest request){
+		StringBuilder urlBuilder = new StringBuilder("http://");
 		
-		String message = "Dear " + username + ",<br/><br/>" + SabongProConstants.MAIL_BODY_PART + 
-						 SabongProConstants.MAIL_BODY_PART1 + SabongProConstants.MAIL_BODY_PART2 +
-						 SabongProConstants.MAIL_BODY_PART3 + 
-						 "<a href=\"" + url.toString() + "\">" + url.toString() + "</a><br/><br/>" +
-						 SabongProConstants.MAIL_BODY_PART6 + SabongProConstants.MAIL_BODY_PART7 + 
-						 SabongProConstants.MAIL_BODY_PART8 + SabongProConstants.MAIL_BODY_PART9 + SabongProConstants.MAIL_BODY_PART10;
+		if(request.getServerPort() != 80)
+			urlBuilder.append(request.getServerName()).append(":").append(request.getServerPort());
+		else
+			urlBuilder.append(request.getServerName());
+		urlBuilder.append("/sabongpro/guest/verification");
+		
+		return urlBuilder.toString();
+	}
+	
+	private void sendEmailNotification(String uri, String email, String username, String userToken) {
+		StringBuilder url = new StringBuilder();
+		url.append(uri).append("?userToken=").append(userToken).append("&username=").append(username);
+		
+		String message = composeEmailMessage(url.toString(), username);
+		
         List<String> recipients = new ArrayList<String>();
         recipients.add(email);
         
         emailNotificationService.sendEmailNotification(recipients, message, SabongProConstants.MAIL_SUBJECT, SabongProConstants.MAIL_USERNAME);
+	}
+	
+	private String composeEmailMessage(String url, String userName){
+		StringBuilder message = new StringBuilder("Dear ");
+		message.append(userName).append(",<br/><br/>").append(SabongProConstants.MAIL_BODY_PART);
+		message.append("<a href=\"").append(url).append("\">").append(url).append("</a><br/><br/>");
+		message.append(SabongProConstants.MAIL_SENDER);
+		message.append(SabongProConstants.MAIL_FOOTER_SEPARATOR);
+		message.append(SabongProConstants.MAIL_FOOTER_NOTE);
+		message.append(SabongProConstants.MAIL_FOOTER_SEPARATOR);
+		
+		return message.toString();
 	}
 }

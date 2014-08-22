@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tekusource.sabongpro.constants.ServiceConstants;
 import com.tekusource.sabongpro.dao.UserDao;
 import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.User;
@@ -52,17 +53,17 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public User getUserByUserName(String value) {
-		return (User) userDao.getBy(USER_NAME, value);
+		return (User) userDao.getBy(ServiceConstants.USER_NAME, value);
 	}
 	
 	public User getUserBy( Map<String, Object> values) {
 		Map<String, Boolean> orders = new HashMap<String, Boolean>();
-		orders.put(USER_NAME, true);
+		orders.put(ServiceConstants.USER_NAME, true);
 		return (User) userDao.getBy(values, orders);
 	}
 	
 	public User getUserBy(String email){
-		return (User) userDao.getBy(EMAIL, email);
+		return (User) userDao.getBy(ServiceConstants.EMAIL, email);
 	}
 	
 	public List<User> getAllUser() {
@@ -119,12 +120,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public String createUserToken(User user) {
-		return encryptString(user.getEmail() + ":" + user.getPassword() + ":" + user.getUserName());
+		return encryptString(new StringBuilder(user.getEmail()).append(":").append(user.getUserName()).toString());
 	}
 	
 	public String encryptString(String value) {
-		String encryptedString = new String(Base64.encodeBase64(value.getBytes()));
-		return encryptedString;
+		return new String(Base64.encodeBase64(value.getBytes()));
+	}
+	
+	public String decryptString(String value) {
+		return  new String(Base64.decodeBase64(value));
 	}
 	
 	public String encryptPassword(String value) {
@@ -135,8 +139,5 @@ public class UserServiceImpl implements UserService {
 		return passwordEncryptor.decrypt(value);
 	}
 	
-	public String decryptString(String value) {
-		String decryptedString = new String(Base64.decodeBase64(value));
-		return decryptedString;
-	}
+
 }
