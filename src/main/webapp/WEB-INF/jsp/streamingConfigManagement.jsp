@@ -5,27 +5,17 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Sabong Pro</title>
-		<meta name="designer" content="Rene San Lorenzo"/> 
-		<meta name="developer" content="Jose Noel Cinco, Harold Siasat"/>
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="<c:url value='/js/jquery-1.7.1.min.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('#logo').addClass('animated wobble');
-				$('#colLeft').addClass('animated fadeIn');
-				$('#colRight').addClass('animated fadeIn');
-				//$('#colMid').addClass('animated bounceInUp');
-				$('#bub1').addClass('animated flipInX');
-				$('#bub2').addClass('animated flipInY');
-				$('#bub3').addClass('animated flipInX');
-			});
-		</script>
-
+		<link rel="stylesheet" type="text/css" href="<c:url value='/plugins/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css'/>" />
+		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 		<!-- Input hints on textboxes -->
 		<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
 		<script type="text/javascript">
@@ -86,10 +76,34 @@
                     
                     			<c:forEach var="config" varStatus="loop" items="${configs}">
                     			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td><a href="<c:url value='/admin/streaming/config/update/prep?id=${config.id}'/>">${config.description}</a></td>
+                    				<td><a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});">${config.description}</a></td>
                     				<td>${config.url}</td>
-                    				<td>${config.status}</td>
+                    				<td id="streamStatus${config.id}">
+                    					<c:choose>
+                    						<c:when test="${config.streamOnline}">Online</c:when>
+                    						<c:otherwise>Offline</c:otherwise>
+                    					</c:choose>
+                    				</td>
                     			</tr>
+                    			<!-- start popup dialog -->
+			  					<div id="updateStreamingStatusDialog" class="ui-dialog-titlebar ui-widget-header" title="Update streaming status dialog">
+            						<c:url var="url" value="/sabongpro/admin/streaming/config/update/prep?id=${config.id}" />
+									<form id="streamingActivationDialogForm" action="${url}" method="post">
+                    					<input type="hidden" name="configId" id="configId" value="${config.id}"/>
+										<span class="dark">Description: </span>
+                						<input type="text" name="description" id="description" value="" class="depth"/><br/>
+										<span class="dark">Live streaming url:</span>
+                						<input type="text" name="streamUrl" id="streamUrl" value="" class="depth"/><br/>
+										<input type="checkbox" id="streamStatus"/><span class="dark">Online</span>
+									</form>
+			  					</div>
+			  					<script type="text/javascript">
+									$(document).ready(function(){
+										sabongproWidgets.updateStreamingStatusDialog();
+										sabongproCommons.bolasScript();
+									});
+	  							</script>
+	  						<!-- end popup dialog -->
                     			</c:forEach>
               				</table>
               			</div>

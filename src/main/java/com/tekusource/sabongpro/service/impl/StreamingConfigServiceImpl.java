@@ -32,7 +32,7 @@ public class StreamingConfigServiceImpl implements StreamingConfigService {
 			if(updateConfig != null) {
 				updateConfig.setDescription(config.getDescription());
 				updateConfig.setUrl(config.getUrl());
-				updateConfig.setStatus(config.getStatus());
+				updateConfig.setStreamOnline(config.isStreamOnline());
 				updateConfig.setDateLastUpdated(Calendar.getInstance());
 				streamingConfigDao.update(updateConfig);
 			}
@@ -58,7 +58,7 @@ public class StreamingConfigServiceImpl implements StreamingConfigService {
 		return streamingConfigDao.getAll();
 	}
 	
-	public List<StreamingConfig> getStreamingConfigBy(String status) {
-		return streamingConfigDao.getStreamingConfigBy(status);
+	public List<StreamingConfig> getStreamingConfigBy(boolean isOnline) {
+		return streamingConfigDao.getStreamingConfigBy(isOnline);
 	}
 }

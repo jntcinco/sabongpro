@@ -1288,3 +1288,31 @@ p {
   background-image: -o-linear-gradient(top, #921511, #e4201b);
   background-image: linear-gradient(to bottom, #921511, #e4201b);
 }						{ background-color: #dce3e5; }
+
+/** jquery ui dialog **/
+.ui-widget,.ui-widget button {
+	font-size: 62.5%;
+}
+.ui-dialog,.ui-dialog-content {
+	background-color: #D2D2D2 !important;
+	background-position: left top;
+	background-repeat: repeat;
+	border: 4px solid #4A4A4A;
+	color: #E4DA34 !important;
+}
+.ui-dialog .ui-dialog-titlebar {
+	background-color: #4A4A4A;
+	background-image: none;
+	border: medium none;
+	height: 20px;
+	color: #3E87BC;
+	font-size: 11px;
+	padding-top: 12px;
+}
+.ui-dialog .ui-dialog-buttonpane {
+	background-color: #4A4A4A !important;
+	border: none;
+	border-radius: 6px;
+	font: 12px Arial, Helvetica;
+	font-size: 100%;
+}

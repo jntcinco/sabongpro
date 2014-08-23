@@ -75,8 +75,8 @@ public class GuestController extends AbstractController {
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
 		if(this.isUserSessionValid(httpSession)) {
-			UserProfile profile = userProfileService.getUserProfileByUserId(userSession.getId());
-			model.put("isStreamAllowed", profile.isStreamAllowed());
+			User user = (User) userService.getUserBy(userSession.getId());
+			model.put("isStreamAllowed", user.isStreamAllowed());
 	        viewName = "livestreaming";
 		} else {
 			model.addAttribute("userSession", new User());
@@ -243,6 +243,7 @@ public class GuestController extends AbstractController {
 					String encryptedPassword = userService.encryptPassword(user.getPassword());
 					user.setPassword(encryptedPassword);
 					user.setStatus(StatusType.INACTIVE.getDescription());
+					user.setStreamAllowed(false);
 					
 					UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
 					user.setUserToken(userToken);
@@ -251,7 +252,6 @@ public class GuestController extends AbstractController {
 					
 					UserProfile profile = new UserProfile();
 					profile.setUser(user);
-					profile.setStreamAllowed(false);;
 					userProfileService.save(profile);
 					
 					sendEmailNotification(getVerificationUrl(request), user.getEmail(), user.getUserName(), userToken);

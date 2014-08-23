@@ -2,7 +2,9 @@ package com.tekusource.sabongpro.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.constants.ServiceConstants;
@@ -83,21 +86,26 @@ public class AdminController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
-	public ModelAndView userAllowAccess(@RequestParam("userId") String id, ModelMap model){
-		try{
-			User user = (User) userService.getUserBy(Long.parseLong(id));
+	@ResponseBody
+	public Map<String, ? extends Object> userAllowAccess(@RequestParam("userId") Long userId, 
+														 @RequestParam("streamingAccess") Integer streamingAccess){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			User user = (User) userService.getUserBy(userId);
 			if(user != null) {
-				
-				UserProfile profile = (UserProfile) userProfileService.getUserProfileByUserId(Long.parseLong(id));
-				profile.setStreamAllowed(true);;
-				userProfileService.update(profile);
+				boolean activateStreaming = false;
+				if(streamingAccess == 1) {
+					activateStreaming = true;
+				}
+				user.setStreamAllowed(activateStreaming);
+				userService.update(user);
+				map.put("streamingAccess", user.isStreamAllowed());
+				map.put("message", "User profile sucessfully updated.");
 			}
-		}catch(Exception e){
-			System.err.println(e);
+		} catch(Exception e) {
+			map.put("message", "Error while updating user profile.");
 		}
-		List<User> users = userService.getAllUser();
-		model.put("users", users);
-		return new ModelAndView("userManagement", model);
+		return map;
 	}
 
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
@@ -141,7 +149,7 @@ public class AdminController extends AbstractController {
 		if(!results.hasErrors()) {
 			config.setDateCreated(Calendar.getInstance());
 			config.setDateLastUpdated(Calendar.getInstance());
-			config.setStatus(StreamingStatusType.COMING.getDescription());
+			config.setStreamOnline(false);
 			streamingConfigService.save(config);
 			model.addAttribute("notificationMessage", "Streaming config successfully saved.");
 			viewName = "streamingConfigManagement";
@@ -152,20 +160,29 @@ public class AdminController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST)
-	public ModelAndView updateStreamingConfig(HttpSession httpSession, @ModelAttribute("config") StreamingConfig config, 
-										      BindingResult results, ModelMap model) {
-		StreamingConfigValidator validator = new StreamingConfigValidator();
-		validator.validate(config, results);
-		
-		if(!results.hasErrors()) {
-			streamingConfigService.update(config);
-			model.put("configs", streamingConfigService.getAllStreamingConfigs());
-			model.addAttribute("notificationMessage", "Streaming config successfully updated.");
-			viewName = "streamingConfigManagement";
-		} else {
-			viewName = "updateStreamingConfig";
+	@ResponseBody
+	public Map<String, ? extends Object> updateStreamingConfig(@RequestParam("configId") Long configId, @RequestParam("description") String description, 
+															   @RequestParam("streamUrl") String streamUrl, @RequestParam("streamStatus") Integer streamStatus) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(configId);
+			if(config != null) {
+				boolean isStreamOnline = false;
+				config.setDescription(description);
+				config.setUrl(streamUrl);
+				if(streamStatus == 1) {
+					isStreamOnline = true;
+				}
+				config.setStreamOnline(isStreamOnline);
+				config.setDateLastUpdated(Calendar.getInstance());
+				streamingConfigService.update(config);
+				map.put("streamStatus", config.isStreamOnline());
+				map.put("message", "Streaming config successfully updated.");
+			}
+		} catch(Exception e) {
+			map.put("message", "Error while updating streaming details.");
 		}
-		return new ModelAndView(viewName, model);
+		return map;
 	}
 	
 	@RequestMapping(value="/streaming/config/update/prep", method = RequestMethod.GET)
