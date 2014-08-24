@@ -147,7 +147,7 @@
 							<ul>
 								<li><a href="<c:url value='/guest/livestreaming'/>">Watch live streaming</a></li>
 								<li><a href="<c:url value='/guest/profileform'/>">Edit Profile</a></li>
-								<li><a href="<c:url value='/guest/account'/>">Edit Password</a></li>
+								<li><a href="<c:url value='/guest/account'/>">Change Password</a></li>
 							</ul>
 						</div>
 					</div><!--eof userRight -->

@@ -19,12 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.StreamingConfig;
-import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
+import com.tekusource.sabongpro.validator.LoginValidator;
 
 @Controller
 @RequestMapping( value = "/authenticate" )
@@ -59,37 +59,40 @@ public class LoginController extends AbstractController {
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ModelAndView authenticate(HttpSession httpSession, @ModelAttribute("userSession") User userSession, BindingResult result) {
+		LoginValidator validator = new LoginValidator();
+		validator.validate(userSession, result);
 		Map<String, Object> model = new HashMap<String, Object>();
-		
-		try{
-			viewName = "login";
-			User user = userService.getUserByUserName(userSession.getUserName());
-			if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
-				model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
-			}else{
-				String password = userService.decryptPassword(user.getPassword());
-				if(password.equals(userSession.getPassword())){
-					model.put("user", user);
-					httpSession.setAttribute("userSession", user);
-					if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())) {
-						viewName = "adminManagement";
-					}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
-						viewName = "profile";
-						
-						List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
-				        if (!configs.isEmpty()) {
-				           	model.put("config", configs.get(0));
-				        }
-					}
-					UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-					model.put("profile", profile);
-					httpSession.setAttribute("profileSession", profile);
+		viewName = "login";
+		if(!result.hasErrors()){
+			try{
+				User user = userService.getUserByUserName(userSession.getUserName());
+				if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
+					model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
 				}else{
-					model.put("notificationMessage", "Invalid username/password. Please try again.");
+					String password = userService.decryptPassword(user.getPassword());
+					if(password.equals(userSession.getPassword())){
+						model.put("user", user);
+						httpSession.setAttribute("userSession", user);
+						if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())) {
+							viewName = "adminManagement";
+						}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
+							viewName = "profile";
+
+							List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
+							if (!configs.isEmpty()) {
+								model.put("config", configs.get(0));
+							}
+						}
+						UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
+						model.put("profile", profile);
+						httpSession.setAttribute("profileSession", profile);
+					}else{
+						model.put("notificationMessage", "Invalid username/password. Please try again.");
+					}
 				}
+			}catch(Exception e){
+				logger.error("Error getting user credentials for user: " + userSession.getUserName(), e);
 			}
-		}catch(Exception e){
-			logger.error("Error getting user credentials for user: " + userSession.getUserName(), e);
 		}
 		return new ModelAndView(viewName, model);
 	}
