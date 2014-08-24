@@ -93,9 +93,6 @@
         	<div class="statBlock textshadowWhite">
             	<div class="statRight">
                 	<ul>
-                		<li><a href="<c:url value='/guest/account'/>">Account</a></li>
-                    	<li><a href="#">Add Virtual Points</a></li>
-                    	<li><a href="#">FAQs</a></li>
                     	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 	</ul>
                 </div>

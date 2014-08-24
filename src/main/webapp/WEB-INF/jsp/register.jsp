@@ -25,6 +25,36 @@ $(document).ready(function() {
 	$('#bub1').addClass('animated flipInX');
 	$('#bub2').addClass('animated flipInY');
 	$('#bub3').addClass('animated flipInX');
+	
+	//password field
+	$('#password-clear').show();
+	$('#password-password').hide();
+	$('#confirm-password-clear').show();
+	$('#confirm-password-password').hide();
+
+	$('#password-clear').focus(function() {
+	    $('#password-clear').hide();
+	    $('#password-password').show();
+	    $('#password-password').focus();
+	});
+	$('#password-password').blur(function() {
+	    if($('#password-password').val() == '') {
+	        $('#password-clear').show();
+	        $('#password-password').hide();
+	    }
+	});
+	
+	$('#confirm-password-clear').focus(function(){
+		$('#confirm-password-clear').hide();
+	    $('#confirm-password-password').show();
+	    $('#confirm-password-password').focus();
+	});
+	$('#confirm-password-password').blur(function() {
+	    if($('#confirm-password-password').val() == '') {
+	        $('#confirm-password-clear').show();
+	        $('#confirm-password-password').hide();
+	    }
+	});
 });
 </script>
 
@@ -81,11 +111,13 @@ $(document).ready(function() {
                       	<div class="errorBlock margbtm10"><form:errors path="email" cssClass="error"/></div>
                   	</div>
                     <div class="formsingle">
-                   	  	<form:password path="password" class="mediuminput" title="Password"/>
+                    	<input id="password-clear" type="text" class="mediuminput" value="Password" autocomplete="off"/>
+                   	  	<form:password id="password-password" path="password" class="mediuminput" title="Password"/>
                         <div class="errorBlock margbtm10"><form:errors path="password" cssClass="error"/></div>
                     </div>
                   	<div class="formsingle">
-                   		<form:password path="confirmPassword" class="mediuminput" title="Confirm Password"/>
+                  		<input id="confirm-password-clear" type="text" class="mediuminput" value="Confirm Password" autocomplete="off"/>
+                   		<form:password id="confirm-password-password" path="confirmPassword" class="mediuminput" title="Confirm Password"/>
                       	<div class="errorBlock margbtm10"><form:errors path="confirmPassword" cssClass="error"/></div>
                   	</div>
                     <div class="formsingle">

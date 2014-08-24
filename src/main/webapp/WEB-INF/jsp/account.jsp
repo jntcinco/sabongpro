@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -20,13 +20,59 @@
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
 		<script type="text/javascript">
 			$(document).ready(function() {
-			$('#logo').addClass('animated lightSpeedIn');
-			$('#colLeft').addClass('animated fadeIn');
-			$('#colRight').addClass('animated fadeIn');
-			//$('#colMid').addClass('animated bounceInUp');
-			$('#bub1').addClass('animated flipInX');
-			$('#bub2').addClass('animated flipInY');
-			$('#bub3').addClass('animated flipInX');
+				$('#logo').addClass('animated lightSpeedIn');
+				$('#colLeft').addClass('animated fadeIn');
+				$('#colRight').addClass('animated fadeIn');
+				//$('#colMid').addClass('animated bounceInUp');
+				$('#bub1').addClass('animated flipInX');
+				$('#bub2').addClass('animated flipInY');
+				$('#bub3').addClass('animated flipInX');
+				
+				//password field
+				$('#current-password-clear').show();
+				$('#current-password-password').hide();
+				
+				$('#new-password-clear').show();
+				$('#new-password-password').hide();
+				
+				$('#confirm-new-password-clear').show();
+				$('#confirm-new-password-password').hide();
+	
+				$('#current-password-clear').focus(function() {
+				    $('#current-password-clear').hide();
+				    $('#current-password-password').show();
+				    $('#current-password-password').focus();
+				});
+				$('#current-password-password').blur(function() {
+				    if($('#current-password-password').val() == '') {
+				        $('#current-password-clear').show();
+				        $('#current-password-password').hide();
+				    }
+				});
+				
+				$('#new-password-clear').focus(function(){
+					$('#new-password-clear').hide();
+				    $('#new-password-password').show();
+				    $('#new-password-password').focus();
+				});
+				$('#new-password-password').blur(function() {
+				    if($('#new-password-password').val() == '') {
+				        $('#new-password-clear').show();
+				        $('#new-password-password').hide();
+				    }
+				});
+				
+				$('#confirm-new-password-clear').focus(function(){
+					$('#confirm-new-password-clear').hide();
+				    $('#confirm-new-password-password').show();
+				    $('#confirm-new-password-password').focus();
+				});
+				$('#confirm-new-password-password').blur(function() {
+				    if($('#confirm-new-password-password').val() == '') {
+				        $('#confirm-new-password-clear').show();
+				        $('#confirm-new-password-password').hide();
+				    }
+				});
 			});
 		</script>
 
@@ -50,7 +96,7 @@
         		<li><a href="<c:url value='/'/>" id="menuhome">HOME</a></li>
         		<li><a href="<c:url value='/about'/>" id="menuabout">ABOUT</a></li>
         		<li><a href="<c:url value='/schedule'/>" id="menugames">SCHEDULE</a></li>
-	        	<li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li> 
+	        	<li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li>
 	    	</ul>
 		</div>
     </div>
@@ -60,9 +106,6 @@
         	<div class="statBlock textshadowWhite">
             	<div class="statRight">
                 	<ul>
-                		<li><a href="<c:url value='/guest/account'/>">Account</a></li>
-                    	<li><a href="#">Add Virtual Points</a></li>
-                    	<li><a href="#">FAQs</a></li>
                     	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 	</ul>
                 </div>
@@ -75,43 +118,58 @@
                 			<li>Welcome ${user.userName}</li>
                 		</c:otherwise>
                 	</c:choose>
-                    <li><a href="<c:url value='/guest'/>">profile</a></li>
+                	<li><a href="<c:url value='/guest'/>">profile</a></li>
                 </ul>
             </div>
             <div id="content" class="margtop5 margbtm20">
-				<div class="crankupcol1">
-					<div class="crankupIcon margtop30">
-							<h1 class="center">CHANGE PASSWORD</h1>
-	                	<img src="<c:url value='/images/bfLock.png'/>" width="254" height="340" />
-					</div>
-				</div>
-				<div class="crankupcol2 margtop20">
-	            	<c:url var="profile" value="/guest/changepassword"/>
-					<form action="${profile}" method="post" class="centered">
+				<div id="userBlock">
+					<div class="userLeft">
+						<h3 class="dark textshadowWhite">Change Password</h3>
+						<div class="crankupcol2 margtop20">
+							<c:url var="profile" value="/guest/changepassword"/>
+					<form action="${profile}" method="post" class="margleft20">
 						<div class="errorBlock2 margbtm10">${notificationMessage}</div>
-						<div class="formsingle">
-							<input type="password" name="currentPassword"
+						<div class="formsingle margleft20">
+							<input id="current-password-clear" type="text" class="mediuminput" value="Current Password" autocomplete="off"/>
+							<input id="current-password-password" type="password" name="currentPassword"
 								id="currentPassword" class="mediuminput" title="Current Password" />
 							<div class="errorBlock margbtm10">${currentPasswordError}</div>
 						</div>
-						<div class="formsingle">
-							<input type="password" name="newPassword" id="newPassword"
+						<div class="formsingle margleft20">
+							<input id="new-password-clear" type="text" class="mediuminput" value="New Password" autocomplete="off"/>
+							<input id="new-password-password" type="password" name="newPassword" id="newPassword"
 								class="mediuminput" title="New Password" />
 							<div class="errorBlock margbtm10">${newPasswordError}</div>
 						</div>
-						<div class="formsingle">
-							<input type="password" name="confirmNewPassword"
+						<div class="formsingle margleft20">
+							<input id="confirm-new-password-clear" type="text" class="mediuminput" value="Confirm New Password" autocomplete="off"/>
+							<input id="confirm-new-password-password" type="password" name="confirmNewPassword"
 								id="confirmNewPassword" class="mediuminput"
 								title="Confirm New Password" />
 							<div class="errorBlock margbtm10">${confirmNewPasswordError}</div>
 						</div>
-						<div class="formsingle">
+						<div class="formsingle margleft20">
 							<input type="submit" class="large orange kool" value="Change"
 								title="Change Password" />
 						</div>
 					</form>
-	            </div>
-            </div> <!-- eof content -->
+						</div>
+					</div>
+					<!--eof userLeft -->
+					<div class="userRight">
+						<div class="blockhead">
+							<h5 class="dark textshadowWhite proj">Account Menu</h5>
+						</div>
+						<div class="sidecnt">
+							<ul>
+								<li><a href="<c:url value='/guest/livestreaming'/>">Watch live streaming</a></li>
+								<li><a href="<c:url value='/guest/profileform'/>">Edit Profile</a></li>
+								<li><a href="<c:url value='/guest/account'/>">Edit Password</a></li>
+							</ul>
+						</div>
+					</div><!--eof userRight -->
+				</div><!--eof userBlock -->
+			</div> <!-- eof content -->
 		</div> <!--eof innerWrap -->
 	</div>
 	<div id="footer">

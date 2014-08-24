@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -60,9 +60,6 @@
         	<div class="statBlock textshadowWhite">
             	<div class="statRight">
                 	<ul>
-                		<li><a href="<c:url value='/guest/account'/>">Account</a></li>
-                    	<li><a href="#">Add Virtual Points</a></li>
-                    	<li><a href="#">FAQs</a></li>
                     	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 	</ul>
                 </div>
@@ -75,54 +72,87 @@
                 			<li>Welcome ${user.userName}</li>
                 		</c:otherwise>
                 	</c:choose>
-                    <li><a href="<c:url value='/guest'/>">profile</a></li>
+                	<li><a href="<c:url value='/guest'/>">profile</a></li>
                 </ul>
             </div>
             <div id="content" class="margtop5 margbtm20">
-            	<div class="crankupcol1">
-	           	  <div class="crankupIcon margtop30">
-	               	<h1 class="center">EDIT PROFILE</h1>
-	                	<img src="<c:url value='/images/bf_signup.png'/>" width="254" height="340" />
-	              </div>
-	            </div>
-	            <div class="crankupcol2 margtop20">
-	            	<c:url var="profile" value="/guest/editprofile"/>
-					<form:form modelAttribute="profile" action="${profile}" method="post" class="centered">
-						<div class="errorBlock2 margbtm10">${notificationMessage}</div>
-						<div class="formsingle">
-	                   	  	<form:input path="firstName" class="mediuminput" title="First Name"/>
-	                        <div class="errorBlock margbtm10"><form:errors path="firstName" cssClass="error"/></div>
-	                    </div>
-	                    <div class="formsingle">
-	                   	  	<form:input path="middleName" class="mediuminput" title="Middle Name"/>
-	                        <div class="errorBlock margbtm10"><form:errors path="middleName" cssClass="error"/></div>
-	                    </div>
-	                    <div class="formsingle">
-	                   	  	<form:input path="lastName" class="mediuminput" title="Last Name"/>
-	                        <div class="errorBlock margbtm10"><form:errors path="lastName" cssClass="error"/></div>
-	                    </div>
-	                  	<div class="formsingle">
-	                   		<form:input path="street" class="mediuminput" title="Street Address"/>
-	                      	<div class="errorBlock margbtm10"><form:errors path="street" cssClass="error"/></div>
-	                  	</div>
-	                  	<div class="formsingle">
-	                  		<form:input path="city" class="mediuminput" title="City"/>
-	                  		<div class="errorBlock margbtm10"><form:errors path="city" cssClass="error"/></div>
-	                  	</div>
-	                    <div class="formsingle">
-	                   	  	<form:input path="zip" class="mediuminput" title="Zip Code"/>
-	                        <div class="errorBlock margbtm10"><form:errors path="zip" cssClass="error"/></div>
-	                    </div>
-	                  	<div class="formsingle">
-	                   		<form:input path="contactNumber" class="mediuminput" title="Contact Number"/>
-	                      	<div class="errorBlock margbtm10"><form:errors path="contactNumber" cssClass="error"/></div>
-	                  	</div>
-	                    <div class="formsingle">
-	                    	<input type="submit" class="large orange kool" value="Update" title="Update"/>    
-	                 	</div>
-					</form:form>
-	            </div>
-            </div> <!-- eof content -->
+				<div id="userBlock">
+					<div class="userLeft">
+						<h3 class="dark textshadowWhite">Edit Profile</h3>
+						<div class="crankupcol2 margtop20">
+							<c:url var="profile" value="/guest/editprofile" />
+							<form:form modelAttribute="profile" action="${profile}"
+								method="post" class="margleft20">
+								<div class="errorBlock2 margbtm10">${notificationMessage}</div>
+								<div class="formsingle margleft20">
+									<form:input path="firstName" class="smallinput"
+										title="First Name" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="firstName" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<form:input path="middleName" class="smallinput"
+										title="Middle Name" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="middleName" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<form:input path="lastName" class="smallinput"
+										title="Last Name" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="lastName" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<form:input path="street" class="smallinput"
+										title="Street Address" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="street" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<form:input path="city" class="smallinput" title="City" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="city" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<form:input path="zip" class="smallinput" title="Zip Code" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="zip" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<form:input path="contactNumber" class="smallinput"
+										title="Contact Number" />
+									<div class="errorBlock margbtm10">
+										<form:errors path="contactNumber" cssClass="error" />
+									</div>
+								</div>
+								<div class="formsingle margleft20">
+									<input type="submit" class="large orange kool" value="Update"
+										title="Update" />
+								</div>
+							</form:form>
+						</div>
+					</div>
+					<!--eof userLeft -->
+					<div class="userRight">
+						<div class="blockhead">
+							<h5 class="dark textshadowWhite proj">Account Menu</h5>
+						</div>
+						<div class="sidecnt">
+							<ul>
+								<li><a href="<c:url value='/guest/livestreaming'/>">Watch live streaming</a></li>
+								<li><a href="<c:url value='/guest/profileform'/>">Edit Profile</a></li>
+								<li><a href="<c:url value='/guest/account'/>">Edit Password</a></li>
+							</ul>
+						</div>
+					</div><!--eof userRight -->
+				</div><!--eof userBlock -->
+			</div> <!-- eof content -->
 		</div> <!--eof innerWrap -->
 	</div>
 	<div id="footer">

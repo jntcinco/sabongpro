@@ -36,41 +36,6 @@
     			$('#test-form-2 input[type=text]').inputHint({using: '+ kbd'});
   			});
 		</script>
-
-		<!-- Used for Fancybox popup -->
-		<script type="text/javascript" src="<c:url value='/fancybox/jquery.mousewheel-3.0.4.pack.js'/>"></script>
-		<script type="text/javascript" src="<c:url value='/fancybox/jquery.fancybox-1.3.4.pack.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/fancybox/jquery.fancybox-1.3.4.css'/>" media="screen" />
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$("a.fancythis").fancybox({
-					'overlayShow'	: true,
-					'transitionIn'	: 'elastic',
-					'transitionOut'	: 'elastic',
-					'overlayColor'  : '#000',
-					'overlayOpacity': 0.5
-				});
-
-				/* The following is used for grouped images if you like */
-				$("a[rel=group1]").fancybox({
-					'transitionIn'		: 'elastic',
-					'transitionOut'		: 'elastic',
-					'titlePosition' 	: 'outside',
-					'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
-						return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
-					}
-				});
-
-				$("a[rel=group2]").fancybox({
-					'transitionIn'		: 'elastic',
-					'transitionOut'		: 'elastic',
-					'titlePosition' 	: 'outside',
-					'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
-						return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
-					}
-				});
-			});
-		</script>
 	</head>
 	<body id="games" class="bguser">
 	<div id="headerwide">
@@ -93,9 +58,6 @@
         	<div class="statBlock textshadowWhite">
             	<div class="statRight">
                 	<ul>
-                		<li><a href="<c:url value='/guest/account'/>">Account</a></li>
-                    	<li><a href="#">Add Virtual Points</a></li>
-                    	<li><a href="#">FAQs</a></li>
                     	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 	</ul>
                 </div>
@@ -111,35 +73,46 @@
                 </ul>
             </div>
             <div id="content" class="margtop5 margbtm20">
-            	<div>
-            		<a href="<c:url value='/guest/livestreaming'/>">Watch Streaming</a>
-            	</div>
-            	<div>
-            		<a href="<c:url value='/guest/profileform'/>">Edit Profile</a>
-            	</div>
-            	<br/><br/>
-            	<div>
-            		First Name: ${user.profile.firstName}
-            	</div>
-            	<div>
-            		Middle Name: ${user.profile.middleName}
-            	</div>
-            	<div>
-            		Last Name: ${user.profile.lastName}
-            	</div>
-            	<div>
-            		Street Address: ${user.profile.street}
-            	</div>
-            	<div>
-            		City: ${user.profile.city}
-            	</div>
-            	<div>
-            		Zip Code: ${user.profile.zip}
-            	</div>
-            	<div>
-            		Contact Number: ${user.profile.contactNumber}
-            	</div>
-            </div> <!-- eof content -->
+				<div id="userBlock">
+					<div class="userLeft">
+						<h2 class="clampers textshadowWhite">${user.userName}</h2>
+						<div class="profilepic">
+							<img src="images/teban.jpg" width="60" height="86" />
+						</div>
+						<h3 class="dark textshadowWhite">Basic Information</h3>
+						<table class="tabler">
+							<tr>
+								<td>Name</td>
+								<td>${user.profile.firstName}&nbsp;${user.profile.middleName}&nbsp;${user.profile.lastName}</td>
+							</tr>
+							<tr>
+								<td>Address</td>
+								<td>${user.profile.street}</td>
+							</tr>
+							<tr>
+								<td>City</td>
+								<td>${user.profile.city}</td>
+							</tr>
+							<tr>
+								<td>Contact Number</td>
+								<td>${user.profile.contactNumber}</td>
+							</tr>
+						</table>
+					</div><!--eof userLeft -->
+					<div class="userRight">
+						<div class="blockhead">
+							<h5 class="dark textshadowWhite proj">Account Menu</h5>
+						</div>
+						<div class="sidecnt">
+							<ul>
+								<li><a href="<c:url value='/guest/livestreaming'/>">Watch live streaming</a></li>
+								<li><a href="<c:url value='/guest/profileform'/>">Edit Profile</a></li>
+								<li><a href="<c:url value='/guest/account'/>">Edit Password</a></li>
+							</ul>
+						</div>
+					</div><!--eof userRight -->
+				</div><!--eof userBlock -->
+			</div> <!-- eof content -->
 		</div> <!--eof innerWrap -->
 	</div>
 	<div id="footer">
