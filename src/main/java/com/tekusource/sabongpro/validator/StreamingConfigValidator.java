@@ -8,7 +8,7 @@ import com.tekusource.sabongpro.model.StreamingConfig;
 public class StreamingConfigValidator implements Validator{
 
 	@Override
-	public boolean supports(Class clazz) {
+	public boolean supports(Class<?> clazz) {
 		return StreamingConfig.class.equals(clazz);
 	}
 	

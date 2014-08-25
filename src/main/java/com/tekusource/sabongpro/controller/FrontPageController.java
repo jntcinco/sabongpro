@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.cache.control.CacheControl;
+import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
 import com.tekusource.sabongpro.model.User;
@@ -36,6 +38,7 @@ public class FrontPageController extends AbstractController {
 	private static final Logger logger = Logger.getLogger(FrontPageController.class);
 	
 	@Override
+	@CacheControl(maxAge=300)
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
 		model.addAttribute("userSession", new User());
@@ -66,11 +69,13 @@ public class FrontPageController extends AbstractController {
 		return new ModelAndView("schedule", model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/forgot", method = RequestMethod.GET)
 	public ModelAndView forgot(HttpSession httpSession, ModelMap model){
 		return new ModelAndView("forgot", model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/emailpwd", method = RequestMethod.POST)
 	public ModelAndView emailpassword(HttpServletRequest request){
 		Map<String,Object> messages = new HashMap<String,Object>();

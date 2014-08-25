@@ -7,7 +7,9 @@ import com.tekusource.sabongpro.email.notification.NotificationMessage;
 public class EmailNotificationMessage
     implements NotificationMessage
 {
-    private String from;
+	private static final long serialVersionUID = -763798938521193587L;
+
+	private String from;
 
     private String[] to;
 

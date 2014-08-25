@@ -80,24 +80,38 @@
 							<img src="images/teban.jpg" width="60" height="86" />
 						</div>
 						<h3 class="dark textshadowWhite">Basic Information</h3>
-						<table class="tabler">
-							<tr>
-								<td>Name</td>
-								<td>${user.profile.firstName}&nbsp;${user.profile.middleName}&nbsp;${user.profile.lastName}</td>
-							</tr>
-							<tr>
-								<td>Address</td>
-								<td>${user.profile.street}</td>
-							</tr>
-							<tr>
-								<td>City</td>
-								<td>${user.profile.city}</td>
-							</tr>
-							<tr>
-								<td>Contact Number</td>
-								<td>${user.profile.contactNumber}</td>
-							</tr>
-						</table>
+						<div class="margleft20">
+							<div id="leftColumn" style="float:left; width:200px;">
+								<div><h5 class="dark">Name</h5></div>
+								<div><h5 class="dark">Address</h5></div>
+								<div><h5 class="dark">City</h5></div>
+								<div><h5 class="dark">Contact Number</h5></div>
+							</div>
+							<div id="rightColumn" style="float:left; width:300px;">
+								<div>
+									<h5 class="dark">
+									${user.profile.firstName}&nbsp;${user.profile.middleName}&nbsp;${user.profile.lastName}
+									</h5>
+								</div>
+								<div>
+									<h5 class="dark">
+									${user.profile.street}
+									</h5>
+								</div>
+								<div>
+									<h5 class="dark">
+									${user.profile.city}
+									</h5>
+								</div>
+								<div>
+									<h5 class="dark">
+									${user.profile.contactNumber}
+									</h5>
+								</div>
+							</div>
+							<div style="clear:both"></div>
+						</div>
+						
 					</div><!--eof userLeft -->
 					<div class="userRight">
 						<div class="blockhead">

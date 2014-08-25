@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.cache.control.CacheControl;
+import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.StreamingConfig;
@@ -42,12 +44,14 @@ public class LoginController extends AbstractController {
 	private static final Logger logger = Logger.getLogger(LoginController.class);
 	
 	@Override
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(method = RequestMethod.GET )
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
 		model.addAttribute("userSession", new User());
 		return new ModelAndView("login", model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public ModelAndView signOut(HttpSession httpSession, ModelMap model) {
 		if(httpSession != null) {
@@ -57,6 +61,7 @@ public class LoginController extends AbstractController {
 		return new ModelAndView("login").addObject("notificationMessage", "You have been log out.");
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ModelAndView authenticate(HttpSession httpSession, @ModelAttribute("userSession") User userSession, BindingResult result) {
 		LoginValidator validator = new LoginValidator();

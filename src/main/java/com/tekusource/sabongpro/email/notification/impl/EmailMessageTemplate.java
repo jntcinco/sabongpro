@@ -13,7 +13,9 @@ import com.tekusource.sabongpro.email.notification.NotificationMessage;
 public class EmailMessageTemplate
     implements MessageTemplate
 {
-    private String from;
+	private static final long serialVersionUID = 732164704447071L;
+
+	private String from;
 
     private String[] to;
 
@@ -76,7 +78,8 @@ public class EmailMessageTemplate
         this.cc = cc;
     }
 
-    public NotificationMessage createMessageFromTemplate( Map<String, Object> modelMap )
+    @SuppressWarnings("deprecation")
+	public NotificationMessage createMessageFromTemplate( Map<String, Object> modelMap )
     {
         EmailNotificationMessage message = new EmailNotificationMessage();
         message.setFrom( getFrom() );

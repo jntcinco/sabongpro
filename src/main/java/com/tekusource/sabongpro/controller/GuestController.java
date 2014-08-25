@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.cache.control.CacheControl;
+import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
 import com.tekusource.sabongpro.model.RoleType;
@@ -55,6 +57,7 @@ public class GuestController extends AbstractController {
 	
 	private static final Logger logger = Logger.getLogger(GuestController.class);
 
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE }) 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
 		if(isUserSessionValid(httpSession)){
@@ -72,6 +75,7 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
 		if(this.isUserSessionValid(httpSession)) {
@@ -85,6 +89,7 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/verification", method=RequestMethod.GET)
 	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
 		viewName = "login";
@@ -97,6 +102,7 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE }) 
 	@RequestMapping(value="/profileform", method=RequestMethod.GET)
 	public ModelAndView profileForm(HttpSession httpSession, ModelMap model){
 		if(isUserSessionValid(httpSession)){
@@ -116,6 +122,7 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/editprofile", method=RequestMethod.POST)
 	public ModelAndView editProfile(HttpSession session, @ModelAttribute("profile") UserProfile profile, BindingResult results){
 		Map<String,Object> model = new HashMap<String,Object>();
@@ -155,6 +162,7 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE }) 
 	@RequestMapping(value="/account", method=RequestMethod.GET)
 	public ModelAndView viewAccount(HttpSession session, ModelMap model){
 		viewName = "account";
@@ -167,6 +175,7 @@ public class GuestController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/changepassword", method=RequestMethod.POST)
 	public ModelAndView changePassword(HttpServletRequest request, HttpSession session){
 		Map<String,Object> messages = new HashMap<String,Object>();
@@ -227,6 +236,7 @@ public class GuestController extends AbstractController {
 		return errors;
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView register(HttpServletRequest request, HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
 		Map<String, String> registerMessages = new HashMap<String, String>();

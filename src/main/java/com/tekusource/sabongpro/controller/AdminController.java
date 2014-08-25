@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.cache.control.CacheControl;
+import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.ServiceConstants;
 import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
-import com.tekusource.sabongpro.model.StreamingStatusType;
 import com.tekusource.sabongpro.model.User;
-import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
@@ -57,6 +57,7 @@ public class AdminController extends AbstractController {
 	}
 	
 	@Override
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/management", method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
 		viewName = "login";
@@ -70,6 +71,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/search", method=RequestMethod.POST)
 	public ModelAndView searchUser(HttpServletRequest request, ModelMap model){
 		try{
@@ -85,6 +87,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView("userManagement", model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, ? extends Object> userAllowAccess(@RequestParam("userId") Long userId, 
@@ -108,6 +111,7 @@ public class AdminController extends AbstractController {
 		return map;
 	}
 
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
 	public ModelAndView userManagement(HttpSession httpSession, ModelMap model) {
 		viewName = "login";
@@ -127,6 +131,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/streaming/config", method = RequestMethod.GET)
 	public ModelAndView streamingConfig(HttpSession httpSession, ModelMap model) {
 		User user = (User) httpSession.getAttribute("userSession");
@@ -140,6 +145,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/streaming/config/add", method = RequestMethod.POST)
 	public ModelAndView addStreamingConfig(HttpSession httpSession, @ModelAttribute("config") StreamingConfig config, 
 										   BindingResult results, ModelMap model) {
@@ -159,6 +165,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, ? extends Object> updateStreamingConfig(@RequestParam("configId") Long configId, @RequestParam("description") String description, 
@@ -185,6 +192,7 @@ public class AdminController extends AbstractController {
 		return map;
 	}
 	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/streaming/config/update/prep", method = RequestMethod.GET)
 	public ModelAndView prepUpdateStreamingConfig(HttpSession httpSession, @RequestParam("id") String id, ModelMap model) {
 		User user = (User) httpSession.getAttribute("userSession");
@@ -202,6 +210,7 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
 	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
 		User user = (User) httpSession.getAttribute("userSession");
