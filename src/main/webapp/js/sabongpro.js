@@ -1,32 +1,36 @@
+//Tool scripts for the superfly pages.
+// Use sabong variable instead using jQuery or sabong to avoid conflict.
+var sabong = jQuery.noConflict();
+
 // start bolas script
 function ShowDialog(modal) {
-	$("#overlay").show();
-	$("#dialog").fadeIn(300);
-	$("#overlay").unbind("click");
+	sabong("#overlay").show();
+	sabong("#dialog").fadeIn(300);
+	sabong("#overlay").unbind("click");
 }
 
 function HideDialog() {
-	$("#overlay").hide();
-	$("#dialog").fadeOut(300);
+	sabong("#overlay").hide();
+	sabong("#dialog").fadeOut(300);
 }
 
 var sabongproCommons = {
 	bolasScript : function() {
-		$('#logo').addClass('animated wobble');
-		$('#colLeft').addClass('animated fadeIn');
-		$('#colRight').addClass('animated fadeIn');
-		//$('#colMid').addClass('animated bounceInUp');
-		$('#bub1').addClass('animated flipInX');
-		$('#bub2').addClass('animated flipInY');
-		$('#bub3').addClass('animated flipInX');
+		sabong('#logo').addClass('animated wobble');
+		sabong('#colLeft').addClass('animated fadeIn');
+		sabong('#colRight').addClass('animated fadeIn');
+		//sabong('#colMid').addClass('animated bounceInUp');
+		sabong('#bub1').addClass('animated flipInX');
+		sabong('#bub2').addClass('animated flipInY');
+		sabong('#bub3').addClass('animated flipInX');
 
-		$('#search').bind('keypress', function(e) {
+		sabong('#search').bind('keypress', function(e) {
 			if (e.keyCode == 13) {
-				$("#searchForm").submit();
+				sabong("#searchForm").submit();
 			}
 		});
 
-		$("#btnClose").click(function(e) {
+		sabong("#btnClose").click(function(e) {
 			HideDialog();
 			e.preventDefault();
 		});
@@ -40,17 +44,16 @@ var configId;
 var streamingAccess;
 var sabongproAjax = {
 	activateStreamingAccess : function() {
-		$.ajax({
-			url : "/sabongpro/sabongpro/admin/user/allow/access",
-			/*url : /sabongpro/admin/user/allow/access",*/
+		sabong.ajax({
+			url : "/sabongpro/admin/user/allow/access",
 			type : "POST",
 			data : {userId : userId, streamingAccess : streamingAccess},
 			success : function(response) {
 				var columnId = "#streamingAccessColumn"+userId;
 				if(response.streamingAccess == 1) {
-					$(columnId).html("Activated");
+					sabong(columnId).html("Activated");
 				} else {
-					$(columnId).html("Deactivated");
+					sabong(columnId).html("Deactivated");
 				}
 				alert(response.message);
 			},
@@ -60,17 +63,16 @@ var sabongproAjax = {
 		});
 	},
 	updateStreamingStatus : function(description,streamUrl,streamStatus) {
-		$.ajax({
-			url : "/sabongpro/sabongpro/admin/streaming/config/update",
-			/*url : /sabongpro/streaming/config/update",*/
+		sabong.ajax({
+			url : "/sabongpro/streaming/config/update",
 			type : "POST",
 			data : {configId:configId, description:description, streamUrl:streamUrl, streamStatus:streamStatus},
 			success : function(response) {
 				var columnId = "#streamStatus"+configId;
 				if(response.streamStatus == 1) {
-					$(columnId).html("Online");
+					sabong(columnId).html("Online");
 				} else {
-					$(columnId).html("Offline");
+					sabong(columnId).html("Offline");
 				}
 				alert(response.message);
 			},
@@ -83,7 +85,7 @@ var sabongproAjax = {
 
 var sabongproWidgets = {
 	streamingActivationDialog : function() {
-		$("#streamingActivationDialog").dialog({
+		sabong("#streamingActivationDialog").dialog({
 			resizable: true,
 			autoOpen:false,
 			modal: true,
@@ -91,23 +93,23 @@ var sabongproWidgets = {
 			height:200,
 			buttons: {
 				'Activate': function() {
-					var isStreaming = $('#streamingAccess').prop('checked');
+					var isStreaming = sabong('#streamingAccess').prop('checked');
 					if(isStreaming) {
 						streamingAccess = 1;
 					} else {
 						streamingAccess = 0;
 					}
 					sabongproAjax.activateStreamingAccess();
-					$(this).dialog('close');
+					sabong(this).dialog('close');
 				},
 				'Cancel': function() {
-					$(this).dialog('close');
+					sabong(this).dialog('close');
 				}
 			}
 		});
 	},
 	updateStreamingStatusDialog : function() {
-		$("#updateStreamingStatusDialog").dialog({
+		sabong("#updateStreamingStatusDialog").dialog({
 			resizable: true,
 			autoOpen:false,
 			modal: true,
@@ -115,30 +117,30 @@ var sabongproWidgets = {
 			height:200,
 			buttons: {
 				'Activate': function() {
-					var description = $("#description").val();
-					var streamUrl = $("#streamUrl").val();
+					var description = sabong("#description").val();
+					var streamUrl = sabong("#streamUrl").val();
 					var streamStatus;
-					var isStreaming = $('#streamStatus').prop('checked');
+					var isStreaming = sabong('#streamStatus').prop('checked');
 					if(isStreaming) {
 						streamStatus = 1;
 					} else {
 						streamStatus = 0;
 					}
 					sabongproAjax.updateStreamingStatus(description,streamUrl,streamStatus);
-					$(this).dialog('close');
+					sabong(this).dialog('close');
 				},
 				'Cancel': function() {
-					$(this).dialog('close');
+					sabong(this).dialog('close');
 				}
 			}
 		});
 	},
 	showstreamingActivationDialogForm : function(id) {
 		userId = id;
-		$('#streamingActivationDialog').dialog('open');
+		sabong('#streamingActivationDialog').dialog('open');
 	},
 	showUpdateStreamingStatusDialogForm : function(id) {
 		configId = id;
-		$('#updateStreamingStatusDialog').dialog('open');
+		sabong('#updateStreamingStatusDialog').dialog('open');
 	}
 }

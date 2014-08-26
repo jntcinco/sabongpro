@@ -111,7 +111,7 @@ public class AdminController extends AbstractController {
 		return map;
 	}
 
-	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
+//	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
 	public ModelAndView userManagement(HttpSession httpSession, ModelMap model) {
 		viewName = "login";

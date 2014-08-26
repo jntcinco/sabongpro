@@ -6,8 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Sabong Pro</title>
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-
-		<script type="text/javascript" src="<c:url value='/js/jquery-1.7.1.min.js'/>"></script>
+		
 		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
@@ -16,14 +15,7 @@
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/plugins/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css'/>" />
 		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
-		<!-- Input hints on textboxes -->
-		<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
-		<script type="text/javascript">
-  			$(function() {
-    			$('[title]').inputHint();
-    			$('#test-form-2 input[type=text]').inputHint({using: '+ kbd'});
-  			});
-		</script>
+
 	</head>
 	<body id="home" class="bguser">
 		<div id="headerwide">
@@ -98,7 +90,7 @@
 									</form>
 			  					</div>
 			  					<script type="text/javascript">
-									$(document).ready(function(){
+									jQuery(document).ready(function(){
 										sabongproWidgets.updateStreamingStatusDialog();
 										sabongproCommons.bolasScript();
 									});
