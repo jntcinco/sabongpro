@@ -34,7 +34,7 @@
 		<div id="headerwide">
 			<div id="header">
         		<div id="logo">
-					<a href="<c:url value='/sabongpro/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
+					<a href="<c:url value='/guest/home'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 				</div>
 				<div id="mainMenu">
     				<ul>
@@ -51,10 +51,10 @@
             	<div class="statBlock textshadowWhite">
             		<div class="statRight">
                 		<ul>
-                			<li><a href="<c:url value='/sabongpro/admin/management'/>">Admin Panel</a></li>
+                			<li><a href="<c:url value='/admin/management'/>">Admin Panel</a></li>
                     		<li><a href="#">Messages</a></li>
                     		<li><a href="#">Notifications</a></li>
-                    		<li><a href='<c:url value="/sabongpro/logout"/>'>Logout</a></li>
+                    		<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 		</ul>
                 	</div>
                 	<ul>
@@ -92,7 +92,7 @@
                     			</tr>
               					<!-- start popup dialog -->
 			  					<div id="streamingActivationDialog" class="ui-dialog-titlebar ui-widget-header" title="User Activation Dialog">
-            						<c:url var="grantAccess" value="/sabongpro/admin/user/allow/access" />
+            						<c:url var="grantAccess" value="/admin/user/allow/access" />
 									<form id="streamingActivationDialogForm" action="${grantAccess}" method="post">
                     					<input type="hidden" name="userId" id="userId" value="${user.id}"/>
 										<span class="dark">Enter Virtual Points: </span>
@@ -119,15 +119,14 @@
 			<div id="innerfoot">
   				<div id="footleft">
         			<ul>
-            			<li><a href="<c:url value='/sabongpro/guest/home'/>">HOME</a></li>
-            			<li><a href="#">ABOUT</a></li>
-            			<li><a href="#">SCHEDULES</a></li>
-            			<li><a href="#">GALLERY</a></li>
-            			<li><a href="#">CONTACT</a></li>
+            			<li><a href="<c:url value='/'/>">HOME</a></li>
+        				<li><a href="<c:url value='/about'/>">ABOUT</a></li>
+        				<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        				<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
         			</ul>
     			</div>
         		<div id="copyright">
-            		&copy; 2014 <a href="<c:url value='/sabongpro/guest/home'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+            		&copy; 2014 <a href="<c:url value='/'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
         		</div>
 			</div>
 		</div>

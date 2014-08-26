@@ -7,13 +7,13 @@
 		<title>Sabong Pro</title>
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		
-		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'/>"></script>
-		<script type="text/javascript" src="<c:url value='/plugins/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-1.10.2.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-ui-1.10.4.custom.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/plugins/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css'/>" />
+		<link rel="stylesheet" type="text/css" href="<c:url value='/css/plugins/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css'/>" />
 		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
 	</head>
@@ -79,7 +79,7 @@
                     			</tr>
                     			<!-- start popup dialog -->
 			  					<div id="updateStreamingStatusDialog" class="ui-dialog-titlebar ui-widget-header" title="Update streaming status dialog">
-            						<c:url var="url" value="/sabongpro/admin/streaming/config/update/prep?id=${config.id}" />
+            						<c:url var="url" value="/admin/streaming/config/update/prep?id=${config.id}" />
 									<form id="streamingActivationDialogForm" action="${url}" method="post">
                     					<input type="hidden" name="configId" id="configId" value="${config.id}"/>
 										<span class="dark">Description: </span>
@@ -90,7 +90,7 @@
 									</form>
 			  					</div>
 			  					<script type="text/javascript">
-									jQuery(document).ready(function(){
+			  						sabong(document).ready(function(){
 										sabongproWidgets.updateStreamingStatusDialog();
 										sabongproCommons.bolasScript();
 									});

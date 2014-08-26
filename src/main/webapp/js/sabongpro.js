@@ -64,7 +64,7 @@ var sabongproAjax = {
 	},
 	updateStreamingStatus : function(description,streamUrl,streamStatus) {
 		sabong.ajax({
-			url : "/sabongpro/streaming/config/update",
+			url : "/sabongpro/admin/streaming/config/update",
 			type : "POST",
 			data : {configId:configId, description:description, streamUrl:streamUrl, streamStatus:streamStatus},
 			success : function(response) {
