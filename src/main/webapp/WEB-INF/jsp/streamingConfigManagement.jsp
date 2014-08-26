@@ -68,8 +68,8 @@
                     
                     			<c:forEach var="config" varStatus="loop" items="${configs}">
                     			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td><a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});">${config.description}</a></td>
-                    				<td>${config.url}</td>
+                    				<td id="description${config.id}"><a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});">${config.description}</a></td>
+                    				<td id="streamUrl${config.id}">${config.url}</td>
                     				<td id="streamStatus${config.id}">
                     					<c:choose>
                     						<c:when test="${config.streamOnline}">Online</c:when>

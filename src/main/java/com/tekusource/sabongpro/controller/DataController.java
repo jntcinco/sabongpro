@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tekusource.sabongpro.model.StreamingConfig;
@@ -33,5 +34,15 @@ public class DataController {
 			}
         }
 		return Collections.singletonMap("streamUrl", streamUrl);
+	}
+	
+	@RequestMapping(value="/getStreamDetails", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, ? extends Object> getStreamDetails(@RequestParam("configId") Long configId ) {
+		StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(configId);
+		if(config == null) {
+			config = new StreamingConfig();
+		}
+		return Collections.singletonMap("config", config);
 	}
 }

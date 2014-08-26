@@ -68,13 +68,37 @@ var sabongproAjax = {
 			type : "POST",
 			data : {configId:configId, description:description, streamUrl:streamUrl, streamStatus:streamStatus},
 			success : function(response) {
+				var config = response.config;
 				var columnId = "#streamStatus"+configId;
-				if(response.streamStatus == 1) {
+				var descriptionVal = '<a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});">'+config.description+'</a>';
+				sabong("#description"+configId).html(descriptionVal);
+				sabong("#streamUrl"+configId).html(config.url);
+				if(config.streamOnline) {
 					sabong(columnId).html("Online");
 				} else {
 					sabong(columnId).html("Offline");
 				}
 				alert(response.message);
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
+	},
+	getStreamDetails : function() {
+		sabong.ajax({
+			url : "/sabongpro/services/getStreamDetails",
+			data : {configId : configId},
+			type : "GET",
+			success : function(response) {
+				sabong("#description").val(response.config.description);
+				sabong("#streamUrl").val(response.config.url);
+				var isStreamOnline = response.config.streamOnline;
+				if(isStreamOnline) {
+					sabong("#streamStatus").attr("checked", "checked");
+				} else {
+					sabong("#streamStatus").attr("checked", "");
+				}
 			},
 			error : function(xhr) {
 				alert("Error Code: "+xhr.status);
@@ -141,6 +165,7 @@ var sabongproWidgets = {
 	},
 	showUpdateStreamingStatusDialogForm : function(id) {
 		configId = id;
+		sabongproAjax.getStreamDetails();
 		sabong('#updateStreamingStatusDialog').dialog('open');
 	}
 }

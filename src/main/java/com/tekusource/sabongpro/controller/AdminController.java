@@ -111,7 +111,7 @@ public class AdminController extends AbstractController {
 		return map;
 	}
 
-//	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
+	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
 	public ModelAndView userManagement(HttpSession httpSession, ModelMap model) {
 		viewName = "login";
@@ -183,8 +183,10 @@ public class AdminController extends AbstractController {
 				config.setStreamOnline(isStreamOnline);
 				config.setDateLastUpdated(Calendar.getInstance());
 				streamingConfigService.update(config);
-				map.put("streamStatus", config.isStreamOnline());
+				map.put("config", config);
 				map.put("message", "Streaming config successfully updated.");
+			} else {
+				map.put("config", new StreamingConfig());
 			}
 		} catch(Exception e) {
 			map.put("message", "Error while updating streaming details.");
