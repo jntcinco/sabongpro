@@ -97,18 +97,18 @@ $(document).ready(function() {
           	<div id="content">
            	  	<div class="home3Cols">
                 	<img src="<c:url value='/images/bubble01.png'/>" width="271" height="124" id="bub1" />
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
+                	<p>To enable user to bet and watch online, One must need to register and must have a minimum of 2000 virtual points.</p>
+                	<p><a href="<c:url value='/faqs'/>">Read more...</a></p>
            	  	</div>
             	<div class="home3Cols margleft73">
               		<img src="<c:url value='/images/bubble02.png'/>" width="271" height="124" id="bub2" />
-              		<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
+              		<p>Share this site with your friends in facebook, twitter, and other social networks to enjoy watching the live derby.</p>
+                	<p><a href="<c:url value='/faqs'/>">Read more...</a></p>
             	</div>
               	<div class="home3Cols margleft73">
                 	<img src="<c:url value='/images/bubble03.png'/>" width="271" height="124" id="bub3" />
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero. Suspendisse tristique nisi sed justo accumsan vel mattis nulla fermentum. Etiam varius est id mi fermentum aliquam.</p>
-                	<p>Sed turpis sem, interdum sit amet egestas a, mattis non libero.</p>
+                	<p>Enjoy watching online and bet together with our fellow sabongeros. Please read the instructions on how to bet online found in our FAQS page.</p>
+                	<p><a href="<c:url value='/faqs'/>">Read more...</a></p>
             	</div>
           	</div> <!--eof content -->
       	</div>
