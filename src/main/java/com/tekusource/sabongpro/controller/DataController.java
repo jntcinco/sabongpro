@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tekusource.sabongpro.model.StreamingConfig;
+import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.StreamingConfigService;
+import com.tekusource.sabongpro.service.UserService;
 
 @Controller
 @RequestMapping( value = "/services" )
@@ -20,6 +22,9 @@ public class DataController {
 
 	@Autowired
 	private StreamingConfigService streamingConfigService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value="/streamUrl", method=RequestMethod.GET)
 	@ResponseBody
@@ -44,5 +49,15 @@ public class DataController {
 			config = new StreamingConfig();
 		}
 		return Collections.singletonMap("config", config);
+	}
+	
+	@RequestMapping(value="/getUserStreamingAccess", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, ? extends Object> getUserStreamingAccess(@RequestParam("userId") Long userId ) {
+		User user = (User) userService.getUserBy(userId);
+		if(user == null) {
+			user = new User();
+		}
+		return Collections.singletonMap("userStreamingAccess", user.isStreamAllowed());
 	}
 }

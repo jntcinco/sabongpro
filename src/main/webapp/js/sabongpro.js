@@ -70,7 +70,7 @@ var sabongproAjax = {
 			success : function(response) {
 				var config = response.config;
 				var columnId = "#streamStatus"+configId;
-				var descriptionVal = '<a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});">'+config.description+'</a>';
+				var descriptionVal = '<a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm('+configId+');">'+config.description+'</a>';
 				sabong("#description"+configId).html(descriptionVal);
 				sabong("#streamUrl"+configId).html(config.url);
 				if(config.streamOnline) {
@@ -95,9 +95,30 @@ var sabongproAjax = {
 				sabong("#streamUrl").val(response.config.url);
 				var isStreamOnline = response.config.streamOnline;
 				if(isStreamOnline) {
-					sabong("#streamStatus").attr("checked", "checked");
+					sabong("#streamStatus").prop("checked", true);
 				} else {
-					sabong("#streamStatus").attr("checked", "");
+					sabong("#streamStatus").prop("checked", false);
+				}
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
+	},
+	getUserStreamingAccess : function() {
+		sabong.ajax({
+			url : "/sabongpro/services/getUserStreamingAccess",
+			data : {userId : userId},
+			type : "GET",
+			success : function(response) {
+				var isAccess = response.userStreamingAccess;
+				var columnId = "#streamingAccess";
+				if(isAccess) {
+					alert(columnId + " and " + isAccess);
+					sabong(columnId).prop("checked", true);
+				} else {
+					alert(columnId + " and " + isAccess);
+					sabong(columnId).prop("checked", false);
 				}
 			},
 			error : function(xhr) {
@@ -161,6 +182,7 @@ var sabongproWidgets = {
 	},
 	showstreamingActivationDialogForm : function(id) {
 		userId = id;
+		sabongproAjax.getUserStreamingAccess();
 		sabong('#streamingActivationDialog').dialog('open');
 	},
 	showUpdateStreamingStatusDialogForm : function(id) {
