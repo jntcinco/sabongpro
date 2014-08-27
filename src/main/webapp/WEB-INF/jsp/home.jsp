@@ -5,8 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Sabong Pro</title>
-<meta name="designer" content="Rene San Lorenzo"/> 
-<meta name="developer" content="Jose Noel Cinco, Harold Siasat"/>
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 <link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
@@ -83,6 +81,7 @@ $(document).ready(function() {
         			<li><a href="<c:url value='/'/>" id="menuhome">HOME</a></li>
         			<li><a href="<c:url value='/about'/>" id="menuabout">ABOUT</a></li>
         			<li><a href="<c:url value='/schedule'/>" id="menugames">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/faqs'/>" id="menugames">FAQS</a></li>
         			<li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li>
     			</ul>
 			</div>
@@ -121,6 +120,7 @@ $(document).ready(function() {
             		<li><a href="<c:url value='/'/>">HOME</a></li>
         			<li><a href="<c:url value='/about'/>">ABOUT</a></li>
         			<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        			<li><a href="<c:url value='/faqs'/>">FAQS</a></li>
         			<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
         		</ul>
     		</div>

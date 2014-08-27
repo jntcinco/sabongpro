@@ -69,6 +69,12 @@ public class FrontPageController extends AbstractController {
 		return new ModelAndView("schedule", model);
 	}
 	
+	@RequestMapping(value="/faqs", method = RequestMethod.GET)
+	public ModelAndView faqs(HttpSession httpSession, ModelMap model) {
+		// TODO:
+		return new ModelAndView("faqs", model);
+	}
+	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/forgot", method = RequestMethod.GET)
 	public ModelAndView forgot(HttpSession httpSession, ModelMap model){

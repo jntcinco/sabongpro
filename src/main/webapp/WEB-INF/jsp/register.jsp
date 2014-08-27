@@ -83,6 +83,7 @@ $(document).ready(function() {
         <li><a href="<c:url value='/'/>" id="menuhome">HOME</a></li>
         <li><a href="<c:url value='/about'/>" id="menuabout">ABOUT</a></li>
         <li><a href="<c:url value='/schedule'/>" id="menugames">SCHEDULE</a></li>
+        <li><a href="<c:url value='/faqs'/>" id="menugames">FAQS</a></li>
         <li><a href="<c:url value='/contact'/>" id="menucontact">CONTACT</a></li>
     </ul>
 </div> <!--eof mainMenu -->
@@ -136,6 +137,7 @@ $(document).ready(function() {
             <li><a href="<c:url value='/'/>">HOME</a></li>
         	<li><a href="<c:url value='/about'/>">ABOUT</a></li>
         	<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        	<li><a href="<c:url value='/faqs'/>">FAQS</a></li>
         	<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
         </ul>
     	</div>
