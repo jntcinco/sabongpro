@@ -53,8 +53,6 @@
             		<div class="statRight">
                 		<ul>
                 			<li><a href="<c:url value='/admin/management'/>">Admin Panel</a></li>
-                    		<li><a href="#">Messages</a></li>
-                    		<li><a href="#">Notifications</a></li>
                     		<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 		</ul>
                 	</div>

@@ -114,10 +114,8 @@ var sabongproAjax = {
 				var isAccess = response.userStreamingAccess;
 				var columnId = "#streamingAccess";
 				if(isAccess) {
-					alert(columnId + " and " + isAccess);
 					sabong(columnId).prop("checked", true);
 				} else {
-					alert(columnId + " and " + isAccess);
 					sabong(columnId).prop("checked", false);
 				}
 			},

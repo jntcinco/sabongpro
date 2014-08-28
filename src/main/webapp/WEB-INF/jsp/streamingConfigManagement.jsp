@@ -42,9 +42,7 @@
             		<div class="statRight">
                 		<ul>
                 			<li><a href="<c:url value='/admin/management'/>">Admin Panel</a></li>
-                    		<li><a href="#">Messages</a></li>
-                    		<li><a href="#">Notifications</a></li>
-                    		<li><a href="#">Logout</a></li>
+                    		<li><a href="/authenticate/logout">Logout</a></li>
                 		</ul>
                 	</div>
                 	<ul>
@@ -59,7 +57,7 @@
               					<input name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search Users"/>
               				</form>
               				<h2 class="dark">Streaming Configurations</h2>
-              				<p>&nbsp;</p>
+              				<p><a href="<c:url value='/admin/streaming/config'/>" class="rightFloat margtop10 margbtm10 margright20">Add Streaming</a></p>
               				<table width="95%" cellspacing='0' class="tabler"><!-- cellspacing='0' is important, must stay -->
                     			<tr>
                     				<th width="40%">Description</th>

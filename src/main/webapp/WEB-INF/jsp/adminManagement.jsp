@@ -61,8 +61,6 @@ $(document).ready(function() {
             	<div class="statRight">
                 <ul>
                 	<li><a href="#">Admin Panel</a></li>
-                    <li><a href="#">Messages</a></li>
-                    <li><a href="#">Notifications</a></li>
                     <li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 </ul>
                 </div>
@@ -81,7 +79,7 @@ $(document).ready(function() {
                         User Management
                     </div>
                     <div class="adminThumbs">
-                    	<a href="<c:url value='/admin/streaming/config'/>"><img src="<c:url value='/images/vstream.png'/>" width="192" height="200" /></a>
+                    	<a href="<c:url value='/admin/streaming/config/management'/>"><img src="<c:url value='/images/vstream.png'/>" width="192" height="200" /></a>
                         Streaming Management
                     </div>
                     <div class="adminThumbs">
@@ -110,7 +108,6 @@ $(document).ready(function() {
                   	<li><a href="<c:url value='/admin/user/management'/>">User Management</a></li>
                     <li><a href="<c:url value='/admin/streaming/config/management'/>">Streaming Management</a></li>
                     <li><a href="#">Content Management</a></li>
-                    <li><a href="<c:url value='/admin/streaming/config'/>">Add Streaming Details</a></li>
                     <li><a href="<c:url value='/guest/livestreaming'/>">Live Streaming Panel</a></li>
                     <li><a href="#">Virtual Point Manager</a></li>
                     <li><a href="#">Global Configuration</a></li>
