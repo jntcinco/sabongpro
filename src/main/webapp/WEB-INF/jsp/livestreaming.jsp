@@ -13,27 +13,28 @@
 		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="<c:url value='/js/jquery-1.7.1.min.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
 		<script type="text/javascript">
-			$(document).ready(function() {
-			$('#logo').addClass('animated lightSpeedIn');
-			$('#colLeft').addClass('animated fadeIn');
-			$('#colRight').addClass('animated fadeIn');
-			//$('#colMid').addClass('animated bounceInUp');
-			$('#bub1').addClass('animated flipInX');
-			$('#bub2').addClass('animated flipInY');
-			$('#bub3').addClass('animated flipInX');
+			sabong(document).ready(function() {
+				sabong('#logo').addClass('animated lightSpeedIn');
+				sabong('#colLeft').addClass('animated fadeIn');
+				sabong('#colRight').addClass('animated fadeIn');
+				//$('#colMid').addClass('animated bounceInUp');
+				sabong('#bub1').addClass('animated flipInX');
+				sabong('#bub2').addClass('animated flipInY');
+				sabong('#bub3').addClass('animated flipInX');
 			});
 		</script>
 
 		<!-- Input hints on textboxes -->
 		<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
 		<script type="text/javascript">
-  			$(function() {
-    			$('[title]').inputHint();
-    			$('#test-form-2 input[type=text]').inputHint({using: '+ kbd'});
+			sabong(function() {
+				sabong('[title]').inputHint();
+				sabong('#test-form-2 input[type=text]').inputHint({using: '+ kbd'});
   			});
 		</script>
 
@@ -42,8 +43,8 @@
 		<script type="text/javascript" src="<c:url value='/fancybox/jquery.fancybox-1.3.4.pack.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/fancybox/jquery.fancybox-1.3.4.css'/>" media="screen" />
 		<script type="text/javascript">
-			$(document).ready(function() {
-				$("a.fancythis").fancybox({
+			sabong(document).ready(function() {
+				sabong("a.fancythis").fancybox({
 					'overlayShow'	: true,
 					'transitionIn'	: 'elastic',
 					'transitionOut'	: 'elastic',
@@ -52,7 +53,7 @@
 				});
 
 				/* The following is used for grouped images if you like */
-				$("a[rel=group1]").fancybox({
+				sabong("a[rel=group1]").fancybox({
 					'transitionIn'		: 'elastic',
 					'transitionOut'		: 'elastic',
 					'titlePosition' 	: 'outside',
@@ -61,7 +62,7 @@
 					}
 				});
 
-				$("a[rel=group2]").fancybox({
+				sabong("a[rel=group2]").fancybox({
 					'transitionIn'		: 'elastic',
 					'transitionOut'		: 'elastic',
 					'titlePosition' 	: 'outside',
@@ -120,7 +121,7 @@
                 					<p>BET STATUS</p>
                 					<h2>OPEN</h2>
                 					<p>&nbsp;</p>
-                					<a href="http://vroom.club/room/156/charter" class="button button-green blacktext margleft20">BET ON MERON</a>
+                					<a href="#" class="button button-green blacktext margleft20">BET ON MERON</a>
               					</div>
               				</div>
               				<div id="liveCenter">
@@ -149,56 +150,32 @@
                 				<p>BET STATUS</p>
                 				<h2>OPEN</h2>
                 				<p>&nbsp;</p>
-               					<a href="http://vroom.club/room/156/charter" class="button button-red blacktext margleft20">BET ON WALA</a>
+               					<a href="#" class="button button-red blacktext margleft20">BET ON WALA</a>
               				</div>
-              <!--<div class="userLeft">
-                <h3 class="dark textshadowWhite">LIVE STREAM</h3>
-                <p class="dark textshadowWhite center">You must be logged in to view this content.</p>
-                <p class="center">
-                  <iframe width="560" height="315" src="//www.youtube.com/embed/-OBNr6h-7t0" frameborder="0" allowfullscreen></iframe>
-                </p>
-                <h3 class="center dark">SAMPLE DERBY ONLY</h3>
-                <p class="center">AUG 23, 2012</p>
-                <p>Lorem ipsum dolor sit amet, vim ignota commune te, an quem aliquip definiebas pri. Soleat perfecto inimicus eu cum, an eos molestie recusabo, ne error maiestatis vis. Meis disputando vim ea, cu paulo impetus vix, legimus albucius te usu. Ne qui nostrud vivendo, cu cum alterum suavitate qualisque. Vel eu magna mazim oblique, sed sint eius delectus ei, nam justo nonumy ea. Sed cetero inimicus tractatos ea, qui eu habemus expetenda.</p>
-              </div> -->
-              <!--eof userLeft -->
-              <!--eof userRight -->
-          	</div>
-          	<!--eof userBlock -->
+          				</div>
           			</div>
-		</div> <!--eof innerWrap -->
-	</div>
-	<div id="footer">
-		<div id="innerfoot">
-  		<div id="footleft">
-        	<ul>
-            	<li><a href="<c:url value='/'/>">HOME</a></li>
-        		<li><a href="<c:url value='/about'/>">ABOUT</a></li>
-        		<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
-        		<li><a href="<c:url value='/faqs'/>">FAQS</a></li>
-        		<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
-        	</ul>
-    	</div>
-        <div id="copyright">
-            &copy; 2014 <a href="<c:url value='/'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
-        </div>
-		</div>
-	</div>
-	<script type="text/javascript">
-		$(document).ready(function(e){
-			$.ajax({
-				url : "/sabongpro/services/streamUrl",
-				/*url : /sabongpro/services/streamUrl",*/
-				type : "GET",
-				success : function(response) {
-					var streamUrl = "//" + response.streamUrl;
-					$('iframe#embededFrame').attr('src',streamUrl);
-				},
-				error : function(xhr) {
-					alert("Error Code: "+xhr.status);
-				}
-			});
-		});
-	</script>
+				</div> 
+			</div>
+			<div id="footer">
+				<div id="innerfoot">
+  					<div id="footleft">
+        				<ul>
+            				<li><a href="<c:url value='/'/>">HOME</a></li>
+        					<li><a href="<c:url value='/about'/>">ABOUT</a></li>
+        					<li><a href="<c:url value='/schedule'/>">SCHEDULE</a></li>
+        					<li><a href="<c:url value='/faqs'/>">FAQS</a></li>
+        					<li><a href="<c:url value='/contact'/>">CONTACT</a></li>
+        				</ul>
+    				</div>
+        			<div id="copyright">
+            			&copy; 2014 <a href="<c:url value='/'/>">www.SabongPro.com</a>. All Rights Reserved &reg;
+        			</div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				sabong(document).ready(function(e){
+					sabongproAjax.getStreamUrl();
+				});
+			</script>
 	</body>
 </html>

@@ -82,7 +82,7 @@ $(document).ready(function() {
               <p>&nbsp;&nbsp;&nbsp;<img src="<c:url value='/images/ie_compatibilityview.jpg'/>" width="764" height="265" /></p>
               <h3 class="dark textshadowWhite">4. Where are these fight matches held?</h3>
               <ul class="bluorb">
-              <li>Our fight matches are legal under Philippine Law and are held at the Pasay City Cockpit Arena and at the Ynarez Sports Arena.</li>
+              <li>Our fight matches are legal under Philippine Law and is held at Makati Coliseum.</li>
               </ul>
               <h3 class="dark textshadowWhite">5. How do I register?</h3>
               <ul class="bluorb">

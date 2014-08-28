@@ -21,7 +21,9 @@ import com.tekusource.sabongpro.cache.control.CacheControl;
 import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
+import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.CommonUtil;
 
@@ -31,6 +33,9 @@ public class FrontPageController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StreamingConfigService streamingConfigService;
 	
 	@Resource
 	private EmailNotificationService emailNotificationService;
@@ -65,7 +70,7 @@ public class FrontPageController extends AbstractController {
 	
 	@RequestMapping(value="/schedule", method = RequestMethod.GET)
 	public ModelAndView schedule(HttpSession httpSession, ModelMap model) {
-		// TODO:
+		model.addAttribute("streams", (List<StreamingConfig>) streamingConfigService.getAllStreamingConfigs());
 		return new ModelAndView("schedule", model);
 	}
 	

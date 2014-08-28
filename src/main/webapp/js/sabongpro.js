@@ -125,6 +125,19 @@ var sabongproAjax = {
 				alert("Error Code: "+xhr.status);
 			}
 		});
+	},
+	getStreamUrl : function() {
+		sabong.ajax({
+			url : "/sabongpro/services/streamUrl",
+			type : "GET",
+			success : function(response) {
+				var streamUrl = "//" + response.streamUrl;
+				$('iframe#embededFrame').attr('src',streamUrl);
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
 	}
 }
 
