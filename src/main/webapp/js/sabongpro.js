@@ -130,7 +130,7 @@ var sabongproAjax = {
 			type : "GET",
 			success : function(response) {
 				var streamUrl = "//" + response.streamUrl;
-				$('iframe#embededFrame').attr('src',streamUrl);
+				sabong('iframe#embededFrame').attr('src',streamUrl);
 			},
 			error : function(xhr) {
 				alert("Error Code: "+xhr.status);
@@ -203,7 +203,7 @@ var sabongproWidgets = {
 				}
 			}
 		});
-	}
+	},
 //	addUserDialog : function(){
 //		sabong('#addUserDialog').dialog({
 //			resizable: true,
@@ -225,7 +225,7 @@ var sabongproWidgets = {
 //						sabongproAjax.saveNewUser(userName,email,password,isStreaming,isEnabled,role);
 //						sabong(this).dialog('close');
 //
-//						$("#userManagementLink").trigger("click");
+//						sabong("#userManagementLink").trigger("click");
 //					}
 //				},
 //				'Cancel': function() {
@@ -233,7 +233,7 @@ var sabongproWidgets = {
 //				}
 //			}
 //		});
-	},
+//	},
 	showstreamingActivationDialogForm : function(id) {
 		userId = id;
 		sabongproAjax.getUserStreamingAccess();
