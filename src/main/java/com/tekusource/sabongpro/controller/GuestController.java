@@ -170,6 +170,7 @@ public class GuestController extends AbstractController {
 			User user = (User) session.getAttribute("userSession");
 			model.addAttribute("user", user);
 		}else{
+			viewName = "login";
 			model.addAttribute("userSession", new User());
 		}
 		return new ModelAndView(viewName, model);
