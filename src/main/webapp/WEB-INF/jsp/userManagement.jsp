@@ -68,7 +68,7 @@
               					<input id="search" name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search User by email"/>
               				</form>
               				<h2 class="dark">User Manager</h2>
-              				<p>&nbsp;</p>
+              				<p><a href="<c:url value='/admin/add/user'/>" class="rightFloat margtop10 margbtm10 margright20">Add User</a></p>
               				<table width="95%" cellspacing='0' class="tabler"> <!-- cellspacing='0' is important, must stay -->
                     			<tr>
                     				<th width="40%">Username</th>
@@ -89,27 +89,92 @@
                     					</c:choose>
                     				</td>
                     			</tr>
-              					<!-- start popup dialog -->
-			  					<div id="streamingActivationDialog" class="ui-dialog-titlebar ui-widget-header" title="User Activation Dialog">
-            						<c:url var="grantAccess" value="/admin/user/allow/access" />
-									<form id="streamingActivationDialogForm" action="${grantAccess}" method="post">
-                    					<input type="hidden" name="userId" id="userId" value="${user.id}"/>
-										<span class="dark">Enter Virtual Points: </span>
-                						<input type="text" name="virtualPoints" id="virtualPoints" value="" class="depth"/><br/>
-										<span class="dark">Activate live streaming access ?</span>
-  										<input type="checkbox" id="streamingAccess" value=""/>
-									</form>
-			  					</div>
-			  					<script type="text/javascript">
+                    			</c:forEach>
+              				</table>
+						<!-- start activation popup dialog -->
+						<div id="streamingActivationDialog"
+							class="ui-dialog-titlebar ui-widget-header"
+							title="User Activation">
+							<c:url var="grantAccess" value="/admin/user/allow/access" />
+							<form id="streamingActivationDialogForm" action="${grantAccess}" method="post">
+								<input type="hidden" name="userId" id="userId" value="${user.id}" /> 
+								<div id="leftColumn" style="float: left; width: 150px;">
+									<div class="dark margbtm10">Enter Virtual Points:</div> 
+									<div class="dark margbtm10">Activate live streaming access ?</div> 
+								</div>
+								<div id="rightColumn" style="float: left;">
+									<div class="margbtm3">
+										<input type="text" name="virtualPoints" id="virtualPoints" value="" class="depth" /><br /> 
+									</div>
+									<div class="margbtm3">
+										<input type="checkbox" id="streamingAccess" value="" />
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<!-- div id="addUserDialog"
+							class="ui-dialog-titlebar ui-widget-header" title="Add User">
+							<c:url var="adminAddUser" value="/admin/user/add" />
+							<form id="addUserDialogForm" action="${adminAddUser}"
+								method="post">
+								<div id="leftColumn" style="float: left; width: 150px;">
+									<div class="dark margbtm10">User Name</div>
+									<div class="dark margbtm10">Email</div>
+									<div class="dark margbtm10">Password</div>
+									<div class="dark margbtm10">Confirm Password</div>
+									<div class="dark margbtm10">Live Streaming Access?</div>
+									<div class="dark margbtm10">Enabled?</div>
+									<div class="dark margbtm10">Role</div>
+								</div>
+								<div id="rightColumn" style="float: left;">
+									<div class="margbtm3">
+										<input type="text" id="userName" name="userName" /> <span
+											class="error" id="userNameError"></span>
+									</div>
+									<div class="margbtm3">
+										<input type="text" id="email" name="email" /> <span
+											class="error" id="emailError"></span>
+									</div>
+									<div class="margbtm3">
+										<input type="password" id="password" /> <span class="error"
+											id="passwordError"></span>
+									</div>
+									<div class="margbtm3">
+										<input type="password" id="confirmPassword"
+											name="confirmPassword" /> <span class="error"
+											id="confirmPasswordError"></span>
+									</div>
+									<div class="margbtm3">
+										<input type="checkbox" id="userStreamingAccess" />
+									</div>
+									<div class="margbtm3">
+										<input type="checkbox" id="enabled" />
+									</div>
+									<div class="margbtm3">
+										<select id="userRole" name="userRole">
+											<option value="GUEST">GUEST</option>
+											<option value="ADMIN">ADMIN</option>
+										</select>
+									</div>
+								</div>
+							</form>
+							<a id="userManagementLink"
+								href="<c:url value='/admin/user/management'/>"></a>
+						</div-->
+
+						<script type="text/javascript">
 									sabong(document).ready(function(){
 										sabongproWidgets.streamingActivationDialog();
 										sabongproCommons.bolasScript();
+										
+										//sabongproWidgets.addUserDialog();
+										//sabongproCommons.bolasScript();
+										
 									});
 	  							</script>
-	  							<!-- end popup dialog -->
-                    			</c:forEach>
-              				</table>
-              			</div> 
+						<!-- end popup dialog -->
+					</div> 
           			</div>
           		</div>
       		</div>

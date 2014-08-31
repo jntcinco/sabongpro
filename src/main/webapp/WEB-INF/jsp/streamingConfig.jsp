@@ -78,7 +78,7 @@
               				<form:form modelAttribute="config" action="${configure}">
               					<table width="95%" cellspacing='0' class="tabler"><!-- cellspacing='0' is important, must stay -->
                     				<c:if test="${not empty notificationMessage}">
-                    					<tr><td colspan="2">${notificationMessage}</td></tr>
+                    					<tr><td colspan="2" style="text-align:center;">${notificationMessage}</td></tr>
                     				</c:if>
                     				<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
                     					<td width="50%" style="text-align:right;">Description:</td>
@@ -95,7 +95,7 @@
                     					</td>
                     				</tr>
                     				<tr>
-                    					<td colspan="2"><input type="submit" value="Configure"/></td>
+                    					<td colspan="2" style="text-align:center;"><input type="submit" value="Configure"/></td>
                     				</tr>
               					</table>
               				</form:form>

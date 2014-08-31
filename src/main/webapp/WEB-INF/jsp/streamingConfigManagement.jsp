@@ -67,7 +67,7 @@
                     
                     			<c:forEach var="config" varStatus="loop" items="${configs}">
                     			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td id="description${config.id}"><a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});">${config.description}</a></td>
+                    				<td id="description${config.id}"><a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});" style="color:#3E87BC;">${config.description}</a></td>
                     				<td id="streamUrl${config.id}">${config.url}</td>
                     				<td id="streamStatus${config.id}">
                     					<c:choose>
@@ -81,11 +81,21 @@
             						<c:url var="url" value="/admin/streaming/config/update/prep?id=${config.id}" />
 									<form id="streamingActivationDialogForm" action="${url}" method="post">
                     					<input type="hidden" name="configId" id="configId" value="${config.id}"/>
-										<span class="dark">Description: </span>
-                						<input type="text" name="description" id="description" value="" class="depth"/><br/>
-										<span class="dark">Live streaming url:</span>
-                						<input type="text" name="streamUrl" id="streamUrl" value="" class="depth"/><br/>
-										<input type="checkbox" id="streamStatus"/><span class="dark">Online</span>
+                    					<div id="leftColumn" style="float: left; width: 150px;">
+                    						<div class="dark margbtm10">Description: </div>
+                    						<div class="dark margbtm10">Live streaming url:</div>
+                    					</div>
+										<div id="rightColumn" style="float: left;">
+											<div class="margbtm3">
+                								<input type="text" name="description" id="description" value="" class="depth"/><br/>
+                							</div>
+                							<div class="margbtm3">
+                								<input type="text" name="streamUrl" id="streamUrl" value="" class="depth"/><br/>
+                							</div>
+                							<div class="margbtm3">
+												<input type="checkbox" id="streamStatus"/><span class="dark">Online</span>
+											</div>
+										</div>
 									</form>
 			  					</div>
 			  					<script type="text/javascript">

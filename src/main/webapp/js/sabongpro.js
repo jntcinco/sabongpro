@@ -136,6 +136,19 @@ var sabongproAjax = {
 				alert("Error Code: "+xhr.status);
 			}
 		});
+	},
+	saveNewUser : function(userName,email,password,isStreaming,isEnabled,role){
+		sabong.ajax({
+			url : "/sabongpro/admin/user/add",
+			type : "POST",
+			data : {userName:userName, email:email, password:password, isStreaming:isStreaming, isEnabled:isEnabled, role:role},
+			success: function(response){
+				//alert(response.message);
+			},
+			error: function(xhr) {
+				alert("Error Code: " +xhr.status);
+			}
+		});
 	}
 }
 
@@ -172,7 +185,7 @@ var sabongproWidgets = {
 			width:400,
 			height:200,
 			buttons: {
-				'Activate': function() {
+				'Save': function() {
 					var description = sabong("#description").val();
 					var streamUrl = sabong("#streamUrl").val();
 					var streamStatus;
@@ -191,6 +204,36 @@ var sabongproWidgets = {
 			}
 		});
 	},
+	addUserDialog : function(){
+		sabong('#addUserDialog').dialog({
+			resizable: true,
+			autoOpen:false,
+			modal: true,
+			width:450,
+			height:280,
+			buttons: {
+				'Add': function() {
+					var userName = sabong("#userName").val();
+					var email = sabong("#email").val();
+					var password = sabong("#password").val();
+					var confirmPassword = sabong("#confirmPassword").val();
+					var isStreaming = sabong("#userStreamingAccess").val();
+					var isEnabled = sabong("#enabled").val();
+					var role = sabong("#userRole").val();
+					
+					if(isValidUser(userName,email,password,confirmPassword)){
+						sabongproAjax.saveNewUser(userName,email,password,isStreaming,isEnabled,role);
+						sabong(this).dialog('close');
+
+						$("#userManagementLink").trigger("click");
+					}
+				},
+				'Cancel': function() {
+					sabong(this).dialog('close');
+				}
+			}
+		});
+	},
 	showstreamingActivationDialogForm : function(id) {
 		userId = id;
 		sabongproAjax.getUserStreamingAccess();
@@ -200,5 +243,51 @@ var sabongproWidgets = {
 		configId = id;
 		sabongproAjax.getStreamDetails();
 		sabong('#updateStreamingStatusDialog').dialog('open');
+	},
+	showAddUserDialogForm : function(){
+		sabong('#addUserDialog').dialog('open');
 	}
+}
+
+function isValidUser(userName,email,password,confirmPassword){
+	var noError = true;
+	
+	if(userName == ''){
+		sabong('#userNameError').text('required');
+		noError = false;
+	}
+	if(email == ''){
+		sabong('#emailError').text('required');
+		noError = false;
+	}
+	if(password == ''){
+		sabong('#passwordError').text('required');
+		noError = false;
+	}
+	if(confirmPassword == ''){
+		sabong('#confirmPasswordError').text('required');
+		noError = false;
+	}
+
+	if(email!=''){
+		if(!isValidEmailAddress(email)){
+			sabong('#emailError').text('invalid');
+			noError = false;
+		}
+	}
+	
+	if(password!='' && confirmPassword!=''){
+		if(password != confirmPassword){
+			sabong('#passwordError').text('not match');
+			sabong('#confirmPasswordError').text('not match');
+			noError = false;
+		}
+	}
+	
+	return noError;
+}
+
+function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    return pattern.test(emailAddress);
 }

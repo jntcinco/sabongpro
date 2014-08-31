@@ -42,8 +42,8 @@ public class User implements Serializable {
 	@Transient
 	private String confirmPassword;
 	
-	@Column(name="is_stream_allowed", columnDefinition = "TINYINT(1)")
-	private boolean isStreamAllowed;
+	@Column(name="stream_allowed", columnDefinition = "TINYINT(1)")
+	private boolean streamAllowed;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="userRoleId", insertable=true, updatable=true, nullable=false)
@@ -109,13 +109,13 @@ public class User implements Serializable {
 	}
 
 	public boolean isStreamAllowed() {
-		return isStreamAllowed;
+		return streamAllowed;
 	}
 
-	public void setStreamAllowed(boolean isStreamAllowed) {
-		this.isStreamAllowed = isStreamAllowed;
+	public void setStreamAllowed(boolean streamAllowed) {
+		this.streamAllowed = streamAllowed;
 	}
-	
+
 	public UserRole getUserRole() {
 		return userRole;
 	}

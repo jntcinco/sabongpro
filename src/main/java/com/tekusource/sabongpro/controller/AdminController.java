@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,14 +23,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tekusource.sabongpro.cache.control.CacheControl;
 import com.tekusource.sabongpro.cache.control.CachePolicy;
+import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.constants.ServiceConstants;
 import com.tekusource.sabongpro.model.RoleType;
+import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.model.UserProfile;
+import com.tekusource.sabongpro.model.UserRole;
 import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
+import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.CommonUtil;
+import com.tekusource.sabongpro.validator.RegisterValidator;
 import com.tekusource.sabongpro.validator.StreamingConfigValidator;
 
 @Controller
@@ -40,10 +47,15 @@ public class AdminController extends AbstractController {
 	private UserService userService;
 	
 	@Autowired
+	private UserRoleService userRoleService;
+	
+	@Autowired
 	private UserProfileService userProfileService;
 	
 	@Autowired
 	private StreamingConfigService streamingConfigService;
+	
+	private static final Logger logger = Logger.getLogger(AdminController.class);
 
 	private boolean isValidUser(User user){
 		if(user != null){
@@ -110,6 +122,23 @@ public class AdminController extends AbstractController {
 		}
 		return map;
 	}
+	
+//	private Map<String,Object> validateUser(String userName, String email, String password, String confirmPassword){
+//		Map<String,Object> errors = new HashMap<String,Object>();
+//		if(CommonUtil.isBlankOrNull(userName))
+//			errors.put("userNameError","User name must not be empty.");
+//		if(CommonUtil.isBlankOrNull(email))
+//			errors.put("emailError","Email must not be empty.");
+//		if(CommonUtil.isBlankOrNull(password))
+//			errors.put("passwordError", "Password must not be empty.");
+//		if(CommonUtil.isBlankOrNull(confirmPassword))
+//			errors.put("confirmPasswordError","Confirm password must not be empty.");
+//		if(!CommonUtil.isBlankOrNull(password) && !CommonUtil.isBlankOrNull(confirmPassword)){
+//			if(!password.equals(confirmPassword))
+//				errors.put("notificationMessage", "Passwords do not match.");
+//		}
+//		return errors;
+//	}
 
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
@@ -158,7 +187,7 @@ public class AdminController extends AbstractController {
 			config.setStreamOnline(false);
 			streamingConfigService.save(config);
 			model.addAttribute("notificationMessage", "Streaming config successfully saved.");
-			viewName = "streamingConfigManagement";
+			viewName = "streamingConfig";
 		} else {
 			viewName = "streamingConfig";
 		}
@@ -192,6 +221,51 @@ public class AdminController extends AbstractController {
 			map.put("message", "Error while updating streaming details.");
 		}
 		return map;
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/add/user", method=RequestMethod.GET)
+	public ModelAndView addUser(){
+		ModelAndView model = new ModelAndView();
+		model.addObject("user", new User());
+		model.setViewName("addUser");
+		return model;
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/user/add", method=RequestMethod.POST)
+	public ModelAndView saveUser(HttpSession httpSession, @RequestParam("role") String role, @ModelAttribute("user") User user, BindingResult results, ModelMap map){
+		User userSession = (User)httpSession.getAttribute("userSession");
+		if(isValidUser(userSession)){
+			RegisterValidator registerValidator = new RegisterValidator();
+			registerValidator.validate(user, results);
+			viewName = "addUser";
+			
+			if(!results.hasErrors()){
+				if(userService.isUserNameExist(user.getUserName())) {
+					map.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
+				}else{
+					String userToken = userService.createUserToken(user);
+					String encryptedPassword = userService.encryptPassword(user.getPassword());
+					user.setPassword(encryptedPassword);
+
+					UserRole userRole = (UserRole) userRoleService.getUserRoleBy(role);
+					user.setUserToken(userToken);
+					user.setUserRole(userRole);
+					userService.save(user);
+
+					UserProfile profile = new UserProfile();
+					profile.setUser(user);
+					userProfileService.save(profile);
+
+					map.put("notificationMessage", SabongProConstants.USER_SAVED);
+				}
+			}
+		}else{
+			map.addAttribute("userSession", new User());
+			viewName = "login";
+		}
+		return new ModelAndView(viewName, map);
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.StreamingConfigService;
+import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserService;
 
 @Controller
@@ -25,6 +26,9 @@ public class DataController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserProfileService userProfileService;
 	
 	@RequestMapping(value="/streamUrl", method=RequestMethod.GET)
 	@ResponseBody
