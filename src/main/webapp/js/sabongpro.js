@@ -129,7 +129,7 @@ var sabongproAjax = {
 			url : "/sabongpro/services/streamUrl",
 			type : "GET",
 			success : function(response) {
-				var streamUrl = "//" + response.streamUrl;
+				var streamUrl = response.streamUrl;
 				sabong('iframe#embededFrame').attr('src',streamUrl);
 			},
 			error : function(xhr) {
