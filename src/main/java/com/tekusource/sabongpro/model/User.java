@@ -1,6 +1,7 @@
 package com.tekusource.sabongpro.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -51,6 +53,9 @@ public class User implements Serializable {
 	
 	@OneToOne(mappedBy="user")
 	private UserProfile profile;
+	
+	@OneToMany(mappedBy="user")
+	private List<BetHistory> betHistories;
 	
 	public Long getId() {
 		return id;
@@ -130,5 +135,13 @@ public class User implements Serializable {
 
 	public void setProfile(UserProfile profile) {
 		this.profile = profile;
+	}
+	
+	public List<BetHistory> getBetHistories() {
+		return betHistories;
+	}
+	
+	public void setBetHistories(List<BetHistory> betHistories) {
+		this.betHistories = betHistories;
 	}
 }

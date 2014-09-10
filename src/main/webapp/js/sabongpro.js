@@ -136,6 +136,64 @@ var sabongproAjax = {
 				alert("Error Code: "+xhr.status);
 			}
 		});
+	},
+	getBettingInfo : function(userName, side, odds) {
+		var betAmount = sabong("#betAmount").val();
+		sabong.ajax({
+			url : "/sabongpro/bettingServices",
+			type : "GET",
+			data : {userName:userName,side:side,odds:odds,betAmount:betAmount},
+			success : function(response) {
+				if(response) {
+					alert("Betting is close.");
+				}
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
+	},
+	closeBetting : function() {
+		sabong.ajax({
+			url : "/sabongpro/bettingServices/closeBetting",
+			type : "GET",
+			success : function(response) {
+				sabong("div#meronStatus").html("CLOSE");
+				sabong("div#walaStatus").html("CLOSE");
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
+	},
+	betAmounts : function() {
+		sabong.ajax({
+			url : "/sabongpro/bettingServices/betAmounts",
+			type : "GET",
+			success : function(response) {
+				sabong("#meronAmount").html(response.meronTotal);
+				sabong("#walaAmount").html(response.walaTotal);
+				if(response.isLocked) {
+					sabong("div#meronStatus").html("CLOSE");
+					sabong("div#walaStatus").html("CLOSE");
+				}
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
+	},
+	declareWinner : function() {
+		sabong.ajax({
+			url : "/sabongpro/bettingServices/declareWinner",
+			type : "GET",
+			success : function(response) {
+				alert("new game.");
+			},
+			error : function(xhr) {
+				alert("Error Code: "+xhr.status);
+			}
+		});
 	}
 //	saveNewUser : function(userName,email,password,isStreaming,isEnabled,role){
 //		sabong.ajax({

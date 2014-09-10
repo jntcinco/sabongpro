@@ -9,5 +9,6 @@
 		<class>com.tekusource.sabongpro.model.User</class>
 		<class>com.tekusource.sabongpro.model.UserRole</class>
 		<class>com.tekusource.sabongpro.model.StreamingConfig</class>
+		<class>com.tekusource.sabongpro.model.BetHistory</class>
 	</persistence-unit>
 </persistence>
