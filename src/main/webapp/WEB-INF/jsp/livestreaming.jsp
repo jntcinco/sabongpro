@@ -126,7 +126,7 @@
                 					<p>BET STATUS</p>
                 					<h2><div id="meronStatus">OPEN</div></h2>
                 					<p>&nbsp;</p>
-                					<button id="meronBtn" onclick="sabongproAjax.getBettingInfo('${userSession.userName}','meron','10/10');" class="button button-green blacktext margleft20">BET ON MERON</button>
+                					<button id="meronBtn" onclick="sabongproAjax.getBettingInfo('${userSession.userName}','MERON');" class="button button-green blacktext margleft20">BET ON MERON</button>
               					</div>
               				</div>
               				<div id="liveCenter">
@@ -155,7 +155,7 @@
                 				<p>BET STATUS</p>
                 				<h2><div id="meronStatus">OPEN</div></h2>
                 				<p>&nbsp;</p>
-                				<button id="walaBtn" onclick="sabongproAjax.getBettingInfo('${userSession.userName}','wala','10/10');" class="button button-red blacktext margleft20">BET ON WALA</button>
+                				<button id="walaBtn" onclick="sabongproAjax.getBettingInfo('${userSession.userName}','WALA');" class="button button-red blacktext margleft20">BET ON WALA</button>
               				</div>
           				</div>
           				<div id="bettingHistory">
@@ -179,9 +179,9 @@
           								<td class="colBets" align="center" id="walaAmount">0</td>
           							</tr>
           							<tr>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="nineTenMeronAmount">0</td>
           								<td class="colBets" align="center">9/10</td>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="nineTenWalaAmount">0</td>
           							</tr>
           							<tr>
           								<td class="colBets" align="center">0</td>
@@ -228,30 +228,18 @@
           						</thead>
           						<tbody>
           							<tr>
-          								<td class="colBets" width="50%">
-          									<!-- Rounded TWO -->
-											<div class="roundedTwo">
-												<input type="checkbox" value="None" id="roundedTwo" name="check" />
-												<label for="roundedTwo">10/10</label>
-											</div>
-											<div class="roundedTwo">
-												<input type="checkbox" value="None" id="roundedTwo" name="check" />
-												<label for="roundedTwo">9/10</label>
-											</div>
-											<div class="roundedTwo">
-												<input type="checkbox" value="None" id="roundedTwo" name="check" />
-												<label for="roundedTwo">8/10</label>
-											</div>
-											<div class="roundedTwo">
-												<input type="checkbox" value="None" id="roundedTwo" name="check" />
-												<label for="roundedTwo">6/8</label>
-											</div>
-											<div class="roundedTwo">
-												<input type="checkbox" value="None" id="roundedTwo" name="check" />
-												<label for="roundedTwo">8/11</label>
-											</div>
-          								</td>
           								<td class="colBets" align="center" width="50%">
+          									Odds: 
+          									<select class="amountOption" id="oddsId">
+												<option>10/10</option>
+												<option>9/10 </option>
+												<option>8/10</option>
+												<option>6/8</option>
+												<option>8/11 </option>
+											</select>
+          								</td>
+          								<td class="colBets" align="center" width="50%"> 
+          									Bet Amount:
           									<select class="amountOption" id="betAmount">
 												<option>200</option>
 												<option>500 </option>

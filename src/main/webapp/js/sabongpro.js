@@ -137,12 +137,13 @@ var sabongproAjax = {
 			}
 		});
 	},
-	getBettingInfo : function(userName, side, odds) {
+	getBettingInfo : function(userName, side) {
+		var odd = sabong("#oddsId").val();
 		var betAmount = sabong("#betAmount").val();
 		sabong.ajax({
 			url : "/sabongpro/bettingServices",
 			type : "GET",
-			data : {userName:userName,side:side,odds:odds,betAmount:betAmount},
+			data : {userName:userName,side:side,odds:odd,betAmount:betAmount},
 			success : function(response) {
 				if(response) {
 					alert("Betting is close.");
@@ -173,6 +174,8 @@ var sabongproAjax = {
 			success : function(response) {
 				sabong("#meronAmount").html(response.meronTotal);
 				sabong("#walaAmount").html(response.walaTotal);
+				sabong("#nineTenMeronAmount").html(response.nineTenMeronTotal);
+				sabong("#nineTenWalaAmount").html(response.nineTenWalaTotal);
 				if(response.isLocked) {
 					sabong("div#meronStatus").html("CLOSE");
 					sabong("div#walaStatus").html("CLOSE");
