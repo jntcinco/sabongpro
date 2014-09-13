@@ -2,7 +2,7 @@ package com.tekusource.sabongpro.model;
 
 public enum OddsType {
 
-	TEN_TEN("10/10"), NINE_TEN("9/10"), EIGHT_TEN("8/10"), SIX_EIGHT("6/8"), EIGHT_ELEVEN("8/11");
+	TEN_TEN("TEN_TEN"), NINE_TEN("NINE_TEN"), EIGHT_TEN("EIGHT_TEN"), TEN_NINE("TEN_NINE"), TEN_EIGHT("TEN_EIGHT");
 	private final String description;
 
 	private OddsType(String description) {

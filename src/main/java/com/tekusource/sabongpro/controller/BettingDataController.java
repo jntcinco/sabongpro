@@ -30,9 +30,9 @@ public class BettingDataController {
 		oddsList = new ArrayList<String>();
 		oddsList.add(OddsType.TEN_TEN.getDescription());
 		oddsList.add(OddsType.NINE_TEN.getDescription());
-//		oddsList.add(OddsType.EIGHT_TEN.getDescription());
-//		oddsList.add(OddsType.SIX_EIGHT.getDescription());
-//		oddsList.add(OddsType.EIGHT_ELEVEN.getDescription());
+		oddsList.add(OddsType.EIGHT_TEN.getDescription());
+		oddsList.add(OddsType.TEN_NINE.getDescription());
+		oddsList.add(OddsType.TEN_EIGHT.getDescription());
 	}
 
 	@RequestMapping(method=RequestMethod.GET)
@@ -104,12 +104,23 @@ public class BettingDataController {
 	@RequestMapping(value="/betAmounts", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, ? extends Object> betAmounts() {
-		double nineTenMeronTotal = bettingService.getTotalBetBy(OddsType.NINE_TEN.getDescription(), BettingService.MERON) * .9;
+		double nineTenTotal = bettingService.getTotalBetBy(OddsType.NINE_TEN.getDescription(), BettingService.MERON) * .9;
+		double eightTenTotal = bettingService.getTotalBetBy(OddsType.EIGHT_TEN.getDescription(), BettingService.MERON) * .8;
+		double tenNineTotal = bettingService.getTotalBetBy(OddsType.TEN_NINE.getDescription(), BettingService.WALA) * .9;
+		double tenEightTotal = bettingService.getTotalBetBy(OddsType.TEN_EIGHT.getDescription(), BettingService.WALA) * .8;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("meronTotal", bettingService.getTotalBetBy(OddsType.TEN_TEN.getDescription(), BettingService.MERON));
-		map.put("nineTenMeronTotal", nineTenMeronTotal);
+		map.put("nineTenMeronTotal", nineTenTotal);
+		map.put("eightTenMeronTotal", eightTenTotal);
+		map.put("tenNineMeronTotal", bettingService.getTotalBetBy(OddsType.TEN_NINE.getDescription(), BettingService.MERON));
+		map.put("tenEightMeronTotal", bettingService.getTotalBetBy(OddsType.TEN_EIGHT.getDescription(), BettingService.MERON));
+		
 		map.put("walaTotal", bettingService.getTotalBetBy(OddsType.TEN_TEN.getDescription(), BettingService.WALA));
 		map.put("nineTenWalaTotal", bettingService.getTotalBetBy(OddsType.NINE_TEN.getDescription(), BettingService.WALA));
+		map.put("eightTenWalaTotal", bettingService.getTotalBetBy(OddsType.EIGHT_TEN.getDescription(), BettingService.WALA));
+		map.put("tenNineWalaTotal", tenNineTotal);
+		map.put("tenEightWalaTotal", tenEightTotal);
+		
 		map.put("isLocked", bettingService.isBettingLocked());
 		return map;
 	}

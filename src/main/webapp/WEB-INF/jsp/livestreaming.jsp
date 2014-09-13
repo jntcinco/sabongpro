@@ -184,39 +184,19 @@
           								<td class="colBets" align="center" id="nineTenWalaAmount">0</td>
           							</tr>
           							<tr>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="eightTenMeronAmount">0</td>
           								<td class="colBets" align="center">8/10</td>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="eightTenWalaAmount">0</td>
           							</tr>
           							<tr>
-          								<td class="colBets" align="center">0</td>
-          								<td class="colBets" align="center">6/8</td>
-          								<td class="colBets" align="center">0</td>
-          							</tr>
-          							<tr>
-          								<td class="colBets" align="center">0</td>
-          								<td class="colBets" align="center">8/11</td>
-          								<td class="colBets" align="center">0</td>
-          							</tr>
-          							<tr>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="tenNineMeronAmount">0</td>
           								<td class="colBets" align="center">10/9</td>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="tenNineWalaAmount">0</td>
           							</tr>
           							<tr>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="tenEightMeronAmount">0</td>
           								<td class="colBets" align="center">10/8</td>
-          								<td class="colBets" align="center">0</td>
-          							</tr>
-          							<tr>
-          								<td class="colBets" align="center">0</td>
-          								<td class="colBets" align="center">8/6</td>
-          								<td class="colBets" align="center">0</td>
-          							</tr>
-          							<tr>
-          								<td class="colBets" align="center">0</td>
-          								<td class="colBets" align="center">11/8</td>
-          								<td class="colBets" align="center">0</td>
+          								<td class="colBets" align="center" id="tenEightWalaAmount">0</td>
           							</tr>
           						</tbody>
           					</table>
@@ -231,11 +211,11 @@
           								<td class="colBets" align="center" width="50%">
           									Odds: 
           									<select class="amountOption" id="oddsId">
-												<option>10/10</option>
-												<option>9/10 </option>
-												<option>8/10</option>
-												<option>6/8</option>
-												<option>8/11 </option>
+												<option value="TEN_TEN">10/10</option>
+												<option value="NINE_TEN">9/10 </option>
+												<option value="EIGHT_TEN">8/10</option>
+												<option value="TEN_NINE">10/9</option>
+												<option value="TEN_EIGHT">10/8 </option>
 											</select>
           								</td>
           								<td class="colBets" align="center" width="50%"> 

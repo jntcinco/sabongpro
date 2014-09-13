@@ -176,6 +176,12 @@ var sabongproAjax = {
 				sabong("#walaAmount").html(response.walaTotal);
 				sabong("#nineTenMeronAmount").html(response.nineTenMeronTotal);
 				sabong("#nineTenWalaAmount").html(response.nineTenWalaTotal);
+				sabong("#eightTenMeronAmount").html(response.eightTenMeronTotal);
+				sabong("#eightTenWalaAmount").html(response.eightTenWalaTotal);
+				sabong("#tenNineMeronAmount").html(response.tenNineMeronTotal);
+				sabong("#tenNineWalaAmount").html(response.tenNineWalaTotal);
+				sabong("#tenEightMeronAmount").html(response.tenEightMeronTotal);
+				sabong("#tenEightWalaAmount").html(response.tenEightWalaTotal);
 				if(response.isLocked) {
 					sabong("div#meronStatus").html("CLOSE");
 					sabong("div#walaStatus").html("CLOSE");
