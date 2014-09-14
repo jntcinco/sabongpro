@@ -50,7 +50,7 @@ public class BetHistory implements Serializable {
 		return fightNumber;
 	}
 	
-	public void set(String fightNumber) {
+	public void setFightNumber(String fightNumber) {
 		this.fightNumber = fightNumber;
 	}
 	

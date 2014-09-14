@@ -193,9 +193,11 @@ var sabongproAjax = {
 		});
 	},
 	declareWinner : function() {
+		var winner = sabong('input:radio[name=winner]:checked').val();
 		sabong.ajax({
 			url : "/sabongpro/bettingServices/declareWinner",
 			type : "GET",
+			data : {winner:winner},
 			success : function(response) {
 				alert("new game.");
 			},
@@ -271,36 +273,25 @@ var sabongproWidgets = {
 			}
 		});
 	},
-//	addUserDialog : function(){
-//		sabong('#addUserDialog').dialog({
-//			resizable: true,
-//			autoOpen:false,
-//			modal: true,
-//			width:450,
-//			height:280,
-//			buttons: {
-//				'Add': function() {
-//					var userName = sabong("#userName").val();
-//					var email = sabong("#email").val();
-//					var password = sabong("#password").val();
-//					var confirmPassword = sabong("#confirmPassword").val();
-//					var isStreaming = sabong("#userStreamingAccess").val();
-//					var isEnabled = sabong("#enabled").val();
-//					var role = sabong("#userRole").val();
-//					
-//					if(isValidUser(userName,email,password,confirmPassword)){
-//						sabongproAjax.saveNewUser(userName,email,password,isStreaming,isEnabled,role);
-//						sabong(this).dialog('close');
-//
-//						sabong("#userManagementLink").trigger("click");
-//					}
-//				},
-//				'Cancel': function() {
-//					sabong(this).dialog('close');
-//				}
-//			}
-//		});
-//	},
+	sintencyaDialog : function() {
+		sabong("#sintencyaDialog").dialog({
+			resizable: true,
+			autoOpen:false,
+			modal: true,
+			width:300,
+			height:150,
+			position: ["center",80],
+			buttons: {
+				'Ok': function() {
+					sabongproAjax.declareWinner();
+					sabong(this).dialog('close');
+				},
+				'Cancel': function() {
+					sabong(this).dialog('close');
+				}
+			}
+		});
+	},
 	showstreamingActivationDialogForm : function(id) {
 		userId = id;
 		sabongproAjax.getUserStreamingAccess();
@@ -310,10 +301,10 @@ var sabongproWidgets = {
 		configId = id;
 		sabongproAjax.getStreamDetails();
 		sabong('#updateStreamingStatusDialog').dialog('open');
+	},
+	showSintencyaDialogForm : function(){
+		sabong('#sintencyaDialog').dialog('open');
 	}
-//	showAddUserDialogForm : function(){
-//		sabong('#addUserDialog').dialog('open');
-//	}
 }
 
 //function isValidUser(userName,email,password,confirmPassword){

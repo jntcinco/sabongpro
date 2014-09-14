@@ -10,13 +10,15 @@
 		<meta name="robots" content="index,follow"/>
 		<meta name="DC.title" content="SabongPro"/>
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
-		<script type="text/javascript" src="<c:url value='/js/jquery-1.7.1.min.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-1.10.2.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-ui-1.10.4.custom.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/css/plugins/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css'/>" />
+		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 		<script type="text/javascript">
 			sabong(document).ready(function() {
 				sabong('#logo').addClass('animated lightSpeedIn');
@@ -36,41 +38,6 @@
 				sabong('[title]').inputHint();
 				sabong('#test-form-2 input[type=text]').inputHint({using: '+ kbd'});
   			});
-		</script>
-
-		<!-- Used for Fancybox popup -->
-		<script type="text/javascript" src="<c:url value='/fancybox/jquery.mousewheel-3.0.4.pack.js'/>"></script>
-		<script type="text/javascript" src="<c:url value='/fancybox/jquery.fancybox-1.3.4.pack.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/fancybox/jquery.fancybox-1.3.4.css'/>" media="screen" />
-		<script type="text/javascript">
-			sabong(document).ready(function() {
-				sabong("a.fancythis").fancybox({
-					'overlayShow'	: true,
-					'transitionIn'	: 'elastic',
-					'transitionOut'	: 'elastic',
-					'overlayColor'  : '#000',
-					'overlayOpacity': 0.5
-				});
-
-				/* The following is used for grouped images if you like */
-				sabong("a[rel=group1]").fancybox({
-					'transitionIn'		: 'elastic',
-					'transitionOut'		: 'elastic',
-					'titlePosition' 	: 'outside',
-					'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
-						return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
-					}
-				});
-
-				sabong("a[rel=group2]").fancybox({
-					'transitionIn'		: 'elastic',
-					'transitionOut'		: 'elastic',
-					'titlePosition' 	: 'outside',
-					'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
-						return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
-					}
-				});
-			});
 		</script>
 	</head>
 	<body id="games" class="bguser">
@@ -98,7 +65,7 @@
                     	<c:if test="${userSession.userRole.role == 'ADMIN'}">
                 			<li><a href="<c:url value="/admin/management"/>">Admin Panel</a></li>
                     		<li><a href="#" onclick="sabongproAjax.closeBetting();">Close Betting</a></li>
-                    		<li><a href="#" onclick="sabongproAjax.declareWinner();">Declare Winner</a></li>
+                    		<li><a href="#" onclick="sabongproWidgets.showSintencyaDialogForm();">Declare Winner</a></li>
                     	</c:if>
                     	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
                 	</ul>
@@ -313,8 +280,20 @@
         			</div>
 				</div>
 			</div>
+			<div id="sintencyaDialog" class="ui-dialog-titlebar ui-widget-header" title="Declare winner dialog">
+				<div id="leftColumn" style="float: left; width: 150px;">
+                    <div class="dark margbtm10">Select winner: </div>
+                </div>
+				<div id="rightColumn" style="float: left;">
+					<div class="margbtm3">
+						<input type="radio" name="winner" value="MERON"/><span class="dark">MERON</span>
+						<input type="radio" name="winner" value="WALA"/><span class="dark">WALA</span>
+					</div>
+				</div>
+			</div>
 			<script type="text/javascript">
 				sabong(document).ready(function(e){
+					sabongproWidgets.sintencyaDialog();
 					sabongproAjax.getStreamUrl();
 					setInterval(function() {
 						sabongproAjax.betAmounts();

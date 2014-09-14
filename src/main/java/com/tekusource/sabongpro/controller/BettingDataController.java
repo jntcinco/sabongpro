@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tekusource.sabongpro.model.BettingInfo;
 import com.tekusource.sabongpro.model.OddsType;
+import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.BettingService;
+import com.tekusource.sabongpro.service.UserService;
 
 @Controller
 @RequestMapping( value = "/bettingServices" )
@@ -23,6 +27,9 @@ public class BettingDataController {
 	
 	@Autowired
 	private BettingService bettingService;
+	
+	@Autowired
+	private UserService userService;
 	
 	private static List<String> oddsList;
 	
@@ -41,8 +48,9 @@ public class BettingDataController {
 						   @RequestParam("odds") String odds, @RequestParam("betAmount") double betAmount) {
 		boolean isLocked = bettingService.isBettingLocked();
 		if(!side.isEmpty() && side.length() > 0) {
+			User user = (User) userService.getUserByUserName(userName);
 			BettingInfo info = new BettingInfo();
-			info.setUserName(userName);
+			info.setUser(user);
 			info.setSide(side);
 			info.setOdds(odds);
 			info.setBetAmount(betAmount);
@@ -127,8 +135,8 @@ public class BettingDataController {
 	
 	@RequestMapping(value="/declareWinner", method=RequestMethod.GET)
 	@ResponseBody
-	public String declareWinner() {
-		bettingService.declareWinner();
+	public String declareWinner(HttpSession httpSession, @RequestParam("winner") String winner) {
+		bettingService.declareWinner(winner);
 		return "";
 	}
 }

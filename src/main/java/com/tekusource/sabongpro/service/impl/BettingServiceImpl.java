@@ -3,10 +3,13 @@ package com.tekusource.sabongpro.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tekusource.sabongpro.dao.BetHistoryDao;
+import com.tekusource.sabongpro.model.BetHistory;
 import com.tekusource.sabongpro.model.BettingInfo;
 import com.tekusource.sabongpro.model.OddsType;
 import com.tekusource.sabongpro.service.BettingService;
@@ -15,6 +18,9 @@ import com.tekusource.sabongpro.service.BettingService;
 @Scope("singleton")
 @Transactional
 public class BettingServiceImpl implements BettingService {
+	
+	@Autowired
+	private BetHistoryDao betHistoryDao;
 
 	private List<BettingInfo> meronInfos = new ArrayList<BettingInfo>();
 	private List<BettingInfo> nineTenMeron = new ArrayList<BettingInfo>();
@@ -32,7 +38,8 @@ public class BettingServiceImpl implements BettingService {
 	
 	public void addMeron(BettingInfo bettingInfo) {
 		String odds = bettingInfo.getOdds();
-		String userName = bettingInfo.getUserName();
+		String userName = bettingInfo.getUser().getUserName();
+		
 		if(odds.equals(OddsType.TEN_TEN.getDescription())) {
 			if(!isUserBet(userName, walaInfos)) {
 				meronInfos.add(bettingInfo);
@@ -104,7 +111,7 @@ public class BettingServiceImpl implements BettingService {
 	
 	public void addWala(BettingInfo bettingInfo) {
 		String odds = bettingInfo.getOdds();
-		String userName = bettingInfo.getUserName();
+		String userName = bettingInfo.getUser().getUserName();
 		if(odds.equals(OddsType.TEN_TEN.getDescription())) {
 			if(!isUserBet(userName, meronInfos)) {
 				walaInfos.add(bettingInfo);
@@ -180,45 +187,25 @@ public class BettingServiceImpl implements BettingService {
 		String wala = BettingService.WALA;
 		
 		if(side.equals(meron) && odds.equals(OddsType.TEN_TEN.getDescription())) {
-			for(BettingInfo info : meronInfos) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(meronInfos);
 		} else if(side.equals(meron) && odds.equals(OddsType.NINE_TEN.getDescription())) {
-			for(BettingInfo info : nineTenMeron) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(nineTenMeron);
 		} else if(side.equals(meron) && odds.equals(OddsType.EIGHT_TEN.getDescription())) {
-			for(BettingInfo info : eightTenMeron) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(eightTenMeron);
 		} else if(side.equals(meron) && odds.equals(OddsType.TEN_NINE.getDescription())) {
-			for(BettingInfo info : tenNineMeron) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(tenNineMeron);
 		} else if(side.equals(meron) && odds.equals(OddsType.TEN_EIGHT.getDescription())) {
-			for(BettingInfo info : tenEightMeron) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(tenEightMeron);
 		} else if(side.equals(wala) && odds.equals(OddsType.TEN_TEN.getDescription())) {
-			for(BettingInfo info : walaInfos) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(walaInfos);
 		} else if(side.equals(wala) && odds.equals(OddsType.NINE_TEN.getDescription())) {
-			for(BettingInfo info : nineTenWala) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(nineTenWala);
 		} else if(side.equals(wala) && odds.equals(OddsType.EIGHT_TEN.getDescription())) {
-			for(BettingInfo info : eightTenWala) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(eightTenWala);
 		} else if(side.equals(wala) && odds.equals(OddsType.TEN_NINE.getDescription())) {
-			for(BettingInfo info : tenNineWala) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(tenNineWala);
 		} else if(side.equals(wala) && odds.equals(OddsType.TEN_EIGHT.getDescription())) {
-			for(BettingInfo info : tenEightWala) {
-				totalBet = totalBet + info.getBetAmount();
-			}
+			totalBet = computeTotalBet(tenEightWala);
 		}
 		return totalBet;
 	}
@@ -235,7 +222,19 @@ public class BettingServiceImpl implements BettingService {
 		return isBettingLocked;
 	}
 	
-	public void declareWinner() {
+	public void declareWinner(String winner) {
+		insertBetHistory(meronInfos, winner);
+		insertBetHistory(nineTenMeron, winner);
+		insertBetHistory(eightTenMeron, winner);
+		insertBetHistory(tenNineMeron, winner);
+		insertBetHistory(tenEightMeron, winner);
+
+		insertBetHistory(walaInfos, winner);
+		insertBetHistory(nineTenWala, winner);
+		insertBetHistory(eightTenWala, winner);
+		insertBetHistory(tenNineWala, winner);
+		insertBetHistory(tenEightWala, winner);
+		
 		this.isBettingLocked = false;
 		meronInfos.clear();
 		nineTenMeron.clear();
@@ -254,11 +253,30 @@ public class BettingServiceImpl implements BettingService {
 		boolean isBet = false;
 		if(!infos.isEmpty()) {
 			for(BettingInfo info : infos) {
-				if(info.getUserName().equals(userName)) {
+				if(info.getUser().getUserName().equals(userName)) {
 					isBet = true;
 				}
 			}
 		}
 		return isBet;
+	}
+	
+	private void insertBetHistory(List<BettingInfo> infos, String winner) {
+		for(BettingInfo info : infos) {
+			BetHistory betHistory = new BetHistory();
+			betHistory.setFightNumber("");
+			betHistory.setResult(winner);
+			betHistory.setSide(info.getSide());
+			betHistory.setUser(info.getUser());
+			betHistoryDao.create(betHistory);
+		}
+	}
+	
+	private double computeTotalBet(List<BettingInfo> infos) {
+		double totalBet = 0;
+		for(BettingInfo info : infos) {
+			totalBet = totalBet + info.getBetAmount();
+		}
+		return totalBet;
 	}
 }

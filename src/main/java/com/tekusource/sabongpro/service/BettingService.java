@@ -33,5 +33,5 @@ public interface BettingService {
 	
 	public boolean isBettingLocked();
 	
-	public void declareWinner();
+	public void declareWinner(String winner);
 }
