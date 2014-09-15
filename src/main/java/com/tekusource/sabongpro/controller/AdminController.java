@@ -25,8 +25,8 @@ import com.tekusource.sabongpro.cache.control.CacheControl;
 import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.constants.ServiceConstants;
+import com.tekusource.sabongpro.model.Entry;
 import com.tekusource.sabongpro.model.RoleType;
-import com.tekusource.sabongpro.model.StatusType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
@@ -298,5 +298,23 @@ public class AdminController extends AbstractController {
 			viewName = "login";
 		}
 		return new ModelAndView(viewName, model);
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/entry/add", method=RequestMethod.POST)
+	public ModelAndView addEntry(HttpSession httpSession, @ModelAttribute("entry") Entry entry, BindingResult results, ModelMap map){
+		User userSession = (User)httpSession.getAttribute("userSession");
+		if(isValidUser(userSession)){
+//			RegisterValidator registerValidator = new RegisterValidator();
+//			registerValidator.validate(user, results);
+			viewName = "addEntry";
+			if(!results.hasErrors()){
+				// TO DO
+			}
+		} else{
+			map.addAttribute("userSession", new User());
+			viewName = "login";
+		}
+		return new ModelAndView(viewName, map);
 	}
 }
