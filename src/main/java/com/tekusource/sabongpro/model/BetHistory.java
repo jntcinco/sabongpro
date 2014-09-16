@@ -25,9 +25,6 @@ public class BetHistory implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column(name="fightNumber")
-	private String fightNumber;
-	
 	@Column(name="side")
 	private String side;
 	
@@ -44,14 +41,6 @@ public class BetHistory implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public String getFightNumber() {
-		return fightNumber;
-	}
-	
-	public void setFightNumber(String fightNumber) {
-		this.fightNumber = fightNumber;
 	}
 	
 	public String getSide() {

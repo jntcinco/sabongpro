@@ -107,8 +107,9 @@ $(document).ready(function() {
                   <ul>
                   	<li><a href="<c:url value='/admin/user/management'/>">User Management</a></li>
                     <li><a href="<c:url value='/admin/streaming/config/management'/>">Streaming Management</a></li>
-                    <li><a href="#">Content Management</a></li>
+                    <li><a href="<c:url value='/admin/entry/management'/>">Entry Management</a></li>
                     <li><a href="<c:url value='/guest/livestreaming'/>">Live Streaming Panel</a></li>
+                    <li><a href="#">Content Management</a></li>
                     <li><a href="#">Virtual Point Manager</a></li>
                     <li><a href="#">Global Configuration</a></li>
                   </ul>

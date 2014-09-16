@@ -264,7 +264,6 @@ public class BettingServiceImpl implements BettingService {
 	private void insertBetHistory(List<BettingInfo> infos, String winner) {
 		for(BettingInfo info : infos) {
 			BetHistory betHistory = new BetHistory();
-			betHistory.setFightNumber("");
 			betHistory.setResult(winner);
 			betHistory.setSide(info.getSide());
 			betHistory.setUser(info.getUser());

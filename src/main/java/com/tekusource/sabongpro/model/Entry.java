@@ -31,8 +31,14 @@ public class Entry implements Serializable {
 	@Column(name="side")
 	private String side;
 	
+	@Column(name="bloodLine")
+	private String bloodLine;
+	
+	@Column(name="fightWeight")
+	private String fightWeight;
+	
 	@Column(name="fightNumber")
-	private int fightNumber;
+	private String fightNumber;
 
 	public Long getId() {
 		return id;
@@ -64,5 +70,29 @@ public class Entry implements Serializable {
 	
 	public void setSide(String side) {
 		this.side = side;
+	}
+	
+	public String getFightWeight() {
+		return fightWeight;
+	}
+	
+	public void setFightWeight(String fightWeight) {
+		this.fightWeight = fightWeight;
+	}
+	
+	public String getBloodLine() {
+		return bloodLine;
+	}
+	
+	public void setBloodLine(String bloodLine) {
+		this.bloodLine = bloodLine;
+	}
+	
+	public String getFightNumber() {
+		return fightNumber;
+	}
+	
+	public void setFightNumber(String fightNumber) {
+		this.fightNumber = fightNumber;
 	}
 }

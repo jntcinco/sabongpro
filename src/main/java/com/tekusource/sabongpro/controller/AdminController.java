@@ -31,11 +31,13 @@ import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.model.UserRole;
+import com.tekusource.sabongpro.service.EntryService;
 import com.tekusource.sabongpro.service.StreamingConfigService;
 import com.tekusource.sabongpro.service.UserProfileService;
 import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.CommonUtil;
+import com.tekusource.sabongpro.validator.EntryValidator;
 import com.tekusource.sabongpro.validator.RegisterValidator;
 import com.tekusource.sabongpro.validator.StreamingConfigValidator;
 
@@ -54,6 +56,9 @@ public class AdminController extends AbstractController {
 	
 	@Autowired
 	private StreamingConfigService streamingConfigService;
+	
+	@Autowired
+	private EntryService entryService;
 	
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 
@@ -301,16 +306,43 @@ public class AdminController extends AbstractController {
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/entry/management", method=RequestMethod.GET)
+	public ModelAndView entryManagement(HttpSession httpSession, ModelMap map) {
+		User userSession = (User) httpSession.getAttribute("userSession");
+		if(isValidUser(userSession)) {
+			map.addAttribute("entries", entryService.getAllEntries());
+			viewName = "entryManagement";
+		} else{
+			viewName = "login";
+		}
+		map.addAttribute("entry", new Entry());
+		return new ModelAndView(viewName, map);
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/entry/prep/add", method=RequestMethod.GET)
+	public ModelAndView prepAddEntry(HttpSession httpSession, ModelMap map) {
+		User userSession = (User) httpSession.getAttribute("userSession");
+		if(isValidUser(userSession)) {
+			viewName = "addEntry";
+		} else{
+			viewName = "login";
+		}
+		map.addAttribute("entry", new Entry());
+		return new ModelAndView(viewName, map);
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/add", method=RequestMethod.POST)
 	public ModelAndView addEntry(HttpSession httpSession, @ModelAttribute("entry") Entry entry, BindingResult results, ModelMap map){
 		User userSession = (User)httpSession.getAttribute("userSession");
-		if(isValidUser(userSession)){
-//			RegisterValidator registerValidator = new RegisterValidator();
-//			registerValidator.validate(user, results);
-			viewName = "addEntry";
-			if(!results.hasErrors()){
-				// TO DO
+		if(isValidUser(userSession)) {
+			EntryValidator entryValidator = new EntryValidator();
+			entryValidator.validate(entry, results);
+			if(!results.hasErrors()) {
+				entryService.save(entry);
 			}
+			viewName = "addEntry";
 		} else{
 			map.addAttribute("userSession", new User());
 			viewName = "login";
