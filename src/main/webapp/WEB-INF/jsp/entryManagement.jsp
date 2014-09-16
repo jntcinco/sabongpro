@@ -60,21 +60,18 @@
               				<p><a href="<c:url value='/admin/entry/prep/add'/>" class="rightFloat margtop10 margbtm10 margright20">Add Entry</a></p>
               				<table width="95%" cellspacing='0' class="tabler"><!-- cellspacing='0' is important, must stay -->
                     			<tr>
-                    				<th width="40%">Description</th>
-                    				<th width="30%">Url</th>
-                    				<th width="15%">Status</th>
+                    				<th width="10%">Fight Number</th>
+                    				<th width="30%">Entry Name</th>
+                    				<th width="30%">Owner Name</th>
+                    				<th width="10%">Fight Weight</th>
                     			</tr>
                     
-                    			<c:forEach var="config" varStatus="loop" items="${configs}">
+                    			<c:forEach var="entry" varStatus="loop" items="${entries}">
                     			<tr class="${loop.index % 2 == 0 ? 'even' : ''}">
-                    				<td id="description${config.id}"><a href="#" onclick="sabongproWidgets.showUpdateStreamingStatusDialogForm(${config.id});" style="color:#3E87BC;">${config.description}</a></td>
-                    				<td id="streamUrl${config.id}">${config.url}</td>
-                    				<td id="streamStatus${config.id}">
-                    					<c:choose>
-                    						<c:when test="${config.streamOnline}">Online</c:when>
-                    						<c:otherwise>Offline</c:otherwise>
-                    					</c:choose>
-                    				</td>
+                    				<td id=""><a href="#" onclick="" style="color:#3E87BC;">${entry.fightNumber}</a></td>
+                    				<td id="">${entry.entryName}</td>
+                    				<td id="">${entry.ownerName}</td>
+                    				<td id="">${entry.fightWeight}</td>
                     			</tr>
                     			<!-- start popup dialog -->
 			  					<div id="updateStreamingStatusDialog" class="ui-dialog-titlebar ui-widget-header" title="Update streaming status dialog">
