@@ -78,20 +78,25 @@
                     				<tr>
                     					<td width="50%" style="text-align:right;">Side</td>
                     					<td width="50%" style="text-align:left;">
-                    						
+                    						<form:select path="side" id="entrySide">
+                    							<option value="MERON">Meron</option>
+												<option value="WALA">Wala </option>
+                    						</form:select>
+                    						<form:errors path="side" cssClass="error"/>
                     					</td>
                     				</tr>
                     				<tr>
                     					<td width="50%" style="text-align:right;">Blood line</td>
                     					<td width="50%" style="text-align:left;">
-                    						
+                    						<form:input path="bloodLine" value=""/>
+                    						<form:errors path="bloodLine" cssClass="error"/>
                     					</td>
                     				</tr>
                     				<tr>
                     					<td width="50%" style="text-align:right;">Fight Weight</td>
                     					<td width="50%" style="text-align:left;">
-                    						<form:input path="fightNumber" value=""/>
-                    						<form:errors path="fightNumber" cssClass="error"/>
+                    						<form:input path="fightWeight" value=""/>
+                    						<form:errors path="fightWeight" cssClass="error"/>
                     					</td>
                     				</tr>
                     				<tr>

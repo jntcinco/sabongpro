@@ -24,18 +24,20 @@ public class EntryValidator implements Validator {
 		if(CommonUtil.isBlankOrNull(entry.getEntryName())){
 			errors.rejectValue("entryName", "entry.owner.name.required");
 		}
-		if(CommonUtil.isBlankOrNull(entry.getFightWeight())){
-			errors.rejectValue("fightWeight", "entry.fight.weight.required");
-		}
 		if(CommonUtil.isBlankOrNull(entry.getOwnerName())){
 			errors.rejectValue("ownerName", "entry.owner.name.required");
 		}
 		if(CommonUtil.isBlankOrNull(entry.getSide())){
 			errors.rejectValue("side", "entry.side.required");
 		}
-		if(entry.getFightNumber() == null){
+		if(CommonUtil.isBlankOrNull(entry.getFightWeight())){
+			errors.rejectValue("fightWeight", "entry.fight.weight.required");
+		} else if(!NumberUtils.isNumber(entry.getFightNumber())) {
+			errors.rejectValue("fightWeight", "entry.fight.weight.invalid");
+		}
+		if(CommonUtil.isBlankOrNull(entry.getFightNumber())){
 			errors.rejectValue("fightNumber", "entry.fight.number.required");
-		} else if(NumberUtils.isNumber(entry.getFightNumber())) {
+		} else if(!NumberUtils.isNumber(entry.getFightNumber())) {
 			errors.rejectValue("fightNumber", "entry.fight.number.invalid");
 		}
 	}
