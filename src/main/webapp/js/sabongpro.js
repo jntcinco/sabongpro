@@ -44,10 +44,11 @@ var configId;
 var streamingAccess;
 var sabongproAjax = {
 	activateStreamingAccess : function() {
+		var virtualPoints = sabong('input#virtualPoints').val();
 		sabong.ajax({
 			url : "/sabongpro/admin/user/allow/access",
 			type : "POST",
-			data : {userId : userId, streamingAccess : streamingAccess},
+			data : {userId : userId, streamingAccess : streamingAccess, virtualPoints : virtualPoints},
 			success : function(response) {
 				var columnId = "#streamingAccessColumn"+userId;
 				if(response.streamingAccess == 1) {

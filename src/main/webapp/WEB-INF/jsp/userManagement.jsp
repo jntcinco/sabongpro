@@ -75,6 +75,7 @@
                     				<th width="30%">Email</th>
                     				<th width="15%">Role</th>
                     				<th>Streaming Access</th>
+                    				<th>Virtual Points</th>
                     			</tr>
                     
                     			<c:forEach var="user" varStatus="loop" items="${users}">
@@ -88,6 +89,7 @@
                     						<c:otherwise>Deactivated</c:otherwise>
                     					</c:choose>
                     				</td>
+                    				<td>${user.virtualPoints}</td>
                     			</tr>
                     			</c:forEach>
               				</table>

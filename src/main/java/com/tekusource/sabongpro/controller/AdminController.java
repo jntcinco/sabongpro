@@ -108,7 +108,7 @@ public class AdminController extends AbstractController {
 	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, ? extends Object> userAllowAccess(@RequestParam("userId") Long userId, 
-														 @RequestParam("streamingAccess") Integer streamingAccess){
+														 @RequestParam("streamingAccess") Integer streamingAccess, @RequestParam("virtualPoints") Long virtualPoints){
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			User user = (User) userService.getUserBy(userId);
@@ -118,6 +118,7 @@ public class AdminController extends AbstractController {
 					activateStreaming = true;
 				}
 				user.setStreamAllowed(activateStreaming);
+				user.setVirtualPoints(virtualPoints);
 				userService.update(user);
 				map.put("streamingAccess", user.isStreamAllowed());
 				map.put("message", "User profile sucessfully updated.");
