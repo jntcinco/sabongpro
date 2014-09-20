@@ -57,6 +57,9 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<BetHistory> betHistories;
 	
+	@Column(name="virtual_points")
+	private Long virtualPoints;
+	
 	public Long getId() {
 		return id;
 	}
@@ -144,4 +147,13 @@ public class User implements Serializable {
 	public void setBetHistories(List<BetHistory> betHistories) {
 		this.betHistories = betHistories;
 	}
+
+	public Long getVirtualPoints() {
+		return virtualPoints;
+	}
+
+	public void setVirtualPoints(Long virtualPoints) {
+		this.virtualPoints = virtualPoints;
+	}
+
 }

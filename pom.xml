@@ -297,6 +297,7 @@
 					<url>${database.url}</url>
 					<user>${database.username}</user>
 					<password>${database.password}</password>
+					<driver>${database.driverClassName}</driver>
 				</configuration>
 			</plugin>
 		</plugins>
