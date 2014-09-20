@@ -5,6 +5,7 @@ public class SabongProConstants {
 	public static final String USER_EXIST = "User already exist.";
 	public static final String USERNAME_EXIST = "Username is already in use.";
 	public static final String USER_SAVED = "User successfully saved.";
+	public static final String ENTRY_SAVED = "Entry successfully saved.";
 	
 	public static final String USER_NOTIFICATION_REGISTERED = "Registration Successful!<br/><br/>NOTE: We will send a confirmation e-mail to complete the registration process. You have to click on the link provided in this e-mail to verify the authenticity of account ownership. If you are using your Yahoo, GMail or Hotmail account, please also look in the Bulk or Spam folders. Thank you.";
 	public static final String USER_NOTIFICATION_CAN_LOGIN = "You can now login using your username and password.";

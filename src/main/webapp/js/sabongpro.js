@@ -34,6 +34,17 @@ var sabongproCommons = {
 			HideDialog();
 			e.preventDefault();
 		});
+	},
+	populateElementsWithValues : function(response) {
+		sabong("#meronEntryName").html(response.entryName);
+		sabong("#meronOwnerName").html(response.ownerName);
+		sabong("#meronBloodLine").html(response.bloodLine);
+		sabong("#meronFightWeight").html(response.fightWeight + " kg");
+		sabong("#walaEntryName").html(response.opponentEntryName);
+		sabong("#walaOwnerName").html(response.opponentOwnerName);
+		sabong("#walaBloodLine").html(response.opponentBloodLine);
+		sabong("#walaFightWeight").html(response.opponentFightWeight + " kg");
+		sabong("#fightNumber").html(response.fightNumber);
 	}
 }
 // end bolas script
@@ -159,8 +170,7 @@ var sabongproAjax = {
 			url : "/sabongpro/bettingServices/closeBetting",
 			type : "GET",
 			success : function(response) {
-				sabong("div#meronStatus").html("CLOSE");
-				sabong("div#walaStatus").html("CLOSE");
+				sabong("#betStatus").html("CLOSE");
 			},
 			error : function(xhr) {
 				alert("Error Code: "+xhr.status);
@@ -183,8 +193,7 @@ var sabongproAjax = {
 				sabong("#tenEightMeronAmount").html(response.tenEightMeronTotal);
 				sabong("#tenEightWalaAmount").html(response.tenEightWalaTotal);
 				if(response.isLocked) {
-					sabong("div#meronStatus").html("CLOSE");
-					sabong("div#walaStatus").html("CLOSE");
+					sabong("#betStatus").html("CLOSE");
 				}
 			},
 			error : function(xhr) {
@@ -203,6 +212,30 @@ var sabongproAjax = {
 			},
 			error : function(xhr) {
 				alert("Error Code: "+xhr.status);
+			}
+		});
+	},
+	getEntryMatch : function() {
+		sabong.ajax({
+			url : "/sabongpro/bettingServices/getEntryMatch",
+			type : "GET",
+			success : function(response) {
+				sabongproCommons.populateElementsWithValues(response);
+			},
+			error : function(xhr) {
+				alert("Error code: "+xhr.status);
+			}
+		});
+	},
+	getCurrentMatch : function() {
+		sabong.ajax({
+			url : "/sabongpro/bettingServices/getCurrentMatch",
+			type : "GET",
+			success : function(response) {
+				sabongproCommons.populateElementsWithValues(response);
+			},
+			error : function(xhr) {
+				alert("Error code: "+xhr.status);
 			}
 		});
 	}

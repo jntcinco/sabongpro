@@ -22,6 +22,9 @@ public class Entry implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name="fightNumber")
+	private String fightNumber;
+	
 	@Column(name="entryName")
 	private String entryName;
 	
@@ -37,8 +40,20 @@ public class Entry implements Serializable {
 	@Column(name="fightWeight")
 	private String fightWeight;
 	
-	@Column(name="fightNumber")
-	private String fightNumber;
+	@Column(name="opponentEntryName")
+	private String opponentEntryName;
+	
+	@Column(name="opponentOwnerName") 
+	private String opponentOwnerName;
+	
+	@Column(name="opponentSide")
+	private String opponentSide;
+	
+	@Column(name="opponentBloodLine")
+	private String opponentBloodLine;
+	
+	@Column(name="opponentFightWeight")
+	private String opponentFightWeight;
 
 	public Long getId() {
 		return id;
@@ -46,6 +61,14 @@ public class Entry implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getFightNumber() {
+		return fightNumber;
+	}
+	
+	public void setFightNumber(String fightNumber) {
+		this.fightNumber = fightNumber;
 	}
 	
 	public String getEntryName() {
@@ -88,11 +111,43 @@ public class Entry implements Serializable {
 		this.bloodLine = bloodLine;
 	}
 	
-	public String getFightNumber() {
-		return fightNumber;
+	public String getOpponentEntryName() {
+		return opponentEntryName;
 	}
 	
-	public void setFightNumber(String fightNumber) {
-		this.fightNumber = fightNumber;
+	public void setOpponentEntryName(String opponentEntryName) {
+		this.opponentEntryName = opponentEntryName;
+	}
+	
+	public String getOpponentOwnerName() {
+		return opponentOwnerName;
+	}
+	
+	public void setOpponentOwnerName(String opponentOwnerName) {
+		this.opponentOwnerName = opponentOwnerName;
+	}
+	
+	public String getOpponentSide() {
+		return opponentSide;
+	}
+	
+	public void setOpponentSide(String opponentSide) {
+		this.opponentSide = opponentSide;
+	}
+	
+	public String getOpponentFightWeight() {
+		return opponentFightWeight;
+	}
+	
+	public void setOpponentFightWeight(String opponentFightWeight) {
+		this.opponentFightWeight = opponentFightWeight;
+	}
+	
+	public String getOpponentBloodLine() {
+		return opponentBloodLine;
+	}
+	
+	public void setOpponentBloodLine(String opponentBloodLine) {
+		this.opponentBloodLine = opponentBloodLine;
 	}
 }

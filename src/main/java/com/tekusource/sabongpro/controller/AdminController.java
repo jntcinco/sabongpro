@@ -341,10 +341,13 @@ public class AdminController extends AbstractController {
 			entryValidator.validate(entry, results);
 			if(!results.hasErrors()) {
 				entryService.save(entry);
+				map.put("notificationMessage", SabongProConstants.ENTRY_SAVED);
+				map.addAttribute("entry", new Entry());
+			} else {
+				map.addAttribute("entry", entry);
 			}
 			viewName = "addEntry";
 		} else{
-			map.addAttribute("userSession", new User());
 			viewName = "login";
 		}
 		return new ModelAndView(viewName, map);

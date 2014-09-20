@@ -71,29 +71,33 @@ public class LoginController extends AbstractController {
 		if(!result.hasErrors()){
 			try{
 				User user = userService.getUserByUserName(userSession.getUserName());
-				if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
-					model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
-				}else{
-					String password = userService.decryptPassword(user.getPassword());
-					if(password.equals(userSession.getPassword())){
-						model.put("user", user);
-						httpSession.setAttribute("userSession", user);
-						if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())) {
-							viewName = "adminManagement";
-						}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
-							viewName = "profile";
-
-							List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
-							if (!configs.isEmpty()) {
-								model.put("config", configs.get(0));
-							}
-						}
-						UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-						model.put("profile", profile);
-						httpSession.setAttribute("profileSession", profile);
+				if(user != null) {
+					if(user.getStatus().equals(StatusType.INACTIVE.getDescription())){
+						model.put("notificationMessage", "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.");
 					}else{
-						model.put("notificationMessage", "Invalid username/password. Please try again.");
+						String password = userService.decryptPassword(user.getPassword());
+						if(password.equals(userSession.getPassword())){
+							model.put("user", user);
+							httpSession.setAttribute("userSession", user);
+							if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())) {
+								viewName = "adminManagement";
+							}else if(user.getUserRole().getRole().equals(RoleType.GUEST.getDescription())) {
+								viewName = "profile";
+
+								List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
+								if (!configs.isEmpty()) {
+									model.put("config", configs.get(0));
+								}
+							}
+							UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
+							model.put("profile", profile);
+							httpSession.setAttribute("profileSession", profile);
+						}else{
+							model.put("notificationMessage", "Invalid username/password. Please try again.");
+						}
 					}
+				} else {
+					model.put("notificationMessage", "User not found. Please try again.");
 				}
 			}catch(Exception e){
 				logger.error("Error getting user credentials for user: " + userSession.getUserName(), e);
