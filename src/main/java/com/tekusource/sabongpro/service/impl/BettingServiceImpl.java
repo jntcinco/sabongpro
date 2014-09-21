@@ -12,7 +12,9 @@ import com.tekusource.sabongpro.dao.BetHistoryDao;
 import com.tekusource.sabongpro.model.BetHistory;
 import com.tekusource.sabongpro.model.BettingInfo;
 import com.tekusource.sabongpro.model.OddsType;
+import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.BettingService;
+import com.tekusource.sabongpro.service.UserService;
 
 @Service("bettingService")
 @Scope("singleton")
@@ -21,6 +23,9 @@ public class BettingServiceImpl implements BettingService {
 	
 	@Autowired
 	private BetHistoryDao betHistoryDao;
+	
+	@Autowired
+	private UserService userService;
 
 	private List<BettingInfo> meronInfos = new ArrayList<BettingInfo>();
 	private List<BettingInfo> nineTenMeron = new ArrayList<BettingInfo>();
@@ -263,10 +268,20 @@ public class BettingServiceImpl implements BettingService {
 	
 	private void insertBetHistory(List<BettingInfo> infos, String winner) {
 		for(BettingInfo info : infos) {
+			User user = (User) info.getUser();
+			String side = info.getSide();
 			BetHistory betHistory = new BetHistory();
 			betHistory.setResult(winner);
-			betHistory.setSide(info.getSide());
-			betHistory.setUser(info.getUser());
+			betHistory.setSide(side);
+			betHistory.setUser(user);
+			double virtualPoints = 0;
+			if(winner.equals(side)) {
+				virtualPoints = user.getVirtualPoints() + info.getBetAmount();
+			} else {
+				virtualPoints = user.getVirtualPoints() - info.getBetAmount();
+			}
+			user.setVirtualPoints(virtualPoints);
+			userService.update(user);
 			betHistoryDao.create(betHistory);
 		}
 	}

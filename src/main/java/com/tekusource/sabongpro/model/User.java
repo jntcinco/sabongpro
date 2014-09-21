@@ -58,7 +58,7 @@ public class User implements Serializable {
 	private List<BetHistory> betHistories;
 	
 	@Column(name="virtual_points")
-	private Long virtualPoints;
+	private Double virtualPoints;
 	
 	public Long getId() {
 		return id;
@@ -148,11 +148,11 @@ public class User implements Serializable {
 		this.betHistories = betHistories;
 	}
 
-	public Long getVirtualPoints() {
+	public Double getVirtualPoints() {
 		return virtualPoints;
 	}
 
-	public void setVirtualPoints(Long virtualPoints) {
+	public void setVirtualPoints(Double virtualPoints) {
 		this.virtualPoints = virtualPoints;
 	}
 
