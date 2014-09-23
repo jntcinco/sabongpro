@@ -1,6 +1,7 @@
 package com.tekusource.sabongpro.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -9,6 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,6 +26,7 @@ import com.tekusource.sabongpro.cache.control.CacheControl;
 import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
+import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
 import com.tekusource.sabongpro.service.StreamingConfigService;
@@ -54,32 +60,47 @@ public class GuestController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE }) 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
-		if(isUserSessionValid(httpSession)){
-			User user = new User();
-			if(httpSession.getAttribute("userSession")!= null)
-				user = (User)httpSession.getAttribute("userSession");
-			
-			model.addAttribute("user", user);
-			viewName = "profile";
-		}else{
-			model.addAttribute("userSession", new User());
+		
+		viewName = "profile";
+		String userName = null;
+
+		//get the principal user from security context
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			userName = userDetail.getUsername();
+		}
+
+		try{
+			User user = userService.getUserByUserName(userName);
+			if(user != null){
+				model.put("user", user);
+				httpSession.setAttribute("userSession", user);
+				isUserSessionValid(httpSession);
+
+				List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
+				if (!configs.isEmpty()) {
+					model.put("config", configs.get(0));
+				}
+
+				UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
+				model.put("profile", profile);
+				httpSession.setAttribute("profileSession", profile);
+			}
+		}catch(Exception e){
+			logger.error("Error retreiving and validating userl", e);
 			viewName = "login";
 		}
-		
+
 		return new ModelAndView(viewName, model);
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
-		if(this.isUserSessionValid(httpSession)) {
-			User user = (User) userService.getUserBy(userSession.getId());
-			model.put("isStreamAllowed", user.isStreamAllowed());
-	        viewName = "livestreaming";
-		} else {
-			model.addAttribute("userSession", new User());
-			viewName = "login";
-		}
+		User user = (User) userService.getUserBy(userSession.getId());
+		model.put("isStreamAllowed", user.isStreamAllowed());
+		viewName = "livestreaming";
 		return new ModelAndView(viewName, model);
 	}
 	
@@ -97,9 +118,10 @@ public class GuestController extends AbstractController {
 	}
 	
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE }) 
-	@RequestMapping(value="/profileform", method=RequestMethod.GET)
+	@RequestMapping(value="/editprofile", method=RequestMethod.GET)
 	public ModelAndView profileForm(HttpSession httpSession, ModelMap model){
-		if(isUserSessionValid(httpSession)){
+		viewName = "editprofile";
+		try{
 			User user = new User();
 			UserProfile profile = new UserProfile();
 			if(httpSession.getAttribute("userSession")!= null){
@@ -108,10 +130,9 @@ public class GuestController extends AbstractController {
 			}
 			model.addAttribute("user", user);
 			model.addAttribute("profile", profile);
-			viewName = "editprofile";
-		}else{
-			model.addAttribute("userSession", new User());
-			viewName = "login";
+		}catch(Exception e){
+			logger.error("Error preparing edit profile.", e);
+			viewName = "account";
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -120,38 +141,33 @@ public class GuestController extends AbstractController {
 	@RequestMapping(value="/editprofile", method=RequestMethod.POST)
 	public ModelAndView editProfile(HttpSession session, @ModelAttribute("profile") UserProfile profile, BindingResult results){
 		Map<String,Object> model = new HashMap<String,Object>();
-		
-		if(isUserSessionValid(session)){
-			EditProfileValidator validator = new EditProfileValidator();
-			validator.validate(profile, results);
-			viewName = "editprofile";
 
-			if(!results.hasErrors()){
-				try{
-					User user = (User) session.getAttribute("userSession");
-					UserProfile up = user.getProfile();
+		EditProfileValidator validator = new EditProfileValidator();
+		validator.validate(profile, results);
+		viewName = "editprofile";
 
-					up.setFirstName(profile.getFirstName());
-					up.setMiddleName(profile.getMiddleName());
-					up.setLastName(profile.getLastName());
-					up.setStreet(profile.getStreet());
-					up.setCity(profile.getCity());
-					up.setZip(profile.getZip());
-					up.setContactNumber(profile.getContactNumber());
+		if(!results.hasErrors()){
+			try{
+				User user = (User) session.getAttribute("userSession");
+				UserProfile up = user.getProfile();
 
-					userProfileService.update(up);
-					model.put("notificationMessage", "Your profile is successfully updated.");
+				up.setFirstName(profile.getFirstName());
+				up.setMiddleName(profile.getMiddleName());
+				up.setLastName(profile.getLastName());
+				up.setStreet(profile.getStreet());
+				up.setCity(profile.getCity());
+				up.setZip(profile.getZip());
+				up.setContactNumber(profile.getContactNumber());
 
-					//update user session copy
-					user.setProfile(up);
-					session.setAttribute("userSession", user);
-				}catch(Exception e){
-					logger.error("Error updating profile.", e);
-				}
+				userProfileService.update(up);
+				model.put("notificationMessage", "Your profile is successfully updated.");
+
+				//update user session copy
+				user.setProfile(up);
+				session.setAttribute("userSession", user);
+			}catch(Exception e){
+				logger.error("Error updating profile.", e);
 			}
-		}else{
-			model.put("userSession", new User());
-			viewName = "login";
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -160,12 +176,11 @@ public class GuestController extends AbstractController {
 	@RequestMapping(value="/account", method=RequestMethod.GET)
 	public ModelAndView viewAccount(HttpSession session, ModelMap model){
 		viewName = "account";
-		if(isUserSessionValid(session)){
+		try{
 			User user = (User) session.getAttribute("userSession");
 			model.addAttribute("user", user);
-		}else{
-			viewName = "login";
-			model.addAttribute("userSession", new User());
+		}catch(Exception e){
+			logger.error("Error getting user from session.", e);
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -175,32 +190,26 @@ public class GuestController extends AbstractController {
 	public ModelAndView changePassword(HttpServletRequest request, HttpSession session){
 		Map<String,Object> messages = new HashMap<String,Object>();
 		viewName = "account";
-		
-		if(isUserSessionValid(session)){
-			User user = (User) session.getAttribute("userSession");
 
-			messages = getPasswordErrors(request, user);
-			if(messages.isEmpty()){
-				try{
-					String newPassword = request.getParameter("newPassword");
+		User user = (User) session.getAttribute("userSession");
 
-					user.setPassword(userService.encryptPassword(newPassword));
-					userService.update(user);
+		messages = getPasswordErrors(request, user);
+		if(messages.isEmpty()){
+			try{
+				String newPassword = request.getParameter("newPassword");
 
-					//update session copy
-					session.setAttribute("userSession", user);
+				user.setPassword(userService.encryptPassword(newPassword));
+				userService.update(user);
 
-					messages.put("notificationMessage", "Your password is successfully updated.");
-				}catch(Exception e){
-					messages.put("notificationMessage", "Error updating your password.");
-				}
+				//update session copy
+				session.setAttribute("userSession", user);
+
+				messages.put("notificationMessage", "Your password is successfully updated.");
+			}catch(Exception e){
+				messages.put("notificationMessage", "Error updating your password.");
 			}
-		}else{
-			messages.put("userSession", new User());
-			viewName = "login";
 		}
 		return new ModelAndView(viewName, messages);
-		
 	}
 	
 	private Map<String,Object> getPasswordErrors(HttpServletRequest request, User user){

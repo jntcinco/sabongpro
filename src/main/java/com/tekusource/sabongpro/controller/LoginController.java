@@ -2,7 +2,6 @@ package com.tekusource.sabongpro.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -34,7 +33,7 @@ public class LoginController {
 	@Autowired
 	private StreamingConfigService streamingConfigService;
 	
-	private static final Logger logger = Logger.getLogger(LoginController.class);
+//	private static final Logger logger = Logger.getLogger(LoginController.class);
 	
 //	@Override
 //	@CacheControl(policy = { CachePolicy.NO_STORE })

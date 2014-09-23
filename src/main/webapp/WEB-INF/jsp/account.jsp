@@ -107,7 +107,7 @@
         	<div class="statBlock textshadowWhite">
             	<div class="statRight">
                 	<ul>
-                    	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
+                    	<li><a href='<c:url value="/login?logout"/>'>Logout</a></li>
                 	</ul>
                 </div>
                 <ul>
@@ -164,7 +164,7 @@
 						<div class="sidecnt">
 							<ul>
 								<li><a href="<c:url value='/guest/livestreaming'/>">Watch live streaming</a></li>
-								<li><a href="<c:url value='/guest/profileform'/>">Edit Profile</a></li>
+								<li><a href="<c:url value='/guest/editprofile'/>">Edit Profile</a></li>
 								<li><a href="<c:url value='/guest/account'/>">Change Password</a></li>
 							</ul>
 						</div>

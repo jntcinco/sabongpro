@@ -68,7 +68,7 @@
                     		<li><a href="#" onclick="sabongproAjax.closeBetting();">Close Betting</a></li>
                     		<li><a href="#" onclick="sabongproWidgets.showSintencyaDialogForm();">Declare Winner</a></li>
                     	</c:if>
-                    	<li><a href='<c:url value="/authenticate/logout"/>'>Logout</a></li>
+                    	<li><a href='<c:url value="/login?logout"/>'>Logout</a></li>
                 	</ul>
                 </div>
                 <ul>

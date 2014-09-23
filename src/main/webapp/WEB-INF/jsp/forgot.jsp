@@ -74,7 +74,7 @@ $(document).ready(function() {
 	<a href="<c:url value='/'/>" title="Sabong Pro"><img src="<c:url value='/images/logo.png'/>" alt="Logo" width="335" height="90" /></a>
 </div> <!--eof logo -->
 <div id="centrHeader">
-    <a href="<c:url value='/authenticate'/>"><div class="loginblck"></div></a>
+    <a href="<c:url value='/login'/>"><div class="loginblck"></div></a>
     <a href="<c:url value='/register'/>"><div class="signupblck"></div></a>
 </div> <!--eof centrHeader -->
 

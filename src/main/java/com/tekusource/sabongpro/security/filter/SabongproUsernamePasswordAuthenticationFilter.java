@@ -38,7 +38,11 @@ public class SabongproUsernamePasswordAuthenticationFilter extends
 		SecurityContextHolder.getContext().setAuthentication( authResult );
 
 		User user = sabongproUserDetailService.getCurrentUser();
-		request.getSession().setAttribute("user", user);
+		
+		HttpSession session = request.getSession(false);
+		if(session != null || getAllowSessionCreation()){
+			session.setAttribute("user", user);
+		}
 
 		// Fire event
 		if ( this.eventPublisher != null )
