@@ -100,7 +100,7 @@ $(document).ready(function() {
               </div>
             </div>
             <div class="crankupcol2 margtop20">
-            	<c:url var="register" value="/guest/register"/>
+            	<c:url var="register" value="/register"/>
 				<form:form modelAttribute="user" action="${register}" method="post" class="centered">
 					<div class="errorBlock2 margbtm10">${notificationMessage}</div>
 					<div class="formsingle">

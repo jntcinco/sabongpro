@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,11 +23,17 @@ import com.tekusource.sabongpro.cache.control.CacheControl;
 import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.email.notification.impl.EmailNotificationService;
+import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
+import com.tekusource.sabongpro.model.UserProfile;
+import com.tekusource.sabongpro.model.UserRole;
 import com.tekusource.sabongpro.service.StreamingConfigService;
+import com.tekusource.sabongpro.service.UserProfileService;
+import com.tekusource.sabongpro.service.UserRoleService;
 import com.tekusource.sabongpro.service.UserService;
 import com.tekusource.sabongpro.util.CommonUtil;
+import com.tekusource.sabongpro.validator.RegisterValidator;
 
 @Controller
 @RequestMapping(value="/")
@@ -33,6 +41,12 @@ public class FrontPageController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
+	
+	@Autowired
+	private UserProfileService userProfileService;
 	
 	@Autowired
 	private StreamingConfigService streamingConfigService;
@@ -84,6 +98,81 @@ public class FrontPageController extends AbstractController {
 	@RequestMapping(value="/forgot", method = RequestMethod.GET)
 	public ModelAndView forgot(HttpSession httpSession, ModelMap model){
 		return new ModelAndView("forgot", model);
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/register", method=RequestMethod.POST)
+	public ModelAndView register(HttpServletRequest request, HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
+		Map<String, String> registerMessages = new HashMap<String, String>();
+		RegisterValidator registerValidator = new RegisterValidator();
+		registerValidator.validate(user, results);
+		viewName = "register";
+		
+		if(!results.hasErrors()) {
+			if(userService.isUserNameExist(user.getUserName())) {
+				registerMessages.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
+			} else {
+				try{
+					String userToken = userService.createUserToken(user);
+					String encryptedPassword = userService.encryptPassword(user.getPassword());
+					user.setPassword(encryptedPassword);
+					user.setEnabled(false);
+					user.setStreamAllowed(false);
+					
+					UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.ADMIN.getDescription());
+					user.setUserToken(userToken);
+					user.setUserRole(role);
+					userService.save(user);
+					
+					UserProfile profile = new UserProfile();
+					profile.setUser(user);
+					userProfileService.save(profile);
+					
+					sendEmailNotification(getVerificationUrl(request), user.getEmail(), user.getUserName(), userToken);
+					registerMessages.put("successMessage", SabongProConstants.USER_SAVED);
+					registerMessages.put("notificationMessage", SabongProConstants.USER_NOTIFICATION_REGISTERED);
+				}catch(Exception e){
+					logger.error("Error registering user.", e);
+				}
+			}
+		}
+		return new ModelAndView(viewName, registerMessages);
+	}
+	
+	private String getVerificationUrl(HttpServletRequest request){
+		StringBuilder urlBuilder = new StringBuilder("http://");
+		
+		if(request.getServerPort() != 80)
+			urlBuilder.append(request.getServerName()).append(":").append(request.getServerPort());
+		else
+			urlBuilder.append(request.getServerName());
+		urlBuilder.append("/sabongpro/guest/verification");
+		
+		return urlBuilder.toString();
+	}
+	
+	private void sendEmailNotification(String uri, String email, String username, String userToken) {
+		StringBuilder url = new StringBuilder();
+		url.append(uri).append("?userToken=").append(userToken).append("&username=").append(username);
+		
+		String message = composeEmailMessage(url.toString(), username);
+		
+        List<String> recipients = new ArrayList<String>();
+        recipients.add(email);
+        
+        emailNotificationService.sendEmailNotification(recipients, message, SabongProConstants.MAIL_SUBJECT, SabongProConstants.MAIL_USERNAME);
+	}
+	
+	private String composeEmailMessage(String url, String userName){
+		StringBuilder message = new StringBuilder("Dear ");
+		message.append(userName).append(",<br/><br/>").append(SabongProConstants.MAIL_BODY_PART);
+		message.append("<a href=\"").append(url).append("\">").append(url).append("</a><br/><br/>");
+		message.append(SabongProConstants.MAIL_SENDER);
+		message.append(SabongProConstants.MAIL_FOOTER_SEPARATOR);
+		message.append(SabongProConstants.MAIL_FOOTER_NOTE);
+		message.append(SabongProConstants.MAIL_FOOTER_SEPARATOR);
+		
+		return message.toString();
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
