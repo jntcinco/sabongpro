@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -84,24 +86,39 @@ $(document).ready(function() {
             </div>
             <div class="crankupcol2 margtop50">
             	<h1>LOG-IN</h1>
-            	<div class="errorBlock margbtm20">${notificationMessage}</div>
-            	<c:url var="login" value="/authenticate/login" />
-				<form:form modelAttribute="userSession" action="${login}" method="post" class="centered">
+				<div class="errorBlock margbtm20">
+					<c:if test="${not empty notificationMessage}">
+						${notificationMessage}
+					</c:if>
+					<c:if test="${param.error eq 'bad.credentials' }">
+						Invalid username or password.
+					</c:if>
+					<c:if test="${param.error eq 'disabled.user' }">
+						Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.
+					</c:if>
+					<c:if test="${param.error eq 'account.locked'}">
+						Your account is locked. Please contact your administrator.
+					</c:if>
+					<c:if test="${param.error eq 'credentials.expired'}">
+						Your account expired. Please contact you administrator.
+					</c:if>
+				</div>
+				<form name="loginForm" action="<c:url value='/j_spring_security_check'/>" method="post" class="centered">
 					<div class="formsingle">
-						<form:input path="userName" class="biginput" title="Username"/>
-                        <div class="errorBlock margbtm20"><form:errors path="userName" cssClass="error"/></div>
+						<input type="text" name="j_username" class="biginput" title="Username"/>
+						<div class="">&nbsp;</div>
                     </div>
                     <div class="formsingle">
                     	<input id="password-clear" type="text" class="biginput" value="Password" autocomplete="off"/>
-                    	<form:password id="password-password" path="password" class="biginput" title="Password"/>
-                      	<div class="errorBlock"><form:errors path="password" cssClass="error"/></div>
+                    	<input id="password-password" type="password" name="j_password" class="biginput" title="Password"/>
+                    	<div class="">&nbsp;</div>
                   	</div>
                   	<div class="formsingle">
                     	<input type="submit" class="large orange kool" value="Log-in" title="Log-in"/>
                     	<a href="<c:url value='/forgot'/>" class="medium blue kool">Forgot Password?</a>
                     	<a href="<c:url value="/register"/>" class="medium green kool">Sign-up</a>
                     </div>
-				</form:form>
+				</form>
             </div>
           
           </div><!--eof content -->

@@ -71,7 +71,7 @@
 					</a>
 				</div>
 				<div id="centrHeader">
-    				<a href="<c:url value='/authenticate'/>"><div class="loginblck"></div></a>
+    				<a href="<c:url value='/login'/>"><div class="loginblck"></div></a>
     				<a href="<c:url value='/register'/>"><div class="signupblck"></div></a>
 				</div>
 

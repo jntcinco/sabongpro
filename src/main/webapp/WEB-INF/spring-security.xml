@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd
+           http://www.springframework.org/schema/util 
+           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+           
+    <global-method-security secured-annotations="disabled" />
+           
+    <http pattern="/" security="none"/>
+    <http pattern="/register" security="none"/>
+    <http pattern="/about" security="none"/>
+    <http pattern="/schedule" security="none"/>
+    <http pattern="/faqs" security="none"/>
+    <http pattern="/contact" security="none"/>
+    
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/fancybox/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+          
+	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint" disable-url-rewriting="true">
+    	<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+    	<intercept-url pattern="/guest/**" access="hasRole('GUEST')"/>
+    	
+    	<custom-filter position="FORM_LOGIN_FILTER" ref="sabongproUsernamePasswordFilter"/>
+    	<custom-filter position="LOGOUT_FILTER" ref="sabongproLogoutFilter"/>
+		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>    	
+		<session-management session-authentication-strategy-ref="sas"/>
+    	<access-denied-handler ref="accessDeniedHandler" />
+    </http>
+    
+    <beans:bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+		<beans:property name="errorPage" value="/403" />
+	</beans:bean>
+	
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="sabongproUserDetailService" >
+			<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="loginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:property name="loginFormUrl" value="/login" />
+	</beans:bean>
+	
+	<beans:bean id="sabongproUsernamePasswordFilter" class="com.tekusource.sabongpro.security.filter.SabongproUsernamePasswordAuthenticationFilter">
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+		<beans:property name="sessionAuthenticationStrategy" ref="sas" />
+		<beans:property name="authenticationSuccessHandler">
+	    	<beans:bean class="com.tekusource.sabongpro.security.handler.SabongproSuccessHandler"/>
+	    </beans:property>
+	    <beans:property name="authenticationFailureHandler" ref="loginMappingFailureHandler"/>
+	</beans:bean>
+	
+	<beans:bean id="loginMappingFailureHandler"
+	    class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+	    <beans:property name="defaultFailureUrl" value="/login?error=true"/>
+	    <beans:property name="exceptionMappings">
+	        <beans:props>
+	            <beans:prop key="org.springframework.security.authentication.BadCredentialsException">/login?error=bad.credentials</beans:prop>
+	            <beans:prop key="org.springframework.security.authentication.CredentialsExpiredException">/login?error=credentials.expired</beans:prop>
+	            <beans:prop key="org.springframework.security.authentication.LockedException">/login?error=account.locked</beans:prop>
+	            <beans:prop key="org.springframework.security.authentication.DisabledException">/login?error=disabled.user</beans:prop>
+	        </beans:props>
+	    </beans:property>
+	</beans:bean>
+	
+	<beans:bean id="sabongproLogoutFilter" class="com.tekusource.sabongpro.security.filter.SabongproLogoutFilter">
+		<beans:constructor-arg value="/login?logout" />
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:bean
+					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+			</beans:list>
+		</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_logout" />
+	</beans:bean>
+
+	<beans:bean id="concurrencyFilter"
+		class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<beans:property name="sessionRegistry" ref="sessionRegistry" />
+		<beans:property name="expiredUrl" value="/invalid_session" />
+	</beans:bean>
+
+	<beans:bean id="sas"
+		class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:bean
+					class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+					<beans:constructor-arg ref="sessionRegistry" />
+					<beans:property name="maximumSessions" value="1" />
+					<beans:property name="exceptionIfMaximumExceeded" value="true" />
+				</beans:bean>
+				<beans:bean
+					class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy">
+				</beans:bean>
+				<beans:bean
+					class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+					<beans:constructor-arg ref="sessionRegistry" />
+				</beans:bean>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+	
+</beans:beans>

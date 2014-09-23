@@ -253,7 +253,8 @@ public class GuestController extends AbstractController {
 					String userToken = userService.createUserToken(user);
 					String encryptedPassword = userService.encryptPassword(user.getPassword());
 					user.setPassword(encryptedPassword);
-					user.setStatus(StatusType.INACTIVE.getDescription());
+//					user.setStatus(StatusType.INACTIVE.getDescription());
+					user.setEnabled(false);
 					user.setStreamAllowed(false);
 					
 					UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());

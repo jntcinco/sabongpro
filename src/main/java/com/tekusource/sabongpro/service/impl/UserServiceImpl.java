@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 				updateUser.setEmail(user.getEmail());
 				updateUser.setPassword(user.getPassword());
 				updateUser.setProfile(user.getProfile());
-				updateUser.setStatus(user.getStatus());
+				updateUser.setEnabled(user.isEnabled());
 				updateUser.setStreamAllowed(user.isStreamAllowed());
 				updateUser.setUserName(user.getUserName());
 				updateUser.setUserRole(user.getUserRole());
@@ -127,7 +127,8 @@ public class UserServiceImpl implements UserService {
 			String urlToken = decryptString(userToken);
 			String dbToken = decryptString(user.getUserToken());
 			if(urlToken.equals(dbToken)) {
-				user.setStatus(StatusType.ACTIVE.getDescription());
+//				user.setStatus(StatusType.ACTIVE.getDescription());
+				user.setEnabled(true);
 				update(user);
 				isValid = true;
 			}
