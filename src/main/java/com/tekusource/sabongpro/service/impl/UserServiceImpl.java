@@ -111,7 +111,8 @@ public class UserServiceImpl implements UserService {
 			String urlToken = decryptString(userToken);
 			String dbToken = decryptString(user.getUserToken());
 			if(urlToken.equals(dbToken)) {
-				user.setStatus(StatusType.ACTIVE.getDescription());
+//				user.setStatus(StatusType.ACTIVE.getDescription());
+				user.setEnabled(true);
 				update(user);
 				isValid = true;
 			}
