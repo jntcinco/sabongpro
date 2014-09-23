@@ -61,53 +61,84 @@
               				<c:url var="addEntry" value="/admin/entry/add" />
 							<form:form modelAttribute="entry" action="${addEntry}" method="post">
 								<table width="95%" cellspacing='0' class="tabler">
+									<c:if test="${not empty notificationMessage}">
+                    					<tr><td colspan="4" style="text-align:center;">${notificationMessage}</td></tr>
+                    				</c:if>
                     				<tr>
-                    					<td width="50%" style="text-align:right;">Entry Name</td>
-                    					<td width="50%" style="text-align:left;">    
+                    					<td width="50%" style="text-align:right;" colspan="2">Fight Number</td>
+                    					<td width="50%" style="text-align:left;" colspan="2">
+                    						<form:input path="fightNumber" value=""/>
+                    						<form:errors path="fightNumber" cssClass="error"/>
+                    					</td>
+                    				</tr>
+                    				<tr>
+                    					<td width="25%" style="text-align:right;">Entry Name</td>
+                    					<td width="25%" style="text-align:left;">    
 											<form:input path="entryName" value="" />
 											<form:errors path="entryName" cssClass="error"/>               						
                     					</td>
-                    				</tr>
-                    				<tr>
-                    					<td width="50%" style="text-align:right;">Owner Name</td>
-                    					<td width="50%" style="text-align:left;">
-                    						<form:input path="ownerName" value=""/>
-                    						<form:errors path="ownerName" cssClass="error"/>
+                    					<td width="25%" style="text-align:right;">Entry Name</td>
+                    					<td width="25%" style="text-align:left;">    
+											<form:input path="opponentEntryName" value="" />
+											<form:errors path="opponentEntryName" cssClass="error"/>               						
                     					</td>
                     				</tr>
                     				<tr>
-                    					<td width="50%" style="text-align:right;">Side</td>
-                    					<td width="50%" style="text-align:left;">
+                    					<td width="25%" style="text-align:right;">Owner Name</td>
+                    					<td width="25%" style="text-align:left;">
+                    						<form:input path="ownerName" value=""/>
+                    						<form:errors path="ownerName" cssClass="error"/>
+                    					</td>
+                    					<td width="25%" style="text-align:right;">Owner Name</td>
+                    					<td width="25%" style="text-align:left;">
+                    						<form:input path="opponentOwnerName" value=""/>
+                    						<form:errors path="opponentOwnerName" cssClass="error"/>
+                    					</td>
+                    				</tr>
+                    				<tr>
+                    					<td width="25%" style="text-align:right;">Side</td>
+                    					<td width="25%" style="text-align:left;">
                     						<form:select path="side" id="entrySide">
                     							<option value="MERON">Meron</option>
 												<option value="WALA">Wala </option>
                     						</form:select>
                     						<form:errors path="side" cssClass="error"/>
                     					</td>
+                    					<td width="25%" style="text-align:right;">Side</td>
+                    					<td width="25%" style="text-align:left;">
+                    						<form:select path="opponentSide" id="entrySide">
+                    							<option value="MERON">Meron</option>
+												<option value="WALA">Wala </option>
+                    						</form:select>
+                    						<form:errors path="opponentSide" cssClass="error"/>
+                    					</td>
                     				</tr>
                     				<tr>
-                    					<td width="50%" style="text-align:right;">Blood line</td>
-                    					<td width="50%" style="text-align:left;">
+                    					<td width="25%" style="text-align:right;">Blood line</td>
+                    					<td width="25%" style="text-align:left;">
                     						<form:input path="bloodLine" value=""/>
                     						<form:errors path="bloodLine" cssClass="error"/>
                     					</td>
+                    					<td width="25%" style="text-align:right;">Blood line</td>
+                    					<td width="25%" style="text-align:left;">
+                    						<form:input path="opponentBloodLine" value=""/>
+                    						<form:errors path="opponentBloodLine" cssClass="error"/>
+                    					</td>
                     				</tr>
                     				<tr>
-                    					<td width="50%" style="text-align:right;">Fight Weight</td>
-                    					<td width="50%" style="text-align:left;">
+                    					<td width="25%" style="text-align:right;">Fight Weight</td>
+                    					<td width="25%" style="text-align:left;">
                     						<form:input path="fightWeight" value=""/>
                     						<form:errors path="fightWeight" cssClass="error"/>
                     					</td>
-                    				</tr>
-                    				<tr>
-                    					<td width="50%" style="text-align:right;">Fight Number</td>
-                    					<td width="50%" style="text-align:left;">
-                    						<form:input path="fightNumber" value=""/>
-                    						<form:errors path="fightNumber" cssClass="error"/>
+                    					<td width="25%" style="text-align:right;">Fight Weight</td>
+                    					<td width="25%" style="text-align:left;">
+                    						<form:input path="opponentFightWeight" value=""/>
+                    						<form:errors path="opponentFightWeight" cssClass="error"/>
                     					</td>
                     				</tr>
                     				<tr>
-                    					<td colspan="2" style="text-align:center;">
+                    					<td colspan="4" style="text-align:center;">
 											<input type="submit" value="Save" />    					
                     					</td>
                     				</tr>

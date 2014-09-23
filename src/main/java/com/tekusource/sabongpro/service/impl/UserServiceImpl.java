@@ -1,5 +1,6 @@
 package com.tekusource.sabongpro.service.impl;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tekusource.sabongpro.constants.ServiceConstants;
 import com.tekusource.sabongpro.dao.UserDao;
 import com.tekusource.sabongpro.model.StatusType;
+import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.UserService;
 
@@ -38,7 +40,21 @@ public class UserServiceImpl implements UserService {
 	
 	public void update(User user) {
 		if(user != null) {
-			userDao.update(user);
+			User updateUser = (User) getUserBy(user.getId());
+			if(updateUser != null) {
+				updateUser.setBetHistories(user.getBetHistories());
+				updateUser.setConfirmPassword(user.getConfirmPassword());
+				updateUser.setEmail(user.getEmail());
+				updateUser.setPassword(user.getPassword());
+				updateUser.setProfile(user.getProfile());
+				updateUser.setStatus(user.getStatus());
+				updateUser.setStreamAllowed(user.isStreamAllowed());
+				updateUser.setUserName(user.getUserName());
+				updateUser.setUserRole(user.getUserRole());
+				updateUser.setUserToken(user.getUserToken());
+				updateUser.setVirtualPoints(user.getVirtualPoints());
+				userDao.update(updateUser);
+			}
 		}
 	}
 	

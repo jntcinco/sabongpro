@@ -108,7 +108,7 @@ public class AdminController extends AbstractController {
 	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, ? extends Object> userAllowAccess(@RequestParam("userId") Long userId, 
-														 @RequestParam("streamingAccess") Integer streamingAccess, @RequestParam("virtualPoints") Long virtualPoints){
+														 @RequestParam("streamingAccess") Integer streamingAccess, @RequestParam("virtualPoints") double virtualPoints){
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			User user = (User) userService.getUserBy(userId);
@@ -342,10 +342,13 @@ public class AdminController extends AbstractController {
 			entryValidator.validate(entry, results);
 			if(!results.hasErrors()) {
 				entryService.save(entry);
+				map.put("notificationMessage", SabongProConstants.ENTRY_SAVED);
+				map.addAttribute("entry", new Entry());
+			} else {
+				map.addAttribute("entry", entry);
 			}
 			viewName = "addEntry";
 		} else{
-			map.addAttribute("userSession", new User());
 			viewName = "login";
 		}
 		return new ModelAndView(viewName, map);

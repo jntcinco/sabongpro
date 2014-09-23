@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tekusource.sabongpro.model.BettingInfo;
+import com.tekusource.sabongpro.model.Entry;
 import com.tekusource.sabongpro.model.OddsType;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.service.BettingService;
+import com.tekusource.sabongpro.service.EntryService;
 import com.tekusource.sabongpro.service.UserService;
 
 @Controller
@@ -31,7 +33,14 @@ public class BettingDataController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private EntryService entryService;
+	
+	private int fightNumber = 0;
+	
 	private static List<String> oddsList;
+	
+	private Entry entry = new Entry();
 	
 	static {
 		oddsList = new ArrayList<String>();
@@ -138,5 +147,23 @@ public class BettingDataController {
 	public String declareWinner(HttpSession httpSession, @RequestParam("winner") String winner) {
 		bettingService.declareWinner(winner);
 		return "";
+	}
+	
+	@RequestMapping(value="/getEntryMatch", method=RequestMethod.GET)
+	@ResponseBody
+	public Entry getEntryMatch() {
+		fightNumber++;
+		entry = (Entry) entryService.getEntryByFightNumber(String.valueOf(fightNumber));
+		if(entry == null) {
+			entry = new Entry();
+			fightNumber = 0;
+		}
+		return entry;
+	}
+	
+	@RequestMapping(value="/getCurrentMatch", method=RequestMethod.GET)
+	@ResponseBody
+	public Entry getCurrentMatch() {
+		return entry;
 	}
 }

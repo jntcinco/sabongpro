@@ -14,6 +14,7 @@ import com.tekusource.sabongpro.service.EntryService;
 @Transactional
 public class EntryServiceImpl implements EntryService {
 
+	private static final String FIGHT_NUMBER = "fightNumber";
 	@Autowired
 	private EntryDao entryDao;
 	
@@ -45,9 +46,9 @@ public class EntryServiceImpl implements EntryService {
 		return entryDao.get(id);
 	}
 	
-//	public Entry getEntryBy(Map<String, Object> values) {
-//		
-//	}
+	public Entry getEntryByFightNumber(String value) {
+		return entryDao.getBy(FIGHT_NUMBER, value);
+	}
 	
 	public List<Entry> getAllEntries() {
 		return entryDao.getAll();

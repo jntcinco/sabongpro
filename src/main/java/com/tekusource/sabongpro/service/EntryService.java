@@ -15,7 +15,7 @@ public interface EntryService {
 	
 	public Entry getEntryBy(Long id);
 	
-//	public Entry getEntryBy(Map<String, Object> values);
+	public Entry getEntryByFightNumber(String value);
 	
 	public List<Entry> getAllEntries();
 }

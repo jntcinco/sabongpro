@@ -64,6 +64,7 @@
                 	<ul>
                     	<c:if test="${userSession.userRole.role == 'ADMIN'}">
                 			<li><a href="<c:url value="/admin/management"/>">Admin Panel</a></li>
+                    		<li><a href="#" onclick="sabongproAjax.getEntryMatch();">Start Fight</a></li>
                     		<li><a href="#" onclick="sabongproAjax.closeBetting();">Close Betting</a></li>
                     		<li><a href="#" onclick="sabongproWidgets.showSintencyaDialogForm();">Declare Winner</a></li>
                     	</c:if>
@@ -87,12 +88,14 @@
               				<div id="liveLeft">
               					<div id="meron">
                 					<p>ENTRY</p>
-                					<h1>MERON</h1>
+                					<h5 id="meronEntryName"></h5>
                 					<p>OWNER</p>
-                					<h5>OWNER OF MERON</h5>
-                					<p>BET STATUS</p>
-                					<h2><div id="meronStatus">OPEN</div></h2>
-                					<p>&nbsp;</p>
+                					<h5 id="meronOwnerName"></h5>
+                					<p>BLOODLINE</p>
+                					<h5 id="meronBloodLine"></h5>
+                					<p>FIGHT WEIGHT</p>
+                					<h5 id="meronFightWeight"></h5>
+                					<!-- <p>&nbsp;</p> -->
                 					<button id="meronBtn" onclick="sabongproAjax.getBettingInfo('${userSession.userName}','MERON');" class="button button-green blacktext margleft20">BET ON MERON</button>
               					</div>
               				</div>
@@ -101,12 +104,13 @@
                    					<table width="520" border="0">
                       					<tr>
                         					<td width="77" rowspan="2">FIGHT NO.</td>
-                        					<td width="69" rowspan="2"><h2>5</h2></td>
+                        					<td width="69" rowspan="2"><h2 id="fightNumber"></h2></td>
                         					<td width="132">BET COUNT:</td>
-                        					<td width="224" rowspan="2">93 [Gross Points: 48800]</td>
+                        					<td width="224">93 [Gross Points: 48800]</td>
                      					</tr>
                       					<tr>
                         					<td>WINNER: MERON</td>
+                        					<td>BET STATUS: <label id="betStatus">OPEN</label></td>
                       					</tr>
                    					</table>
                 				</div>
@@ -116,12 +120,14 @@
               				</div>
               				<div id="wala">
                    				<p>ENTRY</p>
-                				<h1>WALA</h1>
+                				<h5 id="walaEntryName"></h5>
                 				<p>OWNER</p>
-                				<h5>OWNER OF WALA</h5>
-                				<p>BET STATUS</p>
-                				<h2><div id="meronStatus">OPEN</div></h2>
-                				<p>&nbsp;</p>
+                				<h5 id="walaOwnerName"></h5>
+                				<p>BLOODLINE</p>
+                				<h5 id="walaBloodLine"></h5>
+                				<p>FIGHT WEIGHT</p>
+                				<h5 id="walaFightWeight"></h5>
+                				<!-- <p>&nbsp;</p> -->
                 				<button id="walaBtn" onclick="sabongproAjax.getBettingInfo('${userSession.userName}','WALA');" class="button button-red blacktext margleft20">BET ON WALA</button>
               				</div>
           				</div>
@@ -295,6 +301,7 @@
 				sabong(document).ready(function(e){
 					sabongproWidgets.sintencyaDialog();
 					sabongproAjax.getStreamUrl();
+					sabongproAjax.getCurrentMatch();
 					setInterval(function() {
 						sabongproAjax.betAmounts();
 			        }, 5000);
