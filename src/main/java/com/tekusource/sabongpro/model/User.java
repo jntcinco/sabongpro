@@ -35,8 +35,8 @@ public class User implements Serializable {
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="status")
-	private String status;
+	@Column(name="enabled", columnDefinition = "TINYINT(1)")
+	private boolean enabled;
 	
 	@Column(name="userToken")
 	private String userToken;
@@ -90,14 +90,6 @@ public class User implements Serializable {
 	
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
 	}
 	
 	public String getUserToken() {
@@ -154,6 +146,14 @@ public class User implements Serializable {
 
 	public void setVirtualPoints(Long virtualPoints) {
 		this.virtualPoints = virtualPoints;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }
