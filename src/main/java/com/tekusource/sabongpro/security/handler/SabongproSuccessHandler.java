@@ -19,11 +19,11 @@ public class SabongproSuccessHandler implements AuthenticationSuccessHandler {
 			ServletException {
 
 		Set<String> roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
-        if (roles.contains("ROLE_ADMIN")){
+        if (roles.contains("ADMIN")){
             response.sendRedirect("admin");   
             return;
         }
-        response.sendRedirect("user");
+        response.sendRedirect("guest");
 	}
 
 }
