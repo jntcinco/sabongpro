@@ -268,17 +268,26 @@ public class BettingServiceImpl implements BettingService {
 	
 	private void insertBetHistory(List<BettingInfo> infos, String winner) {
 		for(BettingInfo info : infos) {
-			User user = (User) info.getUser();
+			User user = (User) userService.getUserByUserName(info.getUser().getUserName());
 			String side = info.getSide();
 			BetHistory betHistory = new BetHistory();
 			betHistory.setResult(winner);
 			betHistory.setSide(side);
 			betHistory.setUser(user);
+			String odds = info.getOdds();
 			double virtualPoints = 0;
-			if(winner.equals(side)) {
-				virtualPoints = user.getVirtualPoints() + info.getBetAmount();
-			} else {
-				virtualPoints = user.getVirtualPoints() - info.getBetAmount();
+			if(odds.equals(OddsType.TEN_TEN.getDescription())) {
+				double betAmount = info.getBetAmount();
+				virtualPoints = computeVirtualPoints(winner, side, user.getVirtualPoints(), betAmount, betAmount);
+			} 
+			else if(odds.equals(OddsType.NINE_TEN.getDescription())) {
+				double discountedAmount = (info.getBetAmount() * .9);
+				double normalAmount = info.getBetAmount();
+				if(side.equals("MERON")) {
+					virtualPoints = computeVirtualPoints(winner, side, user.getVirtualPoints(), discountedAmount, normalAmount);
+				} else {
+					virtualPoints = computeVirtualPoints(winner, side, user.getVirtualPoints(), normalAmount, discountedAmount);
+				}
 			}
 			user.setVirtualPoints(virtualPoints);
 			userService.update(user);
@@ -292,5 +301,16 @@ public class BettingServiceImpl implements BettingService {
 			totalBet = totalBet + info.getBetAmount();
 		}
 		return totalBet;
+	}
+	
+	private double computeVirtualPoints(String winner, String side, double userVirtualPoints, 
+										double winnerAmount, double losserAmount) {
+		double virtualPoints = 0;
+		if(winner.equals(side)) {
+			virtualPoints = userVirtualPoints + winnerAmount;
+		} else {
+			virtualPoints = userVirtualPoints - losserAmount;
+		}
+		return virtualPoints;
 	}
 }

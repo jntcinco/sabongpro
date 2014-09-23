@@ -305,6 +305,9 @@
 					setInterval(function() {
 						sabongproAjax.betAmounts();
 			        }, 5000);
+					setInterval(function() {
+						sabongproAjax.getCurrentMatch();
+			        }, 5000);
 				});
 			</script>
 	</body>
