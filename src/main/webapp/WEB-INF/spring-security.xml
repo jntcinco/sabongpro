@@ -13,11 +13,15 @@
     <global-method-security secured-annotations="disabled" />
            
     <http pattern="/" security="none"/>
-    <http pattern="/register" security="none"/>
     <http pattern="/about" security="none"/>
     <http pattern="/schedule" security="none"/>
     <http pattern="/faqs" security="none"/>
     <http pattern="/contact" security="none"/>
+    
+    <http pattern="/register" security="none"/>
+    <http pattern="/verification" security="none"/>
+    <http pattern="/forgot" security="none"/>
+    <http pattern="/emailpwd" security="none"/>
     
     <http pattern="/css/**" security="none"/>
     <http pattern="/fancybox/**" security="none"/>

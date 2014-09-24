@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -62,28 +66,34 @@ public class AdminController extends AbstractController {
 	
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 
-	private boolean isValidUser(User user){
-		if(user != null){
-			if(!CommonUtil.isBlankOrNull(user.getUserName())){
-				if(user.getUserRole().getRole().equals(RoleType.ADMIN.getDescription())){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
 	@Override
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/management", method = RequestMethod.GET)
 	public ModelAndView pageInitializer(HttpSession httpSession, ModelMap model) {
-		viewName = "login";
-		User user = (User) httpSession.getAttribute("userSession");
-		if(isValidUser(user)){
-			viewName = "adminManagement";
-			model.put("user", user);
-		} else {
-			model.addAttribute("userSession", new User());
+		viewName = "adminManagement";
+		
+		String userName = null;
+
+		//get the principal user from security context
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			userName = userDetail.getUsername();
+		}
+		
+		try{
+			User user = userService.getUserByUserName(userName);
+			if(user != null){
+				model.put("user", user);
+				httpSession.setAttribute("userSession", user);
+				isUserSessionValid(httpSession);
+				
+				UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
+				model.put("profile", profile);
+				httpSession.setAttribute("profileSession", profile);
+			}
+		}catch(Exception e){
+			logger.error("Error retreiving and validating user.", e);
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -98,9 +108,8 @@ public class AdminController extends AbstractController {
 				users = new ArrayList<User>();
 			model.put("users", users);
 		}catch(Exception e){
-			System.err.println(e);
+			logger.error("Error occurred during search.", e);
 		}
-		
 		return new ModelAndView("userManagement", model);
 	}
 	
@@ -149,34 +158,21 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/user/management", method = RequestMethod.GET)
 	public ModelAndView userManagement(HttpSession httpSession, ModelMap model) {
-		viewName = "login";
+		viewName = "userManagement";
 		try {
-			User user = (User) httpSession.getAttribute("userSession");
-			if(isValidUser(user)){
-				List<User> users = userService.getAllUser();
-				model.put("users", users);
-				viewName = "userManagement";
-			} else {
-				model.addAttribute("userSession", new User());
-			}
+			List<User> users = userService.getAllUser();
+			model.put("users", users);
 		} catch(Exception e){
-			System.err.println(e);
+			logger.error("Error accessing user management.",e);
 		}
-		
 		return new ModelAndView(viewName, model);
 	}
 	
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/streaming/config", method = RequestMethod.GET)
 	public ModelAndView streamingConfig(HttpSession httpSession, ModelMap model) {
-		User user = (User) httpSession.getAttribute("userSession");
-		if(isValidUser(user)){
-			model.addAttribute("config", new StreamingConfig());
-			viewName = "streamingConfig";
-		} else {
-			model.addAttribute("userSession", new User());
-			viewName = "login";
-		}
+		model.addAttribute("config", new StreamingConfig());
+		viewName = "streamingConfig";
 		return new ModelAndView(viewName, model);
 	}
 	
@@ -241,11 +237,11 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/user/add", method=RequestMethod.POST)
 	public ModelAndView saveUser(HttpSession httpSession, @RequestParam("role") String role, @ModelAttribute("user") User user, BindingResult results, ModelMap map){
-		User userSession = (User)httpSession.getAttribute("userSession");
-		if(isValidUser(userSession)){
+		viewName = "addUser";
+		
+		try{
 			RegisterValidator registerValidator = new RegisterValidator();
 			registerValidator.validate(user, results);
-			viewName = "addUser";
 			
 			if(!results.hasErrors()){
 				if(userService.isUserNameExist(user.getUserName())) {
@@ -267,9 +263,8 @@ public class AdminController extends AbstractController {
 					map.put("notificationMessage", SabongProConstants.USER_SAVED);
 				}
 			}
-		}else{
-			map.addAttribute("userSession", new User());
-			viewName = "login";
+		}catch(Exception e){
+			logger.error("Error adding user.",e);
 		}
 		return new ModelAndView(viewName, map);
 	}
@@ -277,17 +272,16 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/streaming/config/update/prep", method = RequestMethod.GET)
 	public ModelAndView prepUpdateStreamingConfig(HttpSession httpSession, @RequestParam("id") String id, ModelMap model) {
-		User user = (User) httpSession.getAttribute("userSession");
-		if(isValidUser(user)){
+		viewName = "updateStreamingConfig";
+		try{
 			StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(Long.parseLong(id));
 			if(config == null) {
 				config = new StreamingConfig();
 			}
 			model.addAttribute("config", config);
-			viewName = "updateStreamingConfig";
-		} else {
-			model.addAttribute("userSession", new User());
-			viewName = "login";
+			
+		}catch(Exception e){
+			logger.error("Error preparing config updates.",e);
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -295,13 +289,11 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
 	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
-		User user = (User) httpSession.getAttribute("userSession");
-		if(isValidUser(user)){
+		try{
 			model.put("configs", streamingConfigService.getAllStreamingConfigs());
 			viewName = "streamingConfigManagement";
-		} else {
-			model.addAttribute("userSession", new User());
-			viewName = "login";
+		} catch(Exception e) {
+			logger.error("Error accessing config management",e);
 		}
 		return new ModelAndView(viewName, model);
 	}
@@ -309,13 +301,8 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/management", method=RequestMethod.GET)
 	public ModelAndView entryManagement(HttpSession httpSession, ModelMap map) {
-		User userSession = (User) httpSession.getAttribute("userSession");
-		if(isValidUser(userSession)) {
-			map.addAttribute("entries", entryService.getAllEntries());
-			viewName = "entryManagement";
-		} else{
-			viewName = "login";
-		}
+		map.addAttribute("entries", entryService.getAllEntries());
+		viewName = "entryManagement";
 		map.addAttribute("entry", new Entry());
 		return new ModelAndView(viewName, map);
 	}
@@ -323,12 +310,6 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/prep/add", method=RequestMethod.GET)
 	public ModelAndView prepAddEntry(HttpSession httpSession, ModelMap map) {
-		User userSession = (User) httpSession.getAttribute("userSession");
-		if(isValidUser(userSession)) {
-			viewName = "addEntry";
-		} else{
-			viewName = "login";
-		}
 		map.addAttribute("entry", new Entry());
 		return new ModelAndView(viewName, map);
 	}
@@ -336,21 +317,16 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/add", method=RequestMethod.POST)
 	public ModelAndView addEntry(HttpSession httpSession, @ModelAttribute("entry") Entry entry, BindingResult results, ModelMap map){
-		User userSession = (User)httpSession.getAttribute("userSession");
-		if(isValidUser(userSession)) {
-			EntryValidator entryValidator = new EntryValidator();
-			entryValidator.validate(entry, results);
-			if(!results.hasErrors()) {
-				entryService.save(entry);
-				map.put("notificationMessage", SabongProConstants.ENTRY_SAVED);
-				map.addAttribute("entry", new Entry());
-			} else {
-				map.addAttribute("entry", entry);
-			}
-			viewName = "addEntry";
-		} else{
-			viewName = "login";
+		EntryValidator entryValidator = new EntryValidator();
+		entryValidator.validate(entry, results);
+		if(!results.hasErrors()) {
+			entryService.save(entry);
+			map.put("notificationMessage", SabongProConstants.ENTRY_SAVED);
+			map.addAttribute("entry", new Entry());
+		} else {
+			map.addAttribute("entry", entry);
 		}
+		viewName = "addEntry";
 		return new ModelAndView(viewName, map);
 	}
 }

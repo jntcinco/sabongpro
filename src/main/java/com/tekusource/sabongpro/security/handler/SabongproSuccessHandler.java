@@ -20,7 +20,7 @@ public class SabongproSuccessHandler implements AuthenticationSuccessHandler {
 
 		Set<String> roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
         if (roles.contains("ADMIN")){
-            response.sendRedirect("admin");   
+            response.sendRedirect("admin/management");   
             return;
         }
         response.sendRedirect("guest");

@@ -88,8 +88,7 @@ public class GuestController extends AbstractController {
 				httpSession.setAttribute("profileSession", profile);
 			}
 		}catch(Exception e){
-			logger.error("Error retreiving and validating userl", e);
-			viewName = "login";
+			logger.error("Error retreiving and validating user.", e);
 		}
 
 		return new ModelAndView(viewName, model);
@@ -101,19 +100,6 @@ public class GuestController extends AbstractController {
 		User user = (User) userService.getUserBy(userSession.getId());
 		model.put("isStreamAllowed", user.isStreamAllowed());
 		viewName = "livestreaming";
-		return new ModelAndView(viewName, model);
-	}
-	
-	@CacheControl(policy = { CachePolicy.NO_STORE })
-	@RequestMapping(value="/verification", method=RequestMethod.GET)
-	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
-		viewName = "login";
-		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_CAN_LOGIN);
-		} else {
-			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_NOT_VERIFIED);
-		}
-		model.addAttribute("userSession", new User());
 		return new ModelAndView(viewName, model);
 	}
 	

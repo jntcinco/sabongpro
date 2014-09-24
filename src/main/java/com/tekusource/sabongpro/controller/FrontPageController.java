@@ -101,6 +101,19 @@ public class FrontPageController extends AbstractController {
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/verification", method=RequestMethod.GET)
+	public ModelAndView verifyUser(HttpServletRequest request, ModelMap model) {
+		viewName = "login";
+		if(userService.isUserTokenValid(request.getParameter("username"), request.getParameter("userToken"))) {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_CAN_LOGIN);
+		} else {
+			model.addAttribute("notificationMessage", SabongProConstants.USER_NOTIFICATION_NOT_VERIFIED);
+		}
+		model.addAttribute("userSession", new User());
+		return new ModelAndView(viewName, model);
+	}
+	
+	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView register(HttpServletRequest request, HttpSession session, @ModelAttribute("user") User user, BindingResult results) {
 		Map<String, String> registerMessages = new HashMap<String, String>();
@@ -119,7 +132,7 @@ public class FrontPageController extends AbstractController {
 					user.setEnabled(false);
 					user.setStreamAllowed(false);
 					
-					UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.ADMIN.getDescription());
+					UserRole role = (UserRole) userRoleService.getUserRoleBy(RoleType.GUEST.getDescription());
 					user.setUserToken(userToken);
 					user.setUserRole(role);
 					userService.save(user);
@@ -146,7 +159,7 @@ public class FrontPageController extends AbstractController {
 			urlBuilder.append(request.getServerName()).append(":").append(request.getServerPort());
 		else
 			urlBuilder.append(request.getServerName());
-		urlBuilder.append("/sabongpro/guest/verification");
+		urlBuilder.append("/sabongpro/verification");
 		
 		return urlBuilder.toString();
 	}
