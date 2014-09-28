@@ -27,6 +27,7 @@
     <http pattern="/fancybox/**" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/js/**" security="none"/>
+    <http pattern="/js/plugins/**" security="none"/>
           
 	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint" disable-url-rewriting="true">
     	<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
@@ -43,7 +44,8 @@
     	<intercept-url pattern="/services/**" access="hasAnyRole('ADMIN','GUEST')"/>
     	<intercept-url pattern="/bettingServices/**" access="hasAnyRole('ADMIN','GUEST')"/>
     	
-    	<intercept-url pattern="/guest/**" access="hasRole('GUEST')"/>
+    	<intercept-url pattern="/guest/**" access="hasAnyRole('ADMIN','GUEST')"/>
+    	<intercept-url pattern="/js/service/**" access="hasAnyRole('ADMIN','GUEST')"/>
     	
     	<session-management session-authentication-strategy-ref="sas"/>
     	<!-- custom-filter position="LOGOUT_FILTER" ref="sabongproLogoutFilter"/ -->
@@ -105,7 +107,7 @@
 	<beans:bean id="concurrencyFilter"
 		class="org.springframework.security.web.session.ConcurrentSessionFilter">
 		<beans:property name="sessionRegistry" ref="sessionRegistry" />
-		<beans:property name="expiredUrl" value="/invalid_session" />
+		<beans:property name="expiredUrl" value="/invalidSession" />
 	</beans:bean>
 
 	<beans:bean id="sas"

@@ -333,8 +333,9 @@ public class AdminController extends AbstractController {
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
-	@RequestMapping(value="/entry/prep/add", method=RequestMethod.GET)
+	@RequestMapping(value="/entry/add", method=RequestMethod.GET)
 	public ModelAndView prepAddEntry(HttpSession httpSession, ModelMap model) {
+		viewName = "addEntry";
 		model.addAttribute(SabongProConstants.ENTRY_MODEL_MAP, new Entry());
 		return new ModelAndView(viewName, model);
 	}

@@ -9,7 +9,7 @@
 		
 		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-1.10.2.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-ui-1.10.4.custom.js'/>"></script>
-		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/service/sabongpro.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>
@@ -57,7 +57,7 @@
               					<input name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search Users"/>
               				</form>
               				<h2 class="dark">Entries</h2>
-              				<p><a href="<c:url value='/admin/entry/prep/add'/>" class="rightFloat margtop10 margbtm10 margright20">Add Entry</a></p>
+              				<p><a href="<c:url value='/admin/entry/add'/>" class="rightFloat margtop10 margbtm10 margright20">Add Entry</a></p>
               				<table width="95%" cellspacing='0' class="tabler"><!-- cellspacing='0' is important, must stay -->
                     			<tr>
                     				<th width="10%">Fight Number</th>

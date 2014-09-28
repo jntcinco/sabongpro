@@ -94,6 +94,16 @@ public class FrontPageController extends AbstractController {
 		return new ModelAndView("faqs", model);
 	}
 	
+	@RequestMapping(value="/403", method = RequestMethod.GET)
+	public String accessDenied(){
+		return "403";
+	}
+	
+	@RequestMapping(value="/invalidSession", method=RequestMethod.GET)
+	public String invalidSession(){
+		return "invalidSession";
+	}
+	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/forgot", method = RequestMethod.GET)
 	public ModelAndView forgot(HttpSession httpSession, ModelMap model){

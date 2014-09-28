@@ -10,7 +10,7 @@
 		
 		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-1.10.2.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/plugins/jquery-ui-1.10.4.custom/jquery-ui-1.10.4.custom.js'/>"></script>
-		<script type="text/javascript" src="<c:url value='/js/sabongpro.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/service/sabongpro.js'/>"></script>
 		<!-- Input hints on textboxes -->
 		<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
 		<script type="text/javascript">

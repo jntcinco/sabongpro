@@ -84,7 +84,7 @@ public class GuestController extends AbstractController {
 				}
 
 				UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-				model.put("profile", profile);
+				model.addAttribute("profile", profile);
 				httpSession.setAttribute(SabongProConstants.PROFILE_SESSION, profile);
 			}
 		}catch(Exception e){
@@ -93,16 +93,32 @@ public class GuestController extends AbstractController {
 
 		return new ModelAndView(viewName, model);
 	}
-	
+
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/livestreaming", method=RequestMethod.GET)
 	public ModelAndView liveStreaming(HttpSession httpSession, ModelMap model) {
-		User user = (User) userService.getUserBy(userSession.getId());
-		model.put("isStreamAllowed", user.isStreamAllowed());
-		viewName = "livestreaming";
+		viewName = "profile";
+		try{
+			User us = (User) httpSession.getAttribute("userSession");
+			if(us != null){
+				User user = (User) userService.getUserBy(us.getId());
+				if(user != null && user.isStreamAllowed()){
+					//update user in session
+					httpSession.setAttribute(SabongProConstants.USER_SESSION, user);
+					isUserSessionValid(httpSession);
+					
+					model.addAttribute("isStreamAllowed", user.isStreamAllowed());
+					viewName = "livestreaming";
+					
+					System.out.println(">>>>>>> role: " + user.getUserRole().getRole());
+				}
+			}
+		}catch(Exception e){
+			logger.error("Error accessing livestreaming page.",e);
+		}
 		return new ModelAndView(viewName, model);
 	}
-	
+
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE }) 
 	@RequestMapping(value="/editprofile", method=RequestMethod.GET)
 	public ModelAndView profileForm(HttpSession httpSession, ModelMap model){
