@@ -124,13 +124,13 @@ public class LoginController {
 		if(exception != null){
 
 			if(exception instanceof BadCredentialsException) {
-				error = "Invalid username and password!";
+				error = "Invalid username or password!";
 			}else if(exception instanceof LockedException) {
 				error = "Your account is locked. Please contact your administrator.";
 			}else if(exception instanceof DisabledException){
 				error = "Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.";
 			}else if(exception instanceof CredentialsExpiredException){
-				error = "Your account already expired.";
+				error = "Your account already expired. Please contact your administrator.";
 			}else{
 				exception.getMessage();
 			}

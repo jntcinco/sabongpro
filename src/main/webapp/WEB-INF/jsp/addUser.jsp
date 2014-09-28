@@ -109,9 +109,9 @@
                     				<tr>
                     					<td width="50%" style="text-align:right;">Status</td>
                     					<td width="50%" style="text-align:left;">
-                    						<form:select path="status" >
-												<form:option value="INACTIVE">INACTIVE</form:option>
-												<form:option value="ACTIVE">ACTIVE</form:option>
+                    						<form:select path="enabled" >
+												<form:option value="0">DISABLE</form:option>
+												<form:option value="1">ENABLE</form:option>
 											</form:select>
                     					</td>
                     				</tr>

@@ -74,18 +74,18 @@ public class GuestController extends AbstractController {
 		try{
 			User user = userService.getUserByUserName(userName);
 			if(user != null){
-				model.put("user", user);
-				httpSession.setAttribute("userSession", user);
+				model.addAttribute(SabongProConstants.USER_MODEL_MAP, user);
+				httpSession.setAttribute(SabongProConstants.USER_SESSION, user);
 				isUserSessionValid(httpSession);
 
 				List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
 				if (!configs.isEmpty()) {
-					model.put("config", configs.get(0));
+					model.addAttribute(SabongProConstants.CONFIG_MODEL_MAP, configs.get(0));
 				}
 
 				UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
 				model.put("profile", profile);
-				httpSession.setAttribute("profileSession", profile);
+				httpSession.setAttribute(SabongProConstants.PROFILE_SESSION, profile);
 			}
 		}catch(Exception e){
 			logger.error("Error retreiving and validating user.", e);
@@ -114,8 +114,8 @@ public class GuestController extends AbstractController {
 				user = (User)httpSession.getAttribute("userSession");
 				profile = user.getProfile();
 			}
-			model.addAttribute("user", user);
-			model.addAttribute("profile", profile);
+			model.addAttribute(SabongProConstants.USER_MODEL_MAP, user);
+			model.addAttribute(SabongProConstants.PROFILE_MODEL_MAP, profile);
 		}catch(Exception e){
 			logger.error("Error preparing edit profile.", e);
 			viewName = "account";
@@ -164,7 +164,7 @@ public class GuestController extends AbstractController {
 		viewName = "account";
 		try{
 			User user = (User) session.getAttribute("userSession");
-			model.addAttribute("user", user);
+			model.addAttribute(SabongProConstants.USER_MODEL_MAP, user);
 		}catch(Exception e){
 			logger.error("Error getting user from session.", e);
 		}

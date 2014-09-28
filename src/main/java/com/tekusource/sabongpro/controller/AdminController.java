@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +32,6 @@ import com.tekusource.sabongpro.cache.control.CachePolicy;
 import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.constants.ServiceConstants;
 import com.tekusource.sabongpro.model.Entry;
-import com.tekusource.sabongpro.model.RoleType;
 import com.tekusource.sabongpro.model.StreamingConfig;
 import com.tekusource.sabongpro.model.User;
 import com.tekusource.sabongpro.model.UserProfile;
@@ -84,13 +85,13 @@ public class AdminController extends AbstractController {
 		try{
 			User user = userService.getUserByUserName(userName);
 			if(user != null){
-				model.put("user", user);
-				httpSession.setAttribute("userSession", user);
+				model.addAttribute(SabongProConstants.USER_MODEL_MAP, user);
+				httpSession.setAttribute(SabongProConstants.USER_SESSION, user);
 				isUserSessionValid(httpSession);
 				
 				UserProfile profile = userProfileService.getUserProfileByUserId(user.getId());
-				model.put("profile", profile);
-				httpSession.setAttribute("profileSession", profile);
+				model.addAttribute(SabongProConstants.USER_MODEL_MAP, profile);
+				httpSession.setAttribute(SabongProConstants.PROFILE_SESSION, profile);
 			}
 		}catch(Exception e){
 			logger.error("Error retreiving and validating user.", e);
@@ -113,11 +114,22 @@ public class AdminController extends AbstractController {
 		return new ModelAndView("userManagement", model);
 	}
 	
-	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
-	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, ? extends Object> userAllowAccess(@RequestParam("userId") Long userId, 
-														 @RequestParam("streamingAccess") Integer streamingAccess, @RequestParam("virtualPoints") double virtualPoints){
+	@SuppressWarnings("rawtypes")
+	@CacheControl(policy = { CachePolicy.NO_STORE })
+	@RequestMapping(value="/user/allow/access", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, ? extends Object> userAllowAccess(@RequestBody Map json){
+		
+		Long userId = 0L ;
+		Integer streamingAccess = 0;
+		double virtualPoints = 0d;
+		
+		if(json.get("userId") != null)
+			userId = Long.valueOf((Integer)json.get("userId"));
+		if(json.get("streamingAccess") != null)
+			streamingAccess = (Integer) json.get("streamingAccess");
+		if(!CommonUtil.isBlankOrNull((String)json.get("virtualPoints")))
+			virtualPoints = Double.valueOf((String)json.get("virtualPoints"));
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			User user = (User) userService.getUserBy(userId);
@@ -171,7 +183,7 @@ public class AdminController extends AbstractController {
 	@CacheControl(policy = { CachePolicy.PRIVATE, CachePolicy.MUST_REVALIDATE })
 	@RequestMapping(value="/streaming/config", method = RequestMethod.GET)
 	public ModelAndView streamingConfig(HttpSession httpSession, ModelMap model) {
-		model.addAttribute("config", new StreamingConfig());
+		model.addAttribute(SabongProConstants.CONFIG_MODEL_MAP, new StreamingConfig());
 		viewName = "streamingConfig";
 		return new ModelAndView(viewName, model);
 	}
@@ -196,11 +208,24 @@ public class AdminController extends AbstractController {
 		return new ModelAndView(viewName, model);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@CacheControl(policy = { CachePolicy.NO_STORE })
-	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, ? extends Object> updateStreamingConfig(@RequestParam("configId") Long configId, @RequestParam("description") String description, 
-															   @RequestParam("streamUrl") String streamUrl, @RequestParam("streamStatus") Integer streamStatus) {
+	@RequestMapping(value="/streaming/config/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, ? extends Object> updateStreamingConfig(@RequestBody Map json){
+		Long configId = 0L;
+		String description = null;
+		String streamUrl = null;
+		Integer streamStatus = 0;
+		
+		if(json.get("configId") != null)
+			configId = Long.valueOf((Integer)json.get("configId"));
+		if(!CommonUtil.isBlankOrNull((String)json.get("description")))
+			description = (String) json.get("description");
+		if(!CommonUtil.isBlankOrNull((String)json.get("streamUrl")))
+			streamUrl = (String) json.get("streamUrl");
+		if(json.get("streamStatus") != null)
+			streamStatus = (Integer) json.get("streamStatus");
+			
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			StreamingConfig config = (StreamingConfig) streamingConfigService.getStreamingConfigBy(configId);
@@ -214,7 +239,7 @@ public class AdminController extends AbstractController {
 				config.setStreamOnline(isStreamOnline);
 				config.setDateLastUpdated(Calendar.getInstance());
 				streamingConfigService.update(config);
-				map.put("config", config);
+				map.put(SabongProConstants.CONFIG_MODEL_MAP, config);
 				map.put("message", "Streaming config successfully updated.");
 			} else {
 				map.put("config", new StreamingConfig());
@@ -226,7 +251,7 @@ public class AdminController extends AbstractController {
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
-	@RequestMapping(value="/add/user", method=RequestMethod.GET)
+	@RequestMapping(value="/user/add", method=RequestMethod.GET)
 	public ModelAndView addUser(){
 		ModelAndView model = new ModelAndView();
 		model.addObject("user", new User());
@@ -236,7 +261,7 @@ public class AdminController extends AbstractController {
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/user/add", method=RequestMethod.POST)
-	public ModelAndView saveUser(HttpSession httpSession, @RequestParam("role") String role, @ModelAttribute("user") User user, BindingResult results, ModelMap map){
+	public ModelAndView saveUser(HttpSession httpSession, @RequestParam("role") String role, @ModelAttribute("user") User user, BindingResult results, ModelMap model){
 		viewName = "addUser";
 		
 		try{
@@ -245,7 +270,7 @@ public class AdminController extends AbstractController {
 			
 			if(!results.hasErrors()){
 				if(userService.isUserNameExist(user.getUserName())) {
-					map.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
+					model.put("notificationMessage", SabongProConstants.USERNAME_EXIST);
 				}else{
 					String userToken = userService.createUserToken(user);
 					String encryptedPassword = userService.encryptPassword(user.getPassword());
@@ -260,13 +285,13 @@ public class AdminController extends AbstractController {
 					profile.setUser(user);
 					userProfileService.save(profile);
 
-					map.put("notificationMessage", SabongProConstants.USER_SAVED);
+					model.put("notificationMessage", SabongProConstants.USER_SAVED);
 				}
 			}
 		}catch(Exception e){
 			logger.error("Error adding user.",e);
 		}
-		return new ModelAndView(viewName, map);
+		return new ModelAndView(viewName, model);
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
@@ -278,7 +303,7 @@ public class AdminController extends AbstractController {
 			if(config == null) {
 				config = new StreamingConfig();
 			}
-			model.addAttribute("config", config);
+			model.addAttribute(SabongProConstants.CONFIG_MODEL_MAP, config);
 			
 		}catch(Exception e){
 			logger.error("Error preparing config updates.",e);
@@ -290,7 +315,7 @@ public class AdminController extends AbstractController {
 	@RequestMapping(value="/streaming/config/management", method = RequestMethod.GET)
 	public ModelAndView streamingConfigManagement(HttpSession httpSession, ModelMap model) {
 		try{
-			model.put("configs", streamingConfigService.getAllStreamingConfigs());
+			model.addAttribute("configs", streamingConfigService.getAllStreamingConfigs());
 			viewName = "streamingConfigManagement";
 		} catch(Exception e) {
 			logger.error("Error accessing config management",e);
@@ -300,33 +325,33 @@ public class AdminController extends AbstractController {
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/management", method=RequestMethod.GET)
-	public ModelAndView entryManagement(HttpSession httpSession, ModelMap map) {
-		map.addAttribute("entries", entryService.getAllEntries());
+	public ModelAndView entryManagement(HttpSession httpSession, ModelMap model) {
+		model.addAttribute("entries", entryService.getAllEntries());
 		viewName = "entryManagement";
-		map.addAttribute("entry", new Entry());
-		return new ModelAndView(viewName, map);
+		model.addAttribute(SabongProConstants.ENTRY_MODEL_MAP, new Entry());
+		return new ModelAndView(viewName, model);
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/prep/add", method=RequestMethod.GET)
-	public ModelAndView prepAddEntry(HttpSession httpSession, ModelMap map) {
-		map.addAttribute("entry", new Entry());
-		return new ModelAndView(viewName, map);
+	public ModelAndView prepAddEntry(HttpSession httpSession, ModelMap model) {
+		model.addAttribute(SabongProConstants.ENTRY_MODEL_MAP, new Entry());
+		return new ModelAndView(viewName, model);
 	}
 	
 	@CacheControl(policy = { CachePolicy.NO_STORE })
 	@RequestMapping(value="/entry/add", method=RequestMethod.POST)
-	public ModelAndView addEntry(HttpSession httpSession, @ModelAttribute("entry") Entry entry, BindingResult results, ModelMap map){
+	public ModelAndView addEntry(HttpSession httpSession, @ModelAttribute("entry") Entry entry, BindingResult results, ModelMap model){
 		EntryValidator entryValidator = new EntryValidator();
 		entryValidator.validate(entry, results);
 		if(!results.hasErrors()) {
 			entryService.save(entry);
-			map.put("notificationMessage", SabongProConstants.ENTRY_SAVED);
-			map.addAttribute("entry", new Entry());
+			model.addAttribute("notificationMessage", SabongProConstants.ENTRY_SAVED);
+			model.addAttribute(SabongProConstants.ENTRY_MODEL_MAP, new Entry());
 		} else {
-			map.addAttribute("entry", entry);
+			model.addAttribute(SabongProConstants.ENTRY_MODEL_MAP, entry);
 		}
 		viewName = "addEntry";
-		return new ModelAndView(viewName, map);
+		return new ModelAndView(viewName, model);
 	}
 }

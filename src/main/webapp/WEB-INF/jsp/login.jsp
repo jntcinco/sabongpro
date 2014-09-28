@@ -90,18 +90,21 @@ $(document).ready(function() {
 					<c:if test="${not empty notificationMessage}">
 						${notificationMessage}
 					</c:if>
-					<c:if test="${param.error eq 'bad.credentials' }">
-						Invalid username or password.
-					</c:if>
-					<c:if test="${param.error eq 'disabled.user' }">
+					<!-- c:if test="${param.error eq 'bad.credentials' }">
+						Invalid username or password. -->
+					<!-- /c:if -->
+					<!-- c:if test="${param.error eq 'disabled.user' }">
 						Your account is inactive. If you have registered please verify your authenticity by logging in to your email account.
-					</c:if>
-					<c:if test="${param.error eq 'account.locked'}">
+						-->
+					<!--/c:if-->
+					<!--c:if test="${param.error eq 'account.locked'}">
 						Your account is locked. Please contact your administrator.
-					</c:if>
-					<c:if test="${param.error eq 'credentials.expired'}">
+						-->
+					<!--/c:if-->
+					<!--c:if test="${param.error eq 'credentials.expired'}">
 						Your account expired. Please contact you administrator.
-					</c:if>
+						-->
+					<!--/c:if-->
 				</div>
 				<form name="loginForm" action="<c:url value='/j_spring_security_check'/>" method="post" class="centered">
 					<div class="formsingle">

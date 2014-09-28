@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.model.User;
 
 
@@ -14,7 +15,7 @@ public abstract class AbstractController {
 	public User userSession;
 	
 	public boolean isUserSessionValid(HttpSession httpSession) {
-		userSession = (User) httpSession.getAttribute("userSession");
+		userSession = (User) httpSession.getAttribute(SabongProConstants.USER_SESSION);
 		
 		if(userSession != null) {
 			return true;

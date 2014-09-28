@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.tekusource.sabongpro.constants.SabongProConstants;
 import com.tekusource.sabongpro.service.impl.SabongproUserDetailsService;
 
 public class SabongproUsernamePasswordAuthenticationFilter extends
@@ -41,7 +42,7 @@ public class SabongproUsernamePasswordAuthenticationFilter extends
 		
 		HttpSession session = request.getSession(false);
 		if(session != null || getAllowSessionCreation()){
-			session.setAttribute("user", user);
+			session.setAttribute(SabongProConstants.LOGIN_USER, user);
 		}
 
 		// Fire event
@@ -68,7 +69,7 @@ public class SabongproUsernamePasswordAuthenticationFilter extends
 			request.getSession().setAttribute( WebAttributes.AUTHENTICATION_EXCEPTION, failed );
 		}
 
-		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute(SabongProConstants.LOGIN_USER);
 		sabongproUserDetailService.setCurrentUser(null);
 		
 		failureHandler.onAuthenticationFailure( request, response, failed );

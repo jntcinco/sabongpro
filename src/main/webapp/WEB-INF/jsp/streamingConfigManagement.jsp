@@ -79,7 +79,7 @@
                     			<!-- start popup dialog -->
 			  					<div id="updateStreamingStatusDialog" class="ui-dialog-titlebar ui-widget-header" title="Update streaming status dialog">
             						<c:url var="url" value="/admin/streaming/config/update/prep?id=${config.id}" />
-									<form id="streamingActivationDialogForm" action="${url}" method="post">
+									<form id="updateStreamingStatusDialogForm" action="${url}" method="post">
                     					<input type="hidden" name="configId" id="configId" value="${config.id}"/>
                     					<div id="leftColumn" style="float: left; width: 150px;">
                     						<div class="dark margbtm10">Description: </div>

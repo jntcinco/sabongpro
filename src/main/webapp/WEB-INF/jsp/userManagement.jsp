@@ -68,7 +68,7 @@
               					<input id="search" name="search" type="text" class="smallinput rightFloat margtop10 margright20" title="Search User by email"/>
               				</form>
               				<h2 class="dark">User Manager</h2>
-              				<p><a href="<c:url value='/admin/add/user'/>" class="rightFloat margtop10 margbtm10 margright20">Add User</a></p>
+              				<p><a href="<c:url value='/admin/user/add'/>" class="rightFloat margtop10 margbtm10 margright20">Add User</a></p>
               				<table width="95%" cellspacing='0' class="tabler"> <!-- cellspacing='0' is important, must stay -->
                     			<tr>
                     				<th width="40%">Username</th>

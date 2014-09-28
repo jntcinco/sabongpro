@@ -56,10 +56,13 @@ var streamingAccess;
 var sabongproAjax = {
 	activateStreamingAccess : function() {
 		var virtualPoints = sabong('input#virtualPoints').val();
+		var json = {"userId" : userId, "streamingAccess" : streamingAccess, "virtualPoints" : virtualPoints};
 		sabong.ajax({
-			url : "/sabongpro/admin/user/allow/access",
+			url : sabong("#streamingActivationDialogForm").attr("action"),
+			data : JSON.stringify(json),
 			type : "POST",
-			data : {userId : userId, streamingAccess : streamingAccess, virtualPoints : virtualPoints},
+			contentType: "application/json",
+			dataType: "json",
 			success : function(response) {
 				var columnId = "#streamingAccessColumn"+userId;
 				if(response.streamingAccess == 1) {
@@ -67,7 +70,7 @@ var sabongproAjax = {
 				} else {
 					sabong(columnId).html("Deactivated");
 				}
-				alert(response.message);
+				alert(response.message );
 			},
 			error : function(xhr) {
 				alert("Error Code: "+xhr.status);
@@ -75,10 +78,13 @@ var sabongproAjax = {
 		});
 	},
 	updateStreamingStatus : function(description,streamUrl,streamStatus) {
+		var json = {"configId":configId, "description":description, "streamUrl":streamUrl, "streamStatus":streamStatus};
 		sabong.ajax({
 			url : "/sabongpro/admin/streaming/config/update",
+			data : JSON.stringify(json),
 			type : "POST",
-			data : {configId:configId, description:description, streamUrl:streamUrl, streamStatus:streamStatus},
+			contentType: "application/json",
+			dataType: "json",
 			success : function(response) {
 				var config = response.config;
 				var columnId = "#streamStatus"+configId;

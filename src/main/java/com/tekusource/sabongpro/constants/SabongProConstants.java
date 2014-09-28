@@ -21,4 +21,24 @@ public class SabongProConstants {
 	//forgot password email
 	public static final String FORGOT_PASSWORD_EMAIL_SUBJECT = "Password";
 	public static final String FORGOT_PASSWORD_EMAIL_BODY = "Your password is: ";
+	
+	//use the UsernamePasswordAuthenticationFilter which hold
+	//the UserDetails of Spring Security
+	public static final String LOGIN_USER = "loginUser";
+
+	//use this variable when assigning to modelmap object
+	public static final String USER_MODEL_MAP = "user";
+	
+	//use this variable when assigning to session object
+	public static final String USER_SESSION = "userSession";
+	
+	//use this variable when assigning to session
+	public static final String PROFILE_SESSION = "profileSession";
+	
+	public static final String PROFILE_MODEL_MAP = "profile";
+	
+	//use this variable when assigning to madelmap object
+	public static final String CONFIG_MODEL_MAP = "config";
+	
+	public static final String ENTRY_MODEL_MAP = "entry";
 }

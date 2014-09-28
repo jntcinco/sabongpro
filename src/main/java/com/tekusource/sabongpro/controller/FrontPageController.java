@@ -66,7 +66,7 @@ public class FrontPageController extends AbstractController {
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public ModelAndView register(HttpSession httpSession, ModelMap model) {
-		model.addAttribute("user", new User());
+		model.addAttribute(SabongProConstants.USER_MODEL_MAP, new User());
 		return new ModelAndView("register", model);
 	}
 	

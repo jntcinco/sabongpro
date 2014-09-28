@@ -17,7 +17,7 @@
     <http pattern="/schedule" security="none"/>
     <http pattern="/faqs" security="none"/>
     <http pattern="/contact" security="none"/>
-    
+    <http pattern="/login" security="none"/> 
     <http pattern="/register" security="none"/>
     <http pattern="/verification" security="none"/>
     <http pattern="/forgot" security="none"/>
@@ -30,8 +30,20 @@
           
 	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint" disable-url-rewriting="true">
     	<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+    	<intercept-url pattern="/admin/user/**" access="hasRole('ADMIN')"/>
+    	<intercept-url pattern="/admin/user/allow/**" access="hasRole('ADMIN')"/>
+    	
+    	<intercept-url pattern="/admin/streaming/**" access="hasRole('ADMIN')"/>
+    	<intercept-url pattern="/admin/streaming/config/**" access="hasRole('ADMIN')"/>
+    	<intercept-url pattern="/admin/streaming/config/update/**" access="hasRole('ADMIN')"/>
+    	
+    	<intercept-url pattern="/admin/entry/**" access="hasRole('ADMIN')"/>
+    	<intercept-url pattern="/admin/entry/management/**" access="hasRole('ADMIN')"/>
+    	
+    	<intercept-url pattern="/services/**" access="hasAnyRole('ADMIN','GUEST')"/>
+    	<intercept-url pattern="/bettingServices/**" access="hasAnyRole('ADMIN','GUEST')"/>
+    	
     	<intercept-url pattern="/guest/**" access="hasRole('GUEST')"/>
-    	<!-- intercept-url pattern="/**" access="isAuthenticated()"/-->
     	
     	<session-management session-authentication-strategy-ref="sas"/>
     	<custom-filter position="LOGOUT_FILTER" ref="sabongproLogoutFilter"/>
@@ -77,7 +89,7 @@
 	    </beans:property>
 	</beans:bean>
 	
-	<beans:bean id="sabongproLogoutFilter" class="com.tekusource.sabongpro.security.filter.SabongproLogoutFilter">
+	<beans:bean id="sabongproLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
 		<beans:constructor-arg value="/login?logout" />
 		<beans:constructor-arg>
 			<beans:list>
