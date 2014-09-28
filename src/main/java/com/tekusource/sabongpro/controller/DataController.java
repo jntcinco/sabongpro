@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,9 +31,8 @@ public class DataController {
 	@Autowired
 	private UserProfileService userProfileService;
 	
-	@RequestMapping(value="/streamUrl", method=RequestMethod.GET)
-	@ResponseBody
-	public Map<String, ? extends Object> streamUrl() {
+	@RequestMapping(value="/streamUrl", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, ? extends Object> streamUrl() {
 		String streamUrl = "";
 		List<StreamingConfig> configs = (List<StreamingConfig>) streamingConfigService.getStreamingConfigBy(true);
         StreamingConfig config = null;

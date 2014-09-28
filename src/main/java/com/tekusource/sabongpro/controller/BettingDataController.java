@@ -55,6 +55,7 @@ public class BettingDataController {
 	@ResponseBody
 	public boolean betting(@RequestParam("userName") String userName, @RequestParam("side") String side, 
 						   @RequestParam("odds") String odds, @RequestParam("betAmount") double betAmount) {
+		
 		boolean isLocked = bettingService.isBettingLocked();
 		if(!side.isEmpty() && side.length() > 0) {
 			User user = (User) userService.getUserByUserName(userName);

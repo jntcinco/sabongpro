@@ -160,8 +160,8 @@ var sabongproAjax = {
 		var betAmount = sabong("#betAmount").val();
 		sabong.ajax({
 			url : "/sabongpro/bettingServices",
-			type : "GET",
 			data : {userName:userName,side:side,odds:odd,betAmount:betAmount},
+			type : "GET",
 			success : function(response) {
 				if(response) {
 					alert("Betting is close.");
@@ -212,8 +212,8 @@ var sabongproAjax = {
 		var winner = sabong('input:radio[name=winner]:checked').val();
 		sabong.ajax({
 			url : "/sabongpro/bettingServices/declareWinner",
-			type : "GET",
 			data : {winner:winner},
+			type : "GET",
 			success : function(response) {
 				alert("new game.");
 			},

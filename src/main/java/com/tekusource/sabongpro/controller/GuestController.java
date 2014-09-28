@@ -109,8 +109,6 @@ public class GuestController extends AbstractController {
 					
 					model.addAttribute("isStreamAllowed", user.isStreamAllowed());
 					viewName = "livestreaming";
-					
-					System.out.println(">>>>>>> role: " + user.getUserRole().getRole());
 				}
 			}
 		}catch(Exception e){
