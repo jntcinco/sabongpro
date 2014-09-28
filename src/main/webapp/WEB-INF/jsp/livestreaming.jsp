@@ -32,7 +32,7 @@
 		</script>
 
 		<!-- Input hints on textboxes -->
-		<script type="text/javascript" src="<c:url value='/js/jquery.input-hint.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/ui/jquery.input-hint.js'/>"></script>
 		<script type="text/javascript">
 			sabong(function() {
 				sabong('[title]').inputHint();

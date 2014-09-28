@@ -10,7 +10,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		<link href="<c:url value='/css/style.css'/>" rel="stylesheet" type="text/css" />
 
-		<script type="text/javascript" src="<c:url value='/js/jquery-1.7.1.min.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/js/ui/jquery-1.7.1.min.js'/>"></script>
 
 		<!--Used with animate.css -->
 		<link href="<c:url value='/css/animate.css'/>" media="screen" rel="stylesheet"/>

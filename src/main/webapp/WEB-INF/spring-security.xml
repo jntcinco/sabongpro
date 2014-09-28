@@ -26,7 +26,7 @@
     <http pattern="/css/**" security="none"/>
     <http pattern="/fancybox/**" security="none"/>
     <http pattern="/images/**" security="none"/>
-    <http pattern="/js/**" security="none"/>
+    <http pattern="/js/ui/**" security="none"/>
     <http pattern="/js/plugins/**" security="none"/>
           
 	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint" disable-url-rewriting="true">
