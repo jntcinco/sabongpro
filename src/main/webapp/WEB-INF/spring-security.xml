@@ -46,7 +46,8 @@
     	<intercept-url pattern="/guest/**" access="hasRole('GUEST')"/>
     	
     	<session-management session-authentication-strategy-ref="sas"/>
-    	<custom-filter position="LOGOUT_FILTER" ref="sabongproLogoutFilter"/>
+    	<!-- custom-filter position="LOGOUT_FILTER" ref="sabongproLogoutFilter"/ -->
+    	<logout logout-success-url="/login?logout" invalidate-session="true" delete-cookies="JSESSIONID" />
     	<custom-filter position="FORM_LOGIN_FILTER" ref="sabongproUsernamePasswordFilter"/>
 		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>    	
     	<access-denied-handler ref="accessDeniedHandler" />
@@ -89,7 +90,7 @@
 	    </beans:property>
 	</beans:bean>
 	
-	<beans:bean id="sabongproLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+	<!-- beans:bean id="sabongproLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
 		<beans:constructor-arg value="/login?logout" />
 		<beans:constructor-arg>
 			<beans:list>
@@ -98,7 +99,8 @@
 			</beans:list>
 		</beans:constructor-arg>
 		<beans:property name="filterProcessesUrl" value="/j_spring_security_logout" />
-	</beans:bean>
+		<beans:property name="invalidateHttpSession" value="true"/>	
+	</beans:bean-->
 
 	<beans:bean id="concurrencyFilter"
 		class="org.springframework.security.web.session.ConcurrentSessionFilter">

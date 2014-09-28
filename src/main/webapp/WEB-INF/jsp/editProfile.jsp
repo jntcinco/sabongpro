@@ -61,7 +61,7 @@
         	<div class="statBlock textshadowWhite">
             	<div class="statRight">
                 	<ul>
-                    	<li><a href='<c:url value="/login?logout"/>'>Logout</a></li>
+                    	<li><a href='<c:url value="/j_spring_security_logout"/>'>Logout</a></li>
                 	</ul>
                 </div>
                 <ul>
